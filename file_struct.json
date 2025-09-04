@@ -1,0 +1,78 @@
+{
+  "/home": {
+    "metadata": {
+      "title": "Home Page"
+    },
+    "elements": [
+      {
+        "tag": "img",
+        "attributes": {
+          "src": "logo.png",
+          "alt": "Company Logo"
+        },
+        "text": null,
+        "children": []
+      },
+      {
+        "tag": "img",
+        "attributes": {
+          "src": "product.png",
+          "alt": "Our Product"
+        },
+        "text": null,
+        "children": []
+      },
+      {
+        "tag": "button",
+        "attributes": {
+          "href": "/login"
+        },
+        "text": "Login",
+        "children": []
+      },
+      {
+        "tag": "button",
+        "attributes": {
+          "href": "/signup"
+        },
+        "text": "Sign Up",
+        "children": []
+      }
+    ]
+  },
+  "/login": {
+    "metadata": {
+      "title": "Login"
+    },
+    "elements": [
+      {
+        "tag": "form",
+        "attributes": { "id": "login-form" },
+        "text": null,
+        "children": [
+          {
+            "tag": "input",
+            "attributes": { "type": "text", "name": "username" },
+            "text": null,
+            "children": []
+          },
+          {
+            "tag": "input",
+            "attributes": { "type": "password", "name": "password" },
+            "text": null,
+            "children": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "href": "/loggedinpage",
+              "data-prereq": "username and password fields must be filled out"
+            },
+            "text": "Login",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

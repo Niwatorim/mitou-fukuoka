@@ -30,6 +30,18 @@ def shortestPath(G,edge_labels) -> List[str]:
         steps.append(step)
     return steps
 
+def getmeta(docs:str) -> List[dict]: #function to find all the meta data and find the values we are looking for
+    meta=docs.find_all("meta")
+    useful=[]
+    for i in meta:
+        metadata={}
+        for j,v in i.attrs.items():
+            if j == "name" or j == "content" or j == "title":
+                metadata[j]=v
+        if metadata != {}:
+            useful.append(metadata)
+    return useful        
+
 with open("file_struct.json","r") as file:
 
     #---------Fixing the nodes

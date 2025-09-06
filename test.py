@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import bs4
 import requests
 import json
 from typing import List
@@ -8,21 +9,66 @@ result = requests.get(website)
 docs= BeautifulSoup(result.text,"html.parser")
 
 
-def find(bodys):
-    bodys= docs.find("body")
-    final={}
-    print(bodys.attrs)
-    if bodys.attrs == {}:
-        final["body"] = {
-            "children":[]
-        }
-    if len(bodys.contents)>0:
-        print(len(bodys.contents))
-        for i in bodys.contents:
-            if len(i.contents) >0:
-                find(i.contents)
-            else:
-                final["body"]["children"].append(i)
+def find(tag):
+    #finding attributes
+    attributes=["href","src","alt","name","type","id"]
+    new_attrs={}
+    if tag.attrs:
+        for k,v in tag.attrs.items():
+            if k in attributes:
+                new_attrs[k]=v
+    
+    content= tag.find(text=True,recursive=False)
+    if content:
+        content=content.strip()
+    else:
+        content=""
+    
+    dictionary={ #the new dictionary we wanna return
+        "tag":tag.name, #returns type of tag
+        "attributes":new_attrs,
+        "text":content,
+        "children":[]
+    }
+
+    for i in tag.children:
+        if isinstance(i, bs4.element.Tag):
+            dictionary["children"].append(find(i))
+    
+    return dictionary
+
+    # print(bodys.attrs)
+    # if bodys.attrs == {}:
+    #     final[search] = {
+    #         "children":[]
+    #     }
+    # elif "text" in bodys.attrs:
+    #     final[search]["text"] = bodys.attrs["text"]
+    # elif "href" in bodys.attrs:
+    #     final[search]["attributes"]["href"]=bodys.attrs["href"]
+    # elif "src" in bodys.attrs:
+    #     final[search]["attributes"]["src"]=bodys.attrs["src"]
+    # elif "type" in bodys.attrs:
+    #     final[search]["attributes"]["type"]=bodys.attrs["type"]
+    # elif "name" in bodys.attrs:
+    #     final[search]["attributes"]["name"]=bodys.attrs["name"]
+    # elif "alt" in bodys.attrs:
+    #     final[search]["attributes"]["alt"]=bodys.attrs["alt"]
+
+    # if len(bodys.contents)>0:
+    #     print(len(bodys.contents))
+    #     for i in bodys.contents:
+    #         if len(i.contents) >0:
+    #             find(i.contents)
+    #         else:
+    #             final["body"]["children"].append(i)
+
+
+bodys= docs.find("body")
+final=find(bodys)
+with open("test.json","w") as f:
+    f.write(json.dumps(final,indent=4))
+
 
 # if bodys.attrs
 # content = bodys.content

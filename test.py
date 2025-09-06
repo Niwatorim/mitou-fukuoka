@@ -7,16 +7,30 @@ website="https://www.techwithtim.net"
 result = requests.get(website)
 docs= BeautifulSoup(result.text,"html.parser")
 
-bodys= docs.find("body")
-content=list(bodys.children)
-for i in content:
-    if len(i.contents) > 0:
-        print("ok")
-        print(i.contents)
-        print("\n\n")
-    else: print("no")
 
+def find(bodys):
+    bodys= docs.find("body")
+    final={}
+    print(bodys.attrs)
+    if bodys.attrs == {}:
+        final["body"] = {
+            "children":[]
+        }
+    if len(bodys.contents)>0:
+        print(len(bodys.contents))
+        for i in bodys.contents:
+            if len(i.contents) >0:
+                find(i.contents)
+            else:
+                final["body"]["children"].append(i)
 
+# if bodys.attrs
+# content = bodys.content
+# for i in content:
+#     final
+#     if len(i.contents)>0:
+#         #has childrent
+# pass
 
 def getmeta(docs:str) -> List[dict]:
     meta=docs.find_all("meta")

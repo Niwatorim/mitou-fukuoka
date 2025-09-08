@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from typing import List
 import json
+from bs4 import BeautifulSoup
+import bs4
+import requests
 
 def getpath(data, value,original, prepath=()):
     if type(data) is dict:
@@ -42,7 +45,50 @@ def getmeta(docs:str) -> List[dict]: #function to find all the meta data and fin
             useful.append(metadata)
     return useful        
 
-with open("file_struct.json","r") as file:
+def find(tag): #Find the elements
+    #finding attributes
+    attributes=["href","src","alt","name","type","id"]
+    new_attrs={}
+    if tag.attrs:
+        for k,v in tag.attrs.items():
+            if k in attributes:
+                new_attrs[k]=v
+    
+    content= tag.find(text=True,recursive=False)
+    if content:
+        content=content.strip()
+    else:
+        content=""
+    
+    dictionary={ #the new dictionary we wanna return
+        "tag":tag.name, #returns type of tag
+        "attributes":new_attrs,
+        "text":content,
+        "children":[]
+    }
+
+    for i in tag.children:
+        if isinstance(i, bs4.element.Tag):
+            dictionary["children"].append(find(i))
+    
+    return dictionary
+
+if False: #for adding new pages, idk need get meta
+    link="/"
+    website=f"https://www.techwithtim.net{link}"
+    result = requests.get(website)
+    docs= BeautifulSoup(result.text,"html.parser")
+
+    bodys= docs.find("body")
+    final=find(bodys)
+    with open("test.json","r") as f:
+        content=json.load(f)
+    with open("test.json","w") as f:
+        content[link]=final
+        f.write(json.dumps(content,indent=4))
+
+
+with open("test.json","r") as file:
 
     #---------Fixing the nodes
 
@@ -66,12 +112,13 @@ with open("file_struct.json","r") as file:
 
     G = nx.MultiDiGraph() #makes graph
     G.add_edges_from(nodes) #adds edges
-    pos=nx.spring_layout(G)
+    pos=nx.circular_layout(G) #layout of graph
     nx.draw(G,pos,with_labels=True)
     edge_labels=nx.get_edge_attributes(G,"label")
     nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
 
     #-------Finding shortest path
+    
     print(shortestPath(G,edge_labels))
     
     plt.axis("off")

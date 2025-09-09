@@ -1,123 +1,142 @@
-from bs4 import BeautifulSoup
-import bs4
-import requests
-import json
+import subprocess
+from mcp import ClientSession
+from mcp.client.sse import sse_client
+import time
+import asyncio
+from llama_index.tools.mcp import BasicMCPClient, McpToolSpec
+from llama_index.core.agent.workflow import FunctionAgent,ToolCallResult,ToolCall
+from llama_index.core.workflow import Context
+from llama_index.llms.ollama import Ollama
+from llama_index.core.tools import FunctionTool
+from pydantic import create_model
 from typing import List
 
-website="https://www.techwithtim.net"
-result = requests.get(website)
-docs= BeautifulSoup(result.text,"html.parser")
+def fix_schema(schema_part):
+            if isinstance(schema_part, dict):
+                for key, value in list(schema_part.items()):
+                    if key == "additionalProperties" and value is True:
+                        schema_part[key] = {}  # The fix!
+                    else:
+                        fix_schema(value)
+            elif isinstance(schema_part, list):
+                for item in schema_part:
+                    fix_schema(item)
+            return schema_part
 
+async def get_tools(session: ClientSession) -> List[FunctionTool]:
+    await session.initialize()
+    tool_definitions = await session.list_tools()
+    llama_tools=[]
+    for tool_def in tool_definitions.tools:
+        fixed_schema = fix_schema(tool_def.inputSchema)
 
-def find(tag):
-    #finding attributes
-    attributes=["href","src","alt","name","type","id"]
-    new_attrs={}
-    if tag.attrs:
-        for k,v in tag.attrs.items():
-            if k in attributes:
-                new_attrs[k]=v
-    
-    content= tag.find(text=True,recursive=False)
-    if content:
-        content=content.strip()
-    else:
-        content=""
-    
-    dictionary={ #the new dictionary we wanna return
-        "tag":tag.name, #returns type of tag
-        "attributes":new_attrs,
-        "text":content,
-        "children":[]
-    }
+        pydantic_model= create_model(
+            f"{tool_def.name}_Schema",
+            **{prop: (dict,None) for prop in fixed_schema.get("properties",{}).keys()}
+        )
 
-    for i in tag.children:
-        if isinstance(i, bs4.element.Tag):
-            dictionary["children"].append(find(i))
-    
-    return dictionary
+        async def tool_function(tool_name:str = tool_def.name,**kwargs):
+            print(f"Executing tool '{tool_name}' with arguments: {kwargs}")
+            result=await session.call_tool(tool_name,kwargs)
+            return result
+        
+        tool=FunctionTool.from_defaults(
+            fn=tool_function,
+            name=tool_def.name,
+            description=tool_def.description,
+            fn_schema=pydantic_model    
+        )
+        llama_tools.append(tool)
+    return llama_tools
 
-    # print(bodys.attrs)
-    # if bodys.attrs == {}:
-    #     final[search] = {
-    #         "children":[]
-    #     }
-    # elif "text" in bodys.attrs:
-    #     final[search]["text"] = bodys.attrs["text"]
-    # elif "href" in bodys.attrs:
-    #     final[search]["attributes"]["href"]=bodys.attrs["href"]
-    # elif "src" in bodys.attrs:
-    #     final[search]["attributes"]["src"]=bodys.attrs["src"]
-    # elif "type" in bodys.attrs:
-    #     final[search]["attributes"]["type"]=bodys.attrs["type"]
-    # elif "name" in bodys.attrs:
-    #     final[search]["attributes"]["name"]=bodys.attrs["name"]
-    # elif "alt" in bodys.attrs:
-    #     final[search]["attributes"]["alt"]=bodys.attrs["alt"]
+async def get_agent(tools:list,llm,sys_prompt:str):
 
-    # if len(bodys.contents)>0:
-    #     print(len(bodys.contents))
-    #     for i in bodys.contents:
-    #         if len(i.contents) >0:
-    #             find(i.contents)
-    #         else:
-    #             final["body"]["children"].append(i)
+    agent = FunctionAgent(
+        name="My Agent",
+        description="An agent that can search the web",
+        tools=tools,
+        llm=llm,
+        system_prompt=sys_prompt,
+    )
+    return agent
 
+async def handle_user_message(
+        message_content: str,
+        agent: FunctionAgent,
+        agent_context: Context,
+        verbose: bool = False,
+    ):
+    handler = agent.run(message_content,ctx=agent_context)
+    async for event in handler.stream_events():
+        if verbose and type(event)==ToolCall:
+            print(f"Calling tool {event.tool_name} with kwargs {event.tool_kwargs}")
+        elif verbose and type(event) == ToolCallResult:
+            print(f"Tool {event.tool_name} returned {event.tool_output}")
+    response = await handler
+    return str(response)
 
-bodys= docs.find("body")
-final=find(bodys)
-with open("test.json","w") as f:
-    f.write(json.dumps(final,indent=4))
+if True:
+    async def main():
+        try:
+            SYSTEM_PROMPT = """\
+            You are an AI assistant for Tool Calling.
 
+            Before you help a user, you need to work with tools to interact with the website
+            """
 
-# if bodys.attrs
-# content = bodys.content
-# for i in content:
-#     final
-#     if len(i.contents)>0:
-#         #has childrent
-# pass
+            open_server = subprocess.Popen(["npx", "@playwright/mcp@latest", "--port", "8050"])
+            time.sleep(10)
+            
+            llm=Ollama(model="llama3.1",request_timeout=300)
 
-def getmeta(docs:str) -> List[dict]:
-    meta=docs.find_all("meta")
-    useful=[]
-    for i in meta:
-        metadata={}
-        for j,v in i.attrs.items():
-            if j == "name" or j == "content" or j == "title":
-                metadata[j]=v
-        if metadata != {}:
-            useful.append(metadata)
-    return useful        
+            async with sse_client("http://localhost:8050/sse") as (read, write):
+                async with ClientSession(read_stream=read, write_stream=write) as session:
+                    
+                    fixed_tools=await get_tools(session)
+                    agent = await get_agent(tools=fixed_tools,llm=llm,sys_prompt=SYSTEM_PROMPT)
+                    agent_context = Context(agent)
 
+                    while True:
+                        user_input = input("Enter your message: ")
+                        if user_input.lower() == "exit":
+                            break
+                        print("User: ",user_input)
+                        response = await handle_user_message(user_input,agent,agent_context,verbose=True)
+                        print("Agent: ",response)
+        finally:
+            if open_server:
+                open_server.terminate()
 
-# with open("test.json","w") as f:
-#     allvalues=getmeta(docs)
-#     json.dump(allvalues,f,indent=4)
+if False:
+    async def get_tools(session: ClientSession):
+        await session.initialize()
+        tools=[]
+        result=await session.list_tools()
+        for i in result.tools:
+            object={
+                "type":"function",
+                "function": {
+                    "name": i.name,
+                    "description": i.description,
+                    "parameters": i.inputSchema,
+                },
+            }
+            tools.append(object)
+        return tools
 
+    async def main():
+        try:
+            open_server = subprocess.Popen(["npx", "@playwright/mcp@latest", "--port", "8050"])
+            time.sleep(3)
+            async with sse_client("http://localhost:8050/sse") as (read,write):
+                async with ClientSession(read_stream=read,write_stream=write) as session:
+                    tools=await get_tools(session)
+                    print(tools)
+        except Exception as e:
+            print("couldnt open, with error: ",e)
 
+        finally:
+            pass
 
-"""
-start with docs and make it a feature, and inside it check for head and also main/body
-in main, find title and stuff. in 
-
-inside docs, if there is a child: make this parent a key, and make the child a value. if the child has children, recall the function
-
-
-def get metadata (one time)
-doc make dict, has meta data and elements
-in meta data, make dict, for each child value, write its own k,v pair
-
-
-def get elements(recursive)
-in elements, make list
-need prepath? unknown
-for i in (children):
-    check the child, see all attributes, make dict in the following method:
-            tag name
-            attributes: href and other parts, like source of image, alt etc. forget the sizing and stuff <- needed: href, src, alt name, id, name, type of form or type
-            text attributes etc.
-            children[]
-    if children have children, recall function on that child
-
-"""
+if __name__ == "__main__":
+    asyncio.run(main())

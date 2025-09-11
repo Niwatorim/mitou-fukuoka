@@ -1,0 +1,1229 @@
+{
+    "/tutorials": {
+        "tag": "body",
+        "attributes": {},
+        "text": "",
+        "children": [
+            {
+                "tag": "div",
+                "attributes": {
+                    "id": "__next"
+                },
+                "text": "",
+                "children": [
+                    {
+                        "tag": "main",
+                        "attributes": {},
+                        "text": "",
+                        "children": [
+                            {
+                                "tag": "header",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/"
+                                                },
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "img",
+                                                        "attributes": {
+                                                            "alt": "Tech With Tim Logo",
+                                                            "src": "/_next/static/media/twtlogo.927af7cb.svg"
+                                                        },
+                                                        "text": "",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/tutorials"
+                                                        },
+                                                        "text": "Tutorials",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/courses"
+                                                        },
+                                                        "text": "Courses",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/community"
+                                                        },
+                                                        "text": "Community",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/newsletter"
+                                                        },
+                                                        "text": "Newsletter",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/support-donate"
+                                                        },
+                                                        "text": "Donate",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals"
+                                                        },
+                                                        "text": "Software Development Program",
+                                                        "children": [
+                                                            {
+                                                                "tag": "img",
+                                                                "attributes": {
+                                                                    "alt": "icon",
+                                                                    "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
+                                                                },
+                                                                "text": "",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "header",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "a",
+                                        "attributes": {
+                                            "href": "/"
+                                        },
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "img",
+                                                "attributes": {
+                                                    "alt": "Tech With Tim Logo",
+                                                    "src": "/_next/static/media/twtlogo.927af7cb.svg"
+                                                },
+                                                "text": "",
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/tutorials"
+                                                },
+                                                "text": "Tutorials",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/courses"
+                                                },
+                                                "text": "Courses",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/community"
+                                                },
+                                                "text": "Community",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/newsletter"
+                                                },
+                                                "text": "Newsletter",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/support-donate"
+                                                },
+                                                "text": "Donate",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals"
+                                                        },
+                                                        "text": "My Software Development Program",
+                                                        "children": [
+                                                            {
+                                                                "tag": "img",
+                                                                "attributes": {
+                                                                    "alt": "icon",
+                                                                    "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
+                                                                },
+                                                                "text": "",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "div",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "h1",
+                                                "attributes": {},
+                                                "text": "500",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h2",
+                                                        "attributes": {},
+                                                        "text": "Something went wrong on our end.",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "We suggest you try refreshing the page, or returning to the",
+                                                        "children": [
+                                                            {
+                                                                "tag": "a",
+                                                                "attributes": {
+                                                                    "href": "/"
+                                                                },
+                                                                "text": "homepage",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "https://discord.com/invite/nZTxvywH"
+                                                },
+                                                "text": "Discord",
+                                                "children": [
+                                                    {
+                                                        "tag": "svg",
+                                                        "attributes": {},
+                                                        "text": "",
+                                                        "children": [
+                                                            {
+                                                                "tag": "path",
+                                                                "attributes": {},
+                                                                "text": "",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "footer",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Explore",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/tutorials"
+                                                        },
+                                                        "text": "Tutorials",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/courses"
+                                                        },
+                                                        "text": "Courses",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/community"
+                                                        },
+                                                        "text": "Community",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/gear"
+                                                        },
+                                                        "text": "Gear",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://teespring.com/stores/tech-with-tim-merch-shop"
+                                                        },
+                                                        "text": "Shop",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/support-donate"
+                                                        },
+                                                        "text": "Donate",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Social",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://discordapp.com/invite/mwuJXA3q"
+                                                        },
+                                                        "text": "Discord",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://www.youtube.com/techwithtim"
+                                                        },
+                                                        "text": "YouTube",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://github.com/techwithtim"
+                                                        },
+                                                        "text": "GitHub",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://twitter.com/TechWithTimm"
+                                                        },
+                                                        "text": "Twitter",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://www.instagram.com/tech_with_tim/"
+                                                        },
+                                                        "text": "Instagram",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Legal",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/privacy-policy"
+                                                        },
+                                                        "text": "Privacy Policy",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/terms-of-service"
+                                                        },
+                                                        "text": "Terms of Service",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "div",
+                                                        "attributes": {},
+                                                        "text": "",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Contact",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "mailtotechwithtim@viralnationtalent.com:"
+                                                        },
+                                                        "text": "",
+                                                        "children": [
+                                                            {
+                                                                "tag": "span",
+                                                                "attributes": {},
+                                                                "text": "[email\u00a0protected]",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "CourseCareers",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals"
+                                                        },
+                                                        "text": "My Software Development Program",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "a",
+                                "attributes": {
+                                    "href": "https://ibezio.dev/"
+                                },
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "span",
+                                        "attributes": {},
+                                        "text": "Design & Development by",
+                                        "children": []
+                                    },
+                                    {
+                                        "tag": "img",
+                                        "attributes": {
+                                            "alt": "Ibezio Logo",
+                                            "src": "/images/ibezio.svg"
+                                        },
+                                        "text": "",
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "tag": "script",
+                "attributes": {
+                    "src": "/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+                },
+                "text": "",
+                "children": []
+            },
+            {
+                "tag": "script",
+                "attributes": {
+                    "id": "__NEXT_DATA__",
+                    "type": "application/json"
+                },
+                "text": "{\"props\":{\"pageProps\":{}},\"page\":\"/500\",\"query\":{},\"buildId\":\"fVVGAIDe1Cr__BSviQzlC\",\"nextExport\":true,\"autoExport\":true,\"isFallback\":false,\"scriptLoader\":[{\"id\":\"gtag\",\"src\":\"https://www.googletagmanager.com/gtag/js?id=G-96J2RB0RXQ\",\"strategy\":\"afterInteractive\"},{\"id\":\"gtag-config\",\"strategy\":\"afterInteractive\",\"dangerouslySetInnerHTML\":{\"__html\":\"\\n              window.dataLayer = window.dataLayer || [];\\n              function gtag(){dataLayer.push(arguments);}\\n              gtag('js', new Date());\\n              gtag('config', 'G-96J2RB0RXQ', {\\n                page_path: window.location.pathname,\\n              });\\n            \"}}]}",
+                "children": []
+            },
+            {
+                "tag": "div",
+                "attributes": {
+                    "id": "modal-root"
+                },
+                "text": "",
+                "children": []
+            }
+        ]
+    },
+    "/courses": {
+        "tag": "body",
+        "attributes": {},
+        "text": "",
+        "children": [
+            {
+                "tag": "div",
+                "attributes": {
+                    "id": "__next"
+                },
+                "text": "",
+                "children": [
+                    {
+                        "tag": "main",
+                        "attributes": {},
+                        "text": "",
+                        "children": [
+                            {
+                                "tag": "header",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/"
+                                                },
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "img",
+                                                        "attributes": {
+                                                            "alt": "Tech With Tim Logo",
+                                                            "src": "/_next/static/media/twtlogo.927af7cb.svg"
+                                                        },
+                                                        "text": "",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/tutorials"
+                                                        },
+                                                        "text": "Tutorials",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/courses"
+                                                        },
+                                                        "text": "Courses",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/community"
+                                                        },
+                                                        "text": "Community",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/newsletter"
+                                                        },
+                                                        "text": "Newsletter",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/support-donate"
+                                                        },
+                                                        "text": "Donate",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals"
+                                                        },
+                                                        "text": "Software Development Program",
+                                                        "children": [
+                                                            {
+                                                                "tag": "img",
+                                                                "attributes": {
+                                                                    "alt": "icon",
+                                                                    "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
+                                                                },
+                                                                "text": "",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "header",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "a",
+                                        "attributes": {
+                                            "href": "/"
+                                        },
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "img",
+                                                "attributes": {
+                                                    "alt": "Tech With Tim Logo",
+                                                    "src": "/_next/static/media/twtlogo.927af7cb.svg"
+                                                },
+                                                "text": "",
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/tutorials"
+                                                },
+                                                "text": "Tutorials",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/courses"
+                                                },
+                                                "text": "Courses",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/community"
+                                                },
+                                                "text": "Community",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/newsletter"
+                                                },
+                                                "text": "Newsletter",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "a",
+                                                "attributes": {
+                                                    "href": "/support-donate"
+                                                },
+                                                "text": "Donate",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals"
+                                                        },
+                                                        "text": "My Software Development Program",
+                                                        "children": [
+                                                            {
+                                                                "tag": "img",
+                                                                "attributes": {
+                                                                    "alt": "icon",
+                                                                    "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
+                                                                },
+                                                                "text": "",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "div",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "h1",
+                                                "attributes": {},
+                                                "text": "404",
+                                                "children": []
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h2",
+                                                        "attributes": {},
+                                                        "text": "The page you're looking for doesn't exist or has been moved.",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "h2",
+                                                        "attributes": {},
+                                                        "text": "Here are some helpful links:",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "div",
+                                                        "attributes": {},
+                                                        "text": "",
+                                                        "children": [
+                                                            {
+                                                                "tag": "a",
+                                                                "attributes": {
+                                                                    "href": "/tutorials"
+                                                                },
+                                                                "text": "Tutorials",
+                                                                "children": [
+                                                                    {
+                                                                        "tag": "svg",
+                                                                        "attributes": {},
+                                                                        "text": "",
+                                                                        "children": [
+                                                                            {
+                                                                                "tag": "path",
+                                                                                "attributes": {},
+                                                                                "text": "",
+                                                                                "children": []
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "tag": "h3",
+                                                                "attributes": {},
+                                                                "text": "Dive in to learn all about programming.",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tag": "div",
+                                                        "attributes": {},
+                                                        "text": "",
+                                                        "children": [
+                                                            {
+                                                                "tag": "a",
+                                                                "attributes": {
+                                                                    "href": "/courses"
+                                                                },
+                                                                "text": "Courses",
+                                                                "children": [
+                                                                    {
+                                                                        "tag": "svg",
+                                                                        "attributes": {},
+                                                                        "text": "",
+                                                                        "children": [
+                                                                            {
+                                                                                "tag": "path",
+                                                                                "attributes": {},
+                                                                                "text": "",
+                                                                                "children": []
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "tag": "h3",
+                                                                "attributes": {},
+                                                                "text": "Take your skills to the next level with our top-rated courses from CourseCareers.",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "tag": "div",
+                                                        "attributes": {},
+                                                        "text": "",
+                                                        "children": [
+                                                            {
+                                                                "tag": "a",
+                                                                "attributes": {
+                                                                    "href": "https://discord.com/invite/nZTxvywH"
+                                                                },
+                                                                "text": "Discord",
+                                                                "children": [
+                                                                    {
+                                                                        "tag": "svg",
+                                                                        "attributes": {},
+                                                                        "text": "",
+                                                                        "children": [
+                                                                            {
+                                                                                "tag": "path",
+                                                                                "attributes": {},
+                                                                                "text": "",
+                                                                                "children": []
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "tag": "h3",
+                                                                "attributes": {},
+                                                                "text": "Join our community and network with other learners.",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "footer",
+                                "attributes": {},
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "div",
+                                        "attributes": {},
+                                        "text": "",
+                                        "children": [
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Explore",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/tutorials"
+                                                        },
+                                                        "text": "Tutorials",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/courses"
+                                                        },
+                                                        "text": "Courses",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/community"
+                                                        },
+                                                        "text": "Community",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/gear"
+                                                        },
+                                                        "text": "Gear",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://teespring.com/stores/tech-with-tim-merch-shop"
+                                                        },
+                                                        "text": "Shop",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/support-donate"
+                                                        },
+                                                        "text": "Donate",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Social",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://discordapp.com/invite/mwuJXA3q"
+                                                        },
+                                                        "text": "Discord",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://www.youtube.com/techwithtim"
+                                                        },
+                                                        "text": "YouTube",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://github.com/techwithtim"
+                                                        },
+                                                        "text": "GitHub",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://twitter.com/TechWithTimm"
+                                                        },
+                                                        "text": "Twitter",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://www.instagram.com/tech_with_tim/"
+                                                        },
+                                                        "text": "Instagram",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Legal",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/privacy-policy"
+                                                        },
+                                                        "text": "Privacy Policy",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "/terms-of-service"
+                                                        },
+                                                        "text": "Terms of Service",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "div",
+                                                        "attributes": {},
+                                                        "text": "",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "Contact",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "mailtotechwithtim@viralnationtalent.com:"
+                                                        },
+                                                        "text": "",
+                                                        "children": [
+                                                            {
+                                                                "tag": "span",
+                                                                "attributes": {},
+                                                                "text": "[email\u00a0protected]",
+                                                                "children": []
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "tag": "div",
+                                                "attributes": {},
+                                                "text": "",
+                                                "children": [
+                                                    {
+                                                        "tag": "h3",
+                                                        "attributes": {},
+                                                        "text": "CourseCareers",
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "tag": "a",
+                                                        "attributes": {
+                                                            "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals"
+                                                        },
+                                                        "text": "My Software Development Program",
+                                                        "children": []
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "a",
+                                "attributes": {
+                                    "href": "https://ibezio.dev/"
+                                },
+                                "text": "",
+                                "children": [
+                                    {
+                                        "tag": "span",
+                                        "attributes": {},
+                                        "text": "Design & Development by",
+                                        "children": []
+                                    },
+                                    {
+                                        "tag": "img",
+                                        "attributes": {
+                                            "alt": "Ibezio Logo",
+                                            "src": "/images/ibezio.svg"
+                                        },
+                                        "text": "",
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "tag": "script",
+                "attributes": {
+                    "src": "/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+                },
+                "text": "",
+                "children": []
+            },
+            {
+                "tag": "script",
+                "attributes": {
+                    "id": "__NEXT_DATA__",
+                    "type": "application/json"
+                },
+                "text": "{\"props\":{\"pageProps\":{}},\"page\":\"/404\",\"query\":{},\"buildId\":\"fVVGAIDe1Cr__BSviQzlC\",\"nextExport\":true,\"autoExport\":true,\"isFallback\":false,\"scriptLoader\":[{\"id\":\"gtag\",\"src\":\"https://www.googletagmanager.com/gtag/js?id=G-96J2RB0RXQ\",\"strategy\":\"afterInteractive\"},{\"id\":\"gtag-config\",\"strategy\":\"afterInteractive\",\"dangerouslySetInnerHTML\":{\"__html\":\"\\n              window.dataLayer = window.dataLayer || [];\\n              function gtag(){dataLayer.push(arguments);}\\n              gtag('js', new Date());\\n              gtag('config', 'G-96J2RB0RXQ', {\\n                page_path: window.location.pathname,\\n              });\\n            \"}}]}",
+                "children": []
+            },
+            {
+                "tag": "div",
+                "attributes": {
+                    "id": "modal-root"
+                },
+                "text": "",
+                "children": []
+            }
+        ]
+    }
+}

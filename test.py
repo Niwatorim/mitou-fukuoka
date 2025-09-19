@@ -17,6 +17,7 @@ from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
 from bs4 import BeautifulSoup
 import json
 
+#--- for scraping
 def path_generation(element):
     values=[]
     child=element
@@ -36,7 +37,6 @@ def path_generation(element):
         child=parent
     values.reverse()
     return "/" + "/".join(values)
-
 
 def beautiful(data):
     soup = BeautifulSoup(data,"lxml")
@@ -59,8 +59,7 @@ def beautiful(data):
         interaction_map.append(item)
     return interaction_map
 
-
-async def main():
+async def main_scraping():
 
     config = CrawlerRunConfig(
         deep_crawl_strategy=BFSDeepCrawlStrategy(
@@ -113,9 +112,6 @@ Beautiful soup function-> recursive function with html object to be checked and 
 3. final values are flat json with each wanted html and its corresponding path
         
 """
-
-
-
 
 def fix_schema(schema_part):
             if isinstance(schema_part, dict):
@@ -256,4 +252,4 @@ if False:
             pass
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main_scraping())

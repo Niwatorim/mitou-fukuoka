@@ -5,8 +5,84 @@ import json
 from bs4 import BeautifulSoup
 import bs4
 import requests
+from crawl4ai import AsyncWebCrawler,CrawlerRunConfig
+from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
+from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
+from bs4 import BeautifulSoup
+import json
 
-def getpath(data, value,original, prepath=()):
+#--- for scraping
+def path_generation(element):
+    values=[]
+    child=element
+    for parent in child.parents: #for every parent object
+        siblings=parent.find_all(child.name,recursive=False)
+        if len(siblings) > 1: #if has siblings
+            count = 1
+            for sib in siblings:
+                if sib is element:
+                    values.append(f"{child.name}[{count}]")
+                    break
+                count+=1
+        else:
+            values.append(child.name)
+        if parent.name == '[document]':
+            break
+        child=parent
+    values.reverse()
+    return "/" + "/".join(values)
+
+def beautiful(data):
+    soup = BeautifulSoup(data,"lxml")
+    tags=["a", "button", "input", "select", "textarea", "form", "h1", "h2", "h3", "p", "img", "li"]
+    interaction_map=[]
+    for element in soup.find_all(tags):
+        xpath=path_generation(element)
+
+        attributes={}
+        attributes_to_find=["id", "class", "name", "href", "src", "alt", "type", "value", "placeholder", "role", "aria-label"]
+        for attribute in element.attrs:
+            if attribute in attributes_to_find:
+                attributes[attribute]=element.attrs[attribute]
+        item={
+            "tag": element.name,
+            "text":element.get_text(strip=True),
+            "locator":xpath,
+            "attributes":attributes
+        }
+        interaction_map.append(item)
+    return interaction_map
+
+async def main_scraping():
+
+    config = CrawlerRunConfig(
+        deep_crawl_strategy=BFSDeepCrawlStrategy(
+            max_depth=2,
+            include_external=False
+        ),
+        scraping_strategy=LXMLWebScrapingStrategy(),
+        verbose=True,
+    )
+
+    site="https://www.techwithtim.net"
+    async with AsyncWebCrawler() as crawler:
+        results = await crawler.arun(
+            url=site,
+            config=config
+        )
+        scraped=[]
+        content={}
+        for result in results:
+            if result.url not in scraped:
+                url=str(result.url).replace(site,"")
+                content[url]=beautiful(result.html)
+                scraped.append(result.url)
+        print(content)
+        with open("temp.json","w") as f:
+            f.write(json.dumps(content,indent=2))
+
+#-- for making graph
+def getpath(data, value,original, prepath=()):#Find the path for hrefs
     if type(data) is dict:
         if "attributes" in data and type(data["attributes"]) is dict and "href" in data["attributes"]: # found key
                 href=data["attributes"]["href"]
@@ -21,7 +97,7 @@ def getpath(data, value,original, prepath=()):
             path=prepath + (f"{i}",) #comma here makes it a tuple
             yield from getpath(val,value,original,path)
 
-def shortestPath(G,edge_labels) -> List[str]:
+def shortestPath(G,edge_labels) -> List[str]: #Find shortest path
     source= str(input("From node..?"))
     end = str(input("To node.....?"))
     shortest=nx.shortest_path(G,source,end)
@@ -87,8 +163,7 @@ if False: #for adding new pages, idk need get meta
         content[link]=final
         f.write(json.dumps(content,indent=4))
 
-
-with open("test.json","r") as file:
+with open("temp.json","r") as file:
 
     #---------Fixing the nodes
 
@@ -119,7 +194,7 @@ with open("test.json","r") as file:
 
     #-------Finding shortest path
     
-    print(shortestPath(G,edge_labels))
+    #print(shortestPath(G,edge_labels))
     
     plt.axis("off")
     plt.show()

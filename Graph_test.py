@@ -4,14 +4,27 @@ from typing import List
 import json
 from bs4 import BeautifulSoup
 import bs4
-import requests
+import asyncio
 from crawl4ai import AsyncWebCrawler,CrawlerRunConfig
 from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
 from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
 from bs4 import BeautifulSoup
 import json
+from urllib.parse import urljoin
+from browser_use import Agent, ChatGoogle
+
+#-- for browser-use
+async def browseruse(): #for browser use
+        with open("instructions.txt","r") as f:
+            task=str(f.readlines())
+        agent = Agent(
+            task=task,
+            llm=ChatGoogle(model="gemini-2.5-flash"),
+        )
+        await agent.run()
 
 #--- for scraping
+
 def path_generation(element):
     values=[]
     child=element
@@ -53,8 +66,7 @@ def beautiful(data):
         interaction_map.append(item)
     return interaction_map
 
-async def main_scraping():
-
+async def main_scraping(site):
     config = CrawlerRunConfig(
         deep_crawl_strategy=BFSDeepCrawlStrategy(
             max_depth=2,
@@ -64,7 +76,6 @@ async def main_scraping():
         verbose=True,
     )
 
-    site="https://www.techwithtim.net"
     async with AsyncWebCrawler() as crawler:
         results = await crawler.arun(
             url=site,
@@ -75,6 +86,8 @@ async def main_scraping():
         for result in results:
             if result.url not in scraped:
                 url=str(result.url).replace(site,"")
+                if url == "":
+                    url = "/"
                 content[url]=beautiful(result.html)
                 scraped.append(result.url)
         print(content)
@@ -82,11 +95,13 @@ async def main_scraping():
             f.write(json.dumps(content,indent=2))
 
 #-- for making graph
+
 def getpath(data, value,original, prepath=()):#Find the path for hrefs
     if type(data) is dict:
         if "attributes" in data and type(data["attributes"]) is dict and "href" in data["attributes"]: # found key
                 href=data["attributes"]["href"]
                 original_page=prepath[0]
+                href= urljoin(original_page,href) 
                 yield [href,original_page,data]
         for k, v in data.items():
             path=prepath+(k,)#without the comma it comes out as a string in brackets and cant concatenate
@@ -105,10 +120,11 @@ def shortestPath(G,edge_labels) -> List[str]: #Find shortest path
     print(links)
     steps=[]
     for i in links:
-        step="use "+edge_labels[(i[0],i[1],0)]+" to go from "+i[0]+" to "+i[1] #edge labels[0] is a problem, cuz it only shows one way to get there not all
+        step="use "+edge_labels[(i[0],i[1],0)]+" to go from https://www.techwithtim.net"+i[0]+" to https://www.techwithtim.net"+i[1] #edge labels[0] is a problem, cuz it only shows one way to get there not all
         steps.append(step)
     return steps
 
+#unused
 def getmeta(docs:str) -> List[dict]: #function to find all the meta data and find the values we are looking for
     meta=docs.find_all("meta")
     useful=[]
@@ -149,58 +165,51 @@ def find(tag): #Find the elements
     
     return dictionary
 
-if False: #for adding new pages, idk need get meta
-    link="/"
-    website=f"https://www.techwithtim.net{link}"
-    result = requests.get(website)
-    docs= BeautifulSoup(result.text,"html.parser")
+user= int(input("1. Scrape \n2. Show graph and return instructions \n3. User browser use"))
+if user == 1:
+    user=str(input("Give site to scrape, else default to techwithtim"))
+    if user== "":
+        site="https://www.techwithtim.net"
+    else:
+        site=user
+    asyncio.run(main_scraping(site))
+elif user == 2:
+    with open("temp.json","r") as file:
 
-    bodys= docs.find("body")
-    final=find(bodys)
-    with open("test.json","r") as f:
-        content=json.load(f)
-    with open("test.json","w") as f:
-        content[link]=final
-        f.write(json.dumps(content,indent=4))
+        #---------Fixing the nodes
+        data=json.load(file) #gets all the data as dict
+        nodes_data=list(getpath(data,"href",data))
+        """
+        Quick note here:
+        i[2] must remain i[2] below, but its hurting my eyes so imma change it to the attribute and text only
+        its meant to contain the entire dictionary which holds the href so the LLM knows what to click, but it overloads the networkx and overlaps it
+        """
 
-with open("temp.json","r") as file:
+        for i in nodes_data:
+            print("----- i -----")
+            print(i)
+            i[2]=str("'"+i[2]["tag"]+"-"+i[2]["text"]+"' located in: '" +i[2]["locator"]+"' ") #replace all this yap with i[2] = str(i[2])
+        nodes=[]
+        for i in nodes_data:
+            nodes.append((i[1],i[0],{"label":i[2]}))
 
-    #---------Fixing the nodes
+        #--------Making the graph
+        G = nx.MultiDiGraph() #makes graph
+        G.add_edges_from(nodes) #adds edges
+        pos=nx.circular_layout(G) #layout of graph
+        nx.draw(G,pos,with_labels=True)
+        edge_labels=nx.get_edge_attributes(G,"label")
+        nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
+        #-------Finding shortest path
+        
+        values=shortestPath(G,edge_labels)
+        print(values)
 
-    data=json.load(file) #gets all the data as dict
-    #print(json.dumps(data,indent=4)) #prints all data
-    #print(*getpath(data,"href",data)) #generator, cuz it does yield of all values then unpacks them
-    nodes_data=list(getpath(data,"href",data))
-    """
-    Quick note here:
-    i[2] must remain i[2] below, but its hurting my eyes so imma change it to the attribute and text only
-    its meant to contain the entire dictionary which holds the href so the LLM knows what to click, but it overloads the networkx and overlaps it
-    """
-    for i in nodes_data:
-        i[2]=str(i[2]["tag"]+"-"+i[2]["text"]) #replace all this yap with i[2] = str(i[2])
-    nodes=[]
-    for i in nodes_data:
-        nodes.append((i[1],i[0],{"label":i[2]}))
-    print(nodes)
-
-    #--------Making the graph
-
-    G = nx.MultiDiGraph() #makes graph
-    G.add_edges_from(nodes) #adds edges
-    pos=nx.circular_layout(G) #layout of graph
-    nx.draw(G,pos,with_labels=True)
-    edge_labels=nx.get_edge_attributes(G,"label")
-    nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
-
-    #-------Finding shortest path
-    
-    #print(shortestPath(G,edge_labels))
-    
-    plt.axis("off")
-    plt.show()
-
-
-
-
-
-    
+        with open("instructions.txt","w") as file:
+            for i in values:
+                file.write(i+"\n")  
+        
+        plt.axis("off")
+        plt.show()
+elif user == 3:
+    asyncio.run(browseruse())

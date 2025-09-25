@@ -1,8 +1,11 @@
+#open-ai
 import subprocess
 from mcp import ClientSession
 from mcp.client.sse import sse_client
 import time
 import asyncio
+
+#ollama
 from llama_index.tools.mcp import BasicMCPClient, McpToolSpec
 from llama_index.core.agent.workflow import FunctionAgent,ToolCallResult,ToolCall
 from llama_index.core.workflow import Context
@@ -10,12 +13,34 @@ from llama_index.llms.ollama import Ollama
 from llama_index.core.tools import FunctionTool
 from pydantic import create_model
 from typing import List
-from browser_use import Agent, ChatOllama
+
+#browser use
+from browser_use import Agent, ChatGoogle
+
+#crawl4ai
 from crawl4ai import AsyncWebCrawler,CrawlerRunConfig
 from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
 from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
 from bs4 import BeautifulSoup
 import json
+
+#gemini
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
+
+#chroma db
+import chromadb
+from chromadb.utils import embedding_functions
+
+#langchain
+from langchain.document_loaders import TextLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.prompts import ChatPromptTemplate
+from langchain.chains.combine_documents import create_stuff_documents_chain
+load_dotenv()
 
 #--- for scraping
 def path_generation(element):
@@ -59,34 +84,34 @@ def beautiful(data):
         interaction_map.append(item)
     return interaction_map
 
-async def main_scraping():
+if False:
+    async def main():
 
-    config = CrawlerRunConfig(
-        deep_crawl_strategy=BFSDeepCrawlStrategy(
-            max_depth=2,
-            include_external=False
-        ),
-        scraping_strategy=LXMLWebScrapingStrategy(),
-        verbose=True,
-    )
-
-    site="https://www.techwithtim.net"
-    async with AsyncWebCrawler() as crawler:
-        results = await crawler.arun(
-            url=site,
-            config=config
+        config = CrawlerRunConfig(
+            deep_crawl_strategy=BFSDeepCrawlStrategy(
+                max_depth=2,
+                include_external=False
+            ),
+            scraping_strategy=LXMLWebScrapingStrategy(),
+            verbose=True,
         )
-        scraped=[]
-        content={}
-        for result in results:
-            if result.url not in scraped:
-                url=str(result.url).replace(site,"")
-                content[url]=beautiful(result.html)
-                scraped.append(result.url)
-        print(content)
-        with open("temp.json","w") as f:
-            f.write(json.dumps(content,indent=2))
 
+        site="https://www.techwithtim.net"
+        async with AsyncWebCrawler() as crawler:
+            results = await crawler.arun(
+                url=site,
+                config=config
+            )
+            scraped=[]
+            content={}
+            for result in results:
+                if result.url not in scraped:
+                    url=str(result.url).replace(site,"")
+                    content[url]=beautiful(result.html)
+                    scraped.append(result.url)
+            print(content)
+            with open("temp.json","w") as f:
+                f.write(json.dumps(content,indent=2))
 
 """
 1. crawl4ai -> crawl each website to get raw html
@@ -177,12 +202,175 @@ async def handle_user_message(
     response = await handler
     return str(response)
 
+#For embedding code
+if True:
+    user=int(input("1. for embedding content\n2. for accessing basic content\n3. For embedding code\n4. For accessing the code"))
+    if user == 1:
+        async def main():
+            client = genai.Client() # Use the embedding model
+            chroma_client = chromadb.PersistentClient(path="./vector_database") #start chroma client
+            collection = chroma_client.get_or_create_collection(name="Students") #create collection
+            
+            documents = [
+                            """
+                            Alexandra Thompson, a 19-year-old computer science sophomore with a 3.7 GPA,
+                            is a member of the programming and chess clubs who enjoys pizza, swimming, and hiking
+                            in her free time in hopes of working at a tech company after graduating from the University of Washington.
+                            """,
+                            """
+                            The university chess club provides an outlet for students to come together and enjoy playing
+                            the classic strategy game of chess. Members of all skill levels are welcome, from beginners learning
+                            the rules to experienced tournament players. The club typically meets a few times per week to play casual games,
+                            participate in tournaments, analyze famous chess matches, and improve members' skills.
+                            """,
+                            """
+                            The University of Washington, founded in 1861 in Seattle, is a public research university
+                            with over 45,000 students across three campuses in Seattle, Tacoma, and Bothell.
+                            As the flagship institution of the six public universities in Washington state,
+                            UW encompasses over 500 buildings and 20 million square feet of space,
+                            including one of the largest library systems in the world.
+                            """
+                        ]
+            if collection.count() == 0:
+                ids=[]
+                for i in range(len(documents)):
+                    ids.append(str(i))
+
+                print(ids)
+                document_metadatas = [{"source": "student info"}, {"source": "club info"}, {'source': 'university info'}]
+                result = client.models.embed_content(
+                    model="gemini-embedding-001",
+                    contents= documents,
+                    config=types.EmbedContentConfig(task_type="SEMANTIC_SIMILARITY",output_dimensionality=3072)
+                )
+                print(result)
+                gemini_embeddings = [e.values for e in result.embeddings] # This extracts the list of values from each object
+
+                collection.add(
+                    embeddings=gemini_embeddings, # Pass the pre-computed embeddings
+                    documents=documents, #the actual documents
+                    metadatas=document_metadatas, #the information of documents
+                    ids=ids #ids of each content
+                )
+                print("Data added mimimimi")
+
+            else:
+                print("data alr exists")
+
+    elif user == 2:
+        async def main():
+            client=genai.Client()
+            chroma_client= chromadb.PersistentClient(path="./vector_database")
+            collection = chroma_client.get_collection(name="Students")
+            query="What is the chess client"
+            result = client.models.embed_content(
+                model="gemini-embedding-001",
+                contents=query,
+                config=types.EmbedContentConfig(
+                    task_type="SEMANTIC_SIMILARITY",
+                    output_dimensionality=3072 # Must match the dimension used for storage!
+                )
+            )
+            query_embedding = [e.values for e in result.embeddings]
+
+            results = collection.query( #queries the thing
+                query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
+                n_results=1
+            )
+            clean_text = " ".join([line.strip() for line in results["documents"][0][0].strip().split('\n')])
+            print(clean_text)
+
+    elif user == 3:
+        #loading and splitting text
+        async def main():
+            client=genai.Client()
+            chroma_client=chromadb.PersistentClient(path="./Code_database")
+            collection=chroma_client.get_or_create_collection(name="Code")
+
+            loader=TextLoader("./Graph_test.py") #pull up the text
+            docs=loader.load() #load the text
+            text_splitter=RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+            splits= text_splitter.split_documents(docs)
+            
+            for i, chunk in enumerate(splits):
+                chunk.metadata["document_type"]= "Code data"
+                chunk.metadata["chunk_id"]=i
+
+            chunks= [e.page_content for e in splits]
+            result=client.models.embed_content(
+                model="gemini-embedding-001",
+                contents = [e.page_content for e in splits],
+                config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT",output_dimensionality=3072)
+            )
+            gemini_embeddings= [e.values for e in result.embeddings]
+
+            collection.add(
+                embeddings=gemini_embeddings,
+                documents=chunks,
+                metadatas=[chunk.metadata for chunk in splits],
+                ids=[f"code_chunk_{chunk.metadata['chunk_id']}" for chunk in splits]
+            )
+
+    elif user == 4:
+        async def main():
+            client=genai.Client()
+            chroma_client= chromadb.PersistentClient(path="./Code_database")
+            collection = chroma_client.get_collection(name="Code")
+            query=str(input("What is the users request"))
+            result = client.models.embed_content(
+                model="gemini-embedding-001",
+                contents=query,
+                config=types.EmbedContentConfig(
+                    task_type="CODE_RETRIEVAL_QUERY",
+                    output_dimensionality=3072 # Must match the dimension used for storage!
+                )
+            )
+            query_embedding = [e.values for e in result.embeddings]
+
+            results = collection.query( #queries the thing
+                query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
+                n_results=2
+            )
+            
+            docs=[]
+            for i in range(len(results["ids"][0])):
+                doc = Document(
+                    page_content=results["documents"][0][i],
+                    metadata=results["metadatas"][0][i]
+                )
+                docs.append(doc)
+            
+            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k")
+            prompt = ChatPromptTemplate.from_template("""
+                Answer the following question based only on the provided context.
+                Provide a detailed answer
+                
+                <context>
+                {context}
+                </context>
+                        
+                Question: {input}                                                           
+            """)
+
+            document_chain = create_stuff_documents_chain(llm,prompt)
+
+            response = document_chain.invoke({
+                "input": query,
+                "context": docs
+            })
+
+            print(response)
+
+
+
 #For browseruse
 if False:
     async def main(): #for browser use
+        with open("instructions.txt","r") as f:
+            task=str(f.readlines())
         agent = Agent(
-            task="Do the following: 1. Open https://www.techwithtim.net/tutorials. 2. Click on the text that says 'Courses' in the navbar. it will be a linked tab and will navigate you to https://www.techwithtim.net/courses. please confirm if it does this",
-            llm=ChatOllama(model="llama3.1:8b"),
+            task=task,
+            llm=ChatGoogle(model="gemini-2.5-flash"),
         )
         await agent.run()
 
@@ -252,4 +440,4 @@ if False:
             pass
 
 if __name__ == "__main__":
-    asyncio.run(main_scraping())
+    asyncio.run(main())

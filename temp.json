@@ -1,5 +1,5 @@
 {
-  "": [
+  "/": [
     {
       "tag": "a",
       "text": "",
@@ -198,3173 +198,491 @@
     },
     {
       "tag": "h1",
-      "text": "500",
-      "locator": "/html/body/main/div/div/h1",
-      "attributes": {
-        "class": [
-          "sc-500__H1-sc-9gj1ma-1",
-          "iRFWXp"
-        ]
-      }
-    },
-    {
-      "tag": "h2",
-      "text": "Something went wrong on our end.",
-      "locator": "/html/body/main/div/div/div/h2",
-      "attributes": {
-        "class": [
-          "sc-500__H2-sc-9gj1ma-2",
-          "gSAZOM"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "We suggest you try refreshing the page, or returning to thehomepage.",
-      "locator": "/html/body/main/div/div/div/h3",
-      "attributes": {
-        "class": [
-          "sc-500__H3-sc-9gj1ma-3",
-          "gTeiuR"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "homepage",
-      "locator": "/html/body/main/div/div/div/h3/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://discord.com/invite/nZTxvywH",
-        "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "",
-      "locator": "/html/body/next-route-announcer/p",
-      "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
-      }
-    }
-  ],
-  "/newsletter": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "h2",
-      "text": "Unlock Your Coding Potential with Tim's Coding Corner! \ud83c\udf89",
-      "locator": "/html/body/main/div/div/div/h2",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Subscribe to get instant access to my FREE guide onHow To Make Money From Coding. This guide breaks down 14 practical ways to earn money from your coding skills without needing a job.",
-      "locator": "/html/body/main/div/div/div/p[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/div/div/img[1]",
-      "attributes": {
-        "alt": "Newsletter Cover",
-        "class": [
-          "newsletter__CoverImage-sc-1mhig57-0",
-          "kVOGYn"
-        ],
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNS_Cover_Page.31a06f66.png&w=3840&q=75"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/div/div/img[2]",
-      "attributes": {
-        "alt": "Newsletter Page 1",
-        "class": [
-          "newsletter__CoverImage-sc-1mhig57-0",
-          "kVOGYn"
-        ],
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNS_Page1.c5caf23f.png&w=3840&q=75"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/div/div/img[3]",
-      "attributes": {
-        "alt": "Newsletter Page 2",
-        "class": [
-          "newsletter__CoverImage-sc-1mhig57-0",
-          "kVOGYn"
-        ],
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FNS_Page2.fb22f87f.png&w=3840&q=75"
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "You Also Get",
-      "locator": "/html/body/main/div/div/div/h3",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "\ud83d\udd0dChallenging Puzzles:Tackle new coding challenges that push your problem-solving abilities to the next level.",
-      "locator": "/html/body/main/div/div/div/ul/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "\ud83d\udca1Expert Solutions:Learn from detailed solutions and improve your coding strategies.",
-      "locator": "/html/body/main/div/div/div/ul/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "\ud83d\ude80Creative Projects:Explore project ideas that ignite your creativity and provide practical experience.",
-      "locator": "/html/body/main/div/div/div/ul/li[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "\u2728Inspiring Stories:Gain insights and motivation from personal stories and tips shared in each newsletter.",
-      "locator": "/html/body/main/div/div/div/ul/li[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Our newsletters are crafted to be concise yet impactful, ensuring you get the most value in just a few minutes. Whether you're a beginner or an experienced coder, there's something for everyone.",
-      "locator": "/html/body/main/div/div/div/p[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Don't miss out on this opportunity to grow and connect with like-minded individuals. Sign up today and start your journey with Tim's Coding Corner!",
-      "locator": "/html/body/main/div/div/div/p[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "",
-      "locator": "/html/body/next-route-announcer/p",
-      "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
-      }
-    }
-  ],
-  "/mailtotechwithtim%40viralnationtalent.com%3A": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "h1",
-      "text": "404",
-      "locator": "/html/body/main/div/div/h1",
-      "attributes": {
-        "class": [
-          "sc-404__H1-sc-1c1o7ru-1",
-          "cfXzmZ"
-        ]
-      }
-    },
-    {
-      "tag": "h2",
-      "text": "The page you're looking for doesn't exist or has been moved.",
-      "locator": "/html/body/main/div/div/h2[1]",
-      "attributes": {
-        "class": [
-          "sc-404__H2-sc-1c1o7ru-2",
-          "fdLbug"
-        ]
-      }
-    },
-    {
-      "tag": "h2",
-      "text": "Here are some helpful links:",
-      "locator": "/html/body/main/div/div/h2[2]",
-      "attributes": {
-        "class": [
-          "sc-404__H2-sc-1c1o7ru-2",
-          "fdLbug"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Dive in to learn all about programming.",
-      "locator": "/html/body/main/div/div/h3",
-      "attributes": {
-        "class": [
-          "sc-404__H3-sc-1c1o7ru-3",
-          "kreslV"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Take your skills to the next level with our top-rated courses from CourseCareers.",
-      "locator": "/html/body/main/div/div/h3",
-      "attributes": {
-        "class": [
-          "sc-404__H3-sc-1c1o7ru-3",
-          "kreslV"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://discord.com/invite/nZTxvywH",
-        "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Join our community and network with other learners.",
-      "locator": "/html/body/main/div/div/h3",
-      "attributes": {
-        "class": [
-          "sc-404__H3-sc-1c1o7ru-3",
-          "kreslV"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "",
-      "locator": "/html/body/next-route-announcer/p",
-      "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
-      }
-    }
-  ],
-  "/support-donate": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "h1",
-      "text": "Show your support",
+      "text": "Tech withTim",
       "locator": "/html/body/main/div/div/h1",
       "attributes": {}
     },
     {
       "tag": "h2",
-      "text": "that's what keeps Tech withTimrunning!",
+      "text": "your ultimate resource for learning to code",
       "locator": "/html/body/main/div/div/h2",
       "attributes": {}
     },
     {
       "tag": "a",
-      "text": "Your contribution will go towards improving the quality of our content, expanding our offerings, and providing more resources for learners of all levels.",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://www.paypal.com/ncp/payment/KRA8Z6HAR2SDG",
-        "class": [
-          "donate__DonateCardContainer-sc-1a8062w-0",
-          "gqtPMa"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/div/a/img",
-      "attributes": {
-        "alt": "PayPal",
-        "src": "/_next/static/media/paypal.becde6c2.svg"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "Your contribution will go towards improving the quality of our content, expanding our offerings, and providing more resources for learners of all levels.",
-      "locator": "/html/body/main/div/div/a/p",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "I couldn't do what I do without your support. Thanks for helping me make coding accessible and approachable for everyone :)",
-      "locator": "/html/body/main/div/div/h3",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
+      "text": "TutorialsClear, concise, and easy to follow with step by step instructions to guide you through each lesson.",
+      "locator": "/html/body/main/div/div/a[1]",
       "attributes": {
         "href": "/tutorials",
         "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
+          "content__CardContentContainer-sc-1nrnigk-0",
+          "iSmWKS"
         ]
       }
     },
     {
       "tag": "img",
       "text": "",
-      "locator": "/html/body/main/a/img",
+      "locator": "/html/body/main/div/div/div/img",
       "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
+        "alt": "Tutorials",
+        "class": [
+          "content__CardContentIcon-sc-1nrnigk-2",
+          "jKkedF"
+        ],
+        "src": "/_next/static/media/icon.code.46682b3b.svg"
       }
     },
     {
-      "tag": "p",
-      "text": "",
-      "locator": "/html/body/next-route-announcer/p",
-      "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
-      }
-    }
-  ],
-  "/privacy-policy": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
+      "tag": "h3",
       "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
+      "locator": "/html/body/main/div/div/div/h3",
       "attributes": {
-        "href": "/tutorials",
         "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
+          "content__CardContentTitle-sc-1nrnigk-3",
+          "cqSeTS"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "Clear, concise, and easy to follow with step by step instructions to guide you through each lesson.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "content__CardContentDescription-sc-1nrnigk-4",
+          "iCJMd"
         ]
       }
     },
     {
       "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
+      "text": "CoursesFor those who want to dive deeper in the world of programming and become true Software Engineers!",
+      "locator": "/html/body/main/div/div/a[2]",
       "attributes": {
         "href": "/courses",
         "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
+          "content__CardContentContainer-sc-1nrnigk-0",
+          "iSmWKS"
         ]
       }
     },
     {
       "tag": "img",
       "text": "",
-      "locator": "/html/body/main/div/a/img",
+      "locator": "/html/body/main/div/div/div/img",
       "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
+        "alt": "Courses",
         "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
+          "content__CardContentIcon-sc-1nrnigk-2",
+          "jKkedF"
+        ],
+        "src": "/_next/static/media/icon.book.e7a0b4e2.svg"
       }
     },
     {
-      "tag": "a",
+      "tag": "h3",
       "text": "Courses",
-      "locator": "/html/body/main/a[2]",
+      "locator": "/html/body/main/div/div/div/h3",
       "attributes": {
-        "href": "/courses",
         "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
+          "content__CardContentTitle-sc-1nrnigk-3",
+          "cqSeTS"
         ]
       }
     },
     {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
+      "tag": "p",
+      "text": "For those who want to dive deeper in the world of programming and become true Software Engineers!",
+      "locator": "/html/body/main/div/div/p",
       "attributes": {
-        "href": "/community",
         "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
+          "content__CardContentDescription-sc-1nrnigk-4",
+          "iCJMd"
         ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
       }
     },
     {
       "tag": "h2",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/div/div/h2[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "techwithtim.net (\u201cus\u201d, \u201cwe\u201d, or \u201cour\u201d) operates thehttps://techwithtim.netwebsite (the \u201cService\u201d).",
-      "locator": "/html/body/main/div/div/p[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "a",
-      "text": "https://techwithtim.net",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://techwithtim.net"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. Our Privacy Policy for techwithtim.net is based on theFree Privacy Policy Template Website.",
-      "locator": "/html/body/main/div/div/p[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "a",
-      "text": "Free Privacy Policy Template Website",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible from https://techwithtim.net",
-      "locator": "/html/body/main/div/div/p[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Information collection and use",
-      "locator": "/html/body/main/div/div/h2[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We collect several different types of information for various purposes to provide and improve our Service to you.",
-      "locator": "/html/body/main/div/div/p[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Types of data collected",
-      "locator": "/html/body/main/div/div/h3[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you (\u201cPersonal Data\u201d). Personally identifiable information may include, but is not limited to:",
-      "locator": "/html/body/main/div/div/p[5]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Email address",
-      "locator": "/html/body/main/div/div/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "First name and last name",
-      "locator": "/html/body/main/div/div/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Cookies and Usage Data",
-      "locator": "/html/body/main/div/div/li[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We may also collect information how the Service is accessed and used (\u201cUsage Data\u201d). This Usage Data may include information such as your computer's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers and other diagnostic data.",
-      "locator": "/html/body/main/div/div/p[6]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We use cookies and similar tracking technologies to track the activity on our Service and hold certain information.",
-      "locator": "/html/body/main/div/div/p[7]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Cookies are files with small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device. Tracking technologies also used are beacons, tags, and scripts to collect and track information and to improve and analyze our Service.",
-      "locator": "/html/body/main/div/div/p[8]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service.",
-      "locator": "/html/body/main/div/div/p[9]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Examples of Cookies we use:",
-      "locator": "/html/body/main/div/div/p[10]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Session Cookies. We use Session Cookies to operate our Service.",
-      "locator": "/html/body/main/div/div/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Preference Cookies. We use Preference Cookies to remember your preferences and various settings.",
-      "locator": "/html/body/main/div/div/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Security Cookies. We use Security Cookies for security purposes.",
-      "locator": "/html/body/main/div/div/li[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Use of data",
-      "locator": "/html/body/main/div/div/h2[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "techwithtim.net uses the collected data for various purposes:",
-      "locator": "/html/body/main/div/div/p[11]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To provide and maintain the Service",
-      "locator": "/html/body/main/div/div/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To notify you about changes to our Service",
-      "locator": "/html/body/main/div/div/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To allow you to participate in interactive features of our Service when you choose to do so",
-      "locator": "/html/body/main/div/div/li[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To provide customer care and support",
-      "locator": "/html/body/main/div/div/li[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To provide analysis or valuable information so that we can improve the Service",
-      "locator": "/html/body/main/div/div/li[5]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To monitor the usage of the Service",
-      "locator": "/html/body/main/div/div/li[6]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To detect, prevent and address technical issues",
-      "locator": "/html/body/main/div/div/li[7]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Transfer of data",
-      "locator": "/html/body/main/div/div/h2[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Your information, including Personal Data, may be transferred to \u2014 and maintained on \u2014 computers located outside of your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from your jurisdiction.",
-      "locator": "/html/body/main/div/div/p[12]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "If you are located outside Canada and choose to provide information to us, please note that we transfer the data, including Personal Data, to Canada and process it there.",
-      "locator": "/html/body/main/div/div/p[13]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer.",
-      "locator": "/html/body/main/div/div/p[14]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "techwithtim.net will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.",
-      "locator": "/html/body/main/div/div/p[15]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Disclosure of data",
-      "locator": "/html/body/main/div/div/h2[5]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Legal requirements",
-      "locator": "/html/body/main/div/div/h3[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "techwithtim.net may disclose your Personal Data in the good faith belief that such action is necessary to:",
-      "locator": "/html/body/main/div/div/p[16]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To comply with a legal obligation",
-      "locator": "/html/body/main/div/div/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To protect and defend the rights or property of techwithtim.net",
-      "locator": "/html/body/main/div/div/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To prevent or investigate possible wrongdoing in connection with the Service",
-      "locator": "/html/body/main/div/div/li[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To protect the personal safety of users of the Service or the public",
-      "locator": "/html/body/main/div/div/li[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "To protect against legal liability",
-      "locator": "/html/body/main/div/div/li[5]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Security of data",
-      "locator": "/html/body/main/div/div/h2[6]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.",
-      "locator": "/html/body/main/div/div/p[17]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Service providers",
-      "locator": "/html/body/main/div/div/h2[7]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We may employ third party companies and individuals to facilitate our Service (\u201cService Providers\u201d), to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used.",
-      "locator": "/html/body/main/div/div/p[18]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "These third parties have access to your Personal Data only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.",
-      "locator": "/html/body/main/div/div/p[19]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Analytics",
-      "locator": "/html/body/main/div/div/h3[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We may use third-party Service Providers to monitor and analyze the use of our Service.",
-      "locator": "/html/body/main/div/div/p[20]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Google Analytics is a web analytics service offered by Google that tracks and reports website traffic. Google uses the data collected to track and monitor the use of our Service. This data is shared with other Google services. Google may use the collected data to contextualize and personalize the ads of its own advertising network.",
-      "locator": "/html/body/main/div/div/p[21]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "You can opt-out of having made your activity on the Service available to Google Analytics by installing the Google Analytics opt-out browser add-on. The add-on prevents the Google Analytics JavaScript (ga.js, analytics.js, and dc.js) from sharing information with Google Analytics about visits activity.",
-      "locator": "/html/body/main/div/div/p[22]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "For more information on the privacy practices of Google, please visit theGoogle Privacy & Terms web page.",
-      "locator": "/html/body/main/div/div/p[23]",
-      "attributes": {}
-    },
-    {
-      "tag": "a",
-      "text": "Google Privacy & Terms web page",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://policies.google.com/privacy?hl=en"
-      }
-    },
-    {
-      "tag": "h2",
-      "text": "Links to other sites",
-      "locator": "/html/body/main/div/div/h2[8]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.",
-      "locator": "/html/body/main/div/div/p[24]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.",
-      "locator": "/html/body/main/div/div/p[25]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Children's privacy",
-      "locator": "/html/body/main/div/div/h2[9]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "Our Service does not address anyone under the age of 18 (\u201cChildren\u201d).",
-      "locator": "/html/body/main/div/div/p[26]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Children has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers.",
-      "locator": "/html/body/main/div/div/p[27]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Changes to this Privacy Policy",
-      "locator": "/html/body/main/div/div/h2[10]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.",
-      "locator": "/html/body/main/div/div/p[28]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "We will let you know via email and/or a prominent notice on our Service, prior to the change becoming effective and update the \u201ceffective date\u201d at the top of this Privacy Policy.",
-      "locator": "/html/body/main/div/div/p[29]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.",
-      "locator": "/html/body/main/div/div/p[30]",
-      "attributes": {}
-    },
-    {
-      "tag": "h2",
-      "text": "Contact us",
-      "locator": "/html/body/main/div/div/h2[11]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "If you have any questions about this Privacy Policy, please contact us byemail.",
-      "locator": "/html/body/main/div/div/p[31]",
-      "attributes": {}
-    },
-    {
-      "tag": "a",
-      "text": "email",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "mailto:tim@techwithtim.net"
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
-      }
-    },
-    {
-      "tag": "p",
-      "text": "",
-      "locator": "/html/body/next-route-announcer/p",
-      "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
-      }
-    }
-  ],
-  "/terms-of-service": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "h2",
-      "text": "Terms of Service",
+      "text": "Browse through a variety of topics",
       "locator": "/html/body/main/div/div/h2",
       "attributes": {}
     },
     {
-      "tag": "h3",
-      "text": "Terms",
-      "locator": "/html/body/main/div/div/h3[1]",
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/div/a[1]",
+      "attributes": {
+        "href": "/tutorials?topics=Python",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Java",
+      "locator": "/html/body/main/div/div/div/a[2]",
+      "attributes": {
+        "href": "/tutorials?topics=Java",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Game Development",
+      "locator": "/html/body/main/div/div/div/a[3]",
+      "attributes": {
+        "href": "/tutorials?topics=Game Development",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Machine Learning",
+      "locator": "/html/body/main/div/div/div/a[4]",
+      "attributes": {
+        "href": "/tutorials?topics=Machine Learning",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Web Development",
+      "locator": "/html/body/main/div/div/div/a[5]",
+      "attributes": {
+        "href": "/tutorials?topics=Web Development",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Discord.py",
+      "locator": "/html/body/main/div/div/div/a[6]",
+      "attributes": {
+        "href": "/tutorials?topics=Discord.py",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Beginner",
+      "locator": "/html/body/main/div/div/div/a[7]",
+      "attributes": {
+        "href": "/tutorials?topics=Beginner",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Intermediate",
+      "locator": "/html/body/main/div/div/div/a[8]",
+      "attributes": {
+        "href": "/tutorials?topics=Intermediate",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Advanced",
+      "locator": "/html/body/main/div/div/div/a[9]",
+      "attributes": {
+        "href": "/tutorials?topics=Advanced",
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "h2",
+      "text": "Meet Tim Ruscica",
+      "locator": "/html/body/main/div/div/h2",
+      "attributes": {}
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/img",
+      "attributes": {
+        "alt": "Tim",
+        "class": [
+          "about__AboutImage-sc-xamder-1",
+          "dvnIEj"
+        ],
+        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftim-orange.92131f91.png&w=2048&q=75"
+      }
+    },
+    {
+      "tag": "h2",
+      "text": "Programming Youtuber withover 1 million subscribers",
+      "locator": "/html/body/main/div/div/div/div/h2",
       "attributes": {}
     },
     {
       "tag": "p",
-      "text": "By accessing the website athttps://techwithtim.net, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws. If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law.",
-      "locator": "/html/body/main/div/div/p[1]",
+      "text": "I'm Tim Ruscica, a software developer and content creator behind the Tech With Tim YouTube channel.",
+      "locator": "/html/body/main/div/div/div/div/p[1]",
+      "attributes": {}
+    },
+    {
+      "tag": "p",
+      "text": "I love sharing my knowledge and helping people achieve their goals. Whether you're just starting out or looking to improve your skills, I've got you covered with easy-to-follow tutorials and tips.",
+      "locator": "/html/body/main/div/div/div/div/p[2]",
       "attributes": {}
     },
     {
       "tag": "a",
-      "text": "https://techwithtim.net",
-      "locator": "/html/body/main/div/div/a",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/a[1]",
       "attributes": {
-        "href": "https://techwithtim.net"
+        "href": "https://www.linkedin.com/in/tim-ruscica/",
+        "class": [
+          "about__Social-sc-xamder-4",
+          "ipEwNZ"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "Linkedin",
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Flinkedin_8b1deabf17.png&w=64&q=75"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/a[2]",
+      "attributes": {
+        "href": "https://twitter.com/TechWithTimm",
+        "class": [
+          "about__Social-sc-xamder-4",
+          "ipEwNZ"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "Twitter",
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Ftwitter_0d64614adb.png&w=64&q=75"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/a[3]",
+      "attributes": {
+        "href": "https://www.instagram.com/tech_with_tim/",
+        "class": [
+          "about__Social-sc-xamder-4",
+          "ipEwNZ"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "Instagram",
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Finstagram_c1db0ab11d.png&w=64&q=75"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/a[4]",
+      "attributes": {
+        "href": "https://github.com/techwithtim",
+        "class": [
+          "about__Social-sc-xamder-4",
+          "ipEwNZ"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "GitHub",
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fgithub_d6678b89ff.png&w=64&q=75"
+      }
+    },
+    {
+      "tag": "h2",
+      "text": "Join ourcommunityand start your journey today!",
+      "locator": "/html/body/main/div/div/h2",
+      "attributes": {}
+    },
+    {
+      "tag": "a",
+      "text": "YouTubeAccess the latest video tutorials, coding challenges, and live streams. Subscribe and stay up to date!",
+      "locator": "/html/body/main/div/div/div/a[1]",
+      "attributes": {
+        "href": "https://www.youtube.com/@TechWithTim",
+        "class": [
+          "social__SocialCardContainer-sc-1rw7jij-0",
+          "gofthO"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "YouTube",
+        "class": [
+          "social__SocialCardIcon-sc-1rw7jij-2",
+          "cipGyh"
+        ],
+        "src": "/_next/static/media/icon.youtube.b88ff9ae.svg"
       }
     },
     {
       "tag": "h3",
-      "text": "Use License",
-      "locator": "/html/body/main/div/div/h3[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Permission is granted to temporarily download one copy of the materials (information or software) on techwithtim's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:",
-      "locator": "/html/body/main/div/div/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "modify or copy the materials;",
-      "locator": "/html/body/main/div/div/ul/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "use the materials for any commercial purpose, or for any public display (commercial or non-commercial);",
-      "locator": "/html/body/main/div/div/ul/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "attempt to decompile or reverse engineer any software contained on techwithtim's website;",
-      "locator": "/html/body/main/div/div/ul/li[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "remove any copyright or other proprietary notations from the materials; or",
-      "locator": "/html/body/main/div/div/ul/li[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "transfer the materials to another person or \"mirror\" the materials on any other server.",
-      "locator": "/html/body/main/div/div/ul/li[5]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "This license shall automatically terminate if you violate any of these restrictions and may be terminated by techwithtim at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.",
-      "locator": "/html/body/main/div/div/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Disclaimer",
-      "locator": "/html/body/main/div/div/h3[3]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "The materials on techwithtim's website are provided on an 'as is' basis. techwithtim makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
-      "locator": "/html/body/main/div/div/li[1]",
-      "attributes": {}
-    },
-    {
-      "tag": "li",
-      "text": "Further, techwithtim does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site.",
-      "locator": "/html/body/main/div/div/li[2]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Limitations",
-      "locator": "/html/body/main/div/div/h3[4]",
-      "attributes": {}
+      "text": "YouTube",
+      "locator": "/html/body/main/div/div/div/div/h3",
+      "attributes": {
+        "class": [
+          "social__SocialCardTitle-sc-1rw7jij-3",
+          "kjNkXe"
+        ]
+      }
     },
     {
       "tag": "p",
-      "text": "In no event shall techwithtim or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on techwithtim's website, even if techwithtim or a techwithtim authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you.",
-      "locator": "/html/body/main/div/div/p[2]",
-      "attributes": {}
+      "text": "Access the latest video tutorials, coding challenges, and live streams. Subscribe and stay up to date!",
+      "locator": "/html/body/main/div/div/div/p",
+      "attributes": {
+        "class": [
+          "social__SocialCardDescription-sc-1rw7jij-4",
+          "gxsBez"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "DiscordA place to ask your programming questions, share ideas, and network with other learners!",
+      "locator": "/html/body/main/div/div/div/a[2]",
+      "attributes": {
+        "href": "https://discord.com/invite/nZTxvywH",
+        "class": [
+          "social__SocialCardContainer-sc-1rw7jij-0",
+          "gofthO"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "Discord",
+        "class": [
+          "social__SocialCardIcon-sc-1rw7jij-2",
+          "cipGyh"
+        ],
+        "src": "/_next/static/media/icon.discord.797b90e3.svg"
+      }
     },
     {
       "tag": "h3",
-      "text": "Accuracy of materials",
-      "locator": "/html/body/main/div/div/h3[5]",
-      "attributes": {}
+      "text": "Discord",
+      "locator": "/html/body/main/div/div/div/div/h3",
+      "attributes": {
+        "class": [
+          "social__SocialCardTitle-sc-1rw7jij-3",
+          "hEWMvE"
+        ]
+      }
     },
     {
       "tag": "p",
-      "text": "The materials appearing on techwithtim's website could include technical, typographical, or photographic errors. techwithtim does not warrant that any of the materials on its website are accurate, complete or current. techwithtim may make changes to the materials contained on its website at any time without notice. However techwithtim does not make any commitment to update the materials.",
-      "locator": "/html/body/main/div/div/p[3]",
-      "attributes": {}
+      "text": "A place to ask your programming questions, share ideas, and network with other learners!",
+      "locator": "/html/body/main/div/div/div/p",
+      "attributes": {
+        "class": [
+          "social__SocialCardDescription-sc-1rw7jij-4",
+          "gxsBez"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "InstagramFollow for coding tips, and a glimpse into the life of a programmer!",
+      "locator": "/html/body/main/div/div/div/a[3]",
+      "attributes": {
+        "href": "https://instagram.com/tech_with_tim",
+        "class": [
+          "social__SocialCardContainer-sc-1rw7jij-0",
+          "gofthO"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/div/div/img",
+      "attributes": {
+        "alt": "Instagram",
+        "class": [
+          "social__SocialCardIcon-sc-1rw7jij-2",
+          "cipGyh"
+        ],
+        "src": "/_next/static/media/icon.instagram.ad867e81.svg"
+      }
     },
     {
       "tag": "h3",
-      "text": "Links",
-      "locator": "/html/body/main/div/div/h3[6]",
-      "attributes": {}
+      "text": "Instagram",
+      "locator": "/html/body/main/div/div/div/div/h3",
+      "attributes": {
+        "class": [
+          "social__SocialCardTitle-sc-1rw7jij-3",
+          "iENNZu"
+        ]
+      }
     },
     {
       "tag": "p",
-      "text": "techwithtim has not reviewed all of the sites linked to its website and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by techwithtim of the site. Use of any such linked website is at the user's own risk.",
-      "locator": "/html/body/main/div/div/p[4]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Modifications",
-      "locator": "/html/body/main/div/div/h3[7]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "techwithtim may revise these terms of service for its website at any time without notice. By using this website you are agreeing to be bound by the then current version of these terms of service.",
-      "locator": "/html/body/main/div/div/p[5]",
-      "attributes": {}
-    },
-    {
-      "tag": "h3",
-      "text": "Governing Law",
-      "locator": "/html/body/main/div/div/h3[8]",
-      "attributes": {}
-    },
-    {
-      "tag": "p",
-      "text": "These terms and conditions are governed by and construed in accordance with the laws of Ontario and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.",
-      "locator": "/html/body/main/div/div/p[6]",
-      "attributes": {}
+      "text": "Follow for coding tips, and a glimpse into the life of a programmer!",
+      "locator": "/html/body/main/div/div/div/p",
+      "attributes": {
+        "class": [
+          "social__SocialCardDescription-sc-1rw7jij-4",
+          "gxsBez"
+        ]
+      }
     },
     {
       "tag": "h3",
@@ -3831,55 +1149,988 @@
     },
     {
       "tag": "h1",
-      "text": "500",
+      "text": "Dive into our tutorials",
       "locator": "/html/body/main/div/div/h1",
+      "attributes": {}
+    },
+    {
+      "tag": "h2",
+      "text": "learn to code with step-by-step guides and projects",
+      "locator": "/html/body/main/div/div/h2",
+      "attributes": {}
+    },
+    {
+      "tag": "h3",
+      "text": "Filter by topics:",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {}
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/div/a[1]",
       "attributes": {
         "class": [
-          "sc-500__H1-sc-9gj1ma-1",
-          "iRFWXp"
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
         ]
       }
     },
     {
-      "tag": "h2",
-      "text": "Something went wrong on our end.",
-      "locator": "/html/body/main/div/div/div/h2",
+      "tag": "a",
+      "text": "Beginner",
+      "locator": "/html/body/main/div/div/div/a[2]",
       "attributes": {
         "class": [
-          "sc-500__H2-sc-9gj1ma-2",
-          "gSAZOM"
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
         ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Intermediate",
+      "locator": "/html/body/main/div/div/div/a[3]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Advanced",
+      "locator": "/html/body/main/div/div/div/a[4]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Game Development",
+      "locator": "/html/body/main/div/div/div/a[5]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Machine Learning",
+      "locator": "/html/body/main/div/div/div/a[6]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Java",
+      "locator": "/html/body/main/div/div/div/a[7]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Discord.py",
+      "locator": "/html/body/main/div/div/div/a[8]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Web Development",
+      "locator": "/html/body/main/div/div/div/a[9]",
+      "attributes": {
+        "class": [
+          "tag__TagContainer-sc-3f52y0-0",
+          "fPNUsx"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "From basic to advanced. Learn python programming.",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fpython_programming_300x168_a332a9c265.png&w=640&q=75"
       }
     },
     {
       "tag": "h3",
-      "text": "We suggest you try refreshing the page, or returning to thehomepage.",
-      "locator": "/html/body/main/div/div/div/h3",
+      "text": "From basic to advanced. Learn python programming.",
+      "locator": "/html/body/main/div/div/h3",
       "attributes": {
         "class": [
-          "sc-500__H3-sc-9gj1ma-3",
-          "gTeiuR"
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
         ]
       }
     },
     {
       "tag": "a",
-      "text": "homepage",
-      "locator": "/html/body/main/div/div/div/h3/a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[1]",
       "attributes": {
-        "href": "/"
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
       }
     },
     {
       "tag": "a",
-      "text": "Discord",
+      "text": "Beginner",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Intermediate",
+      "locator": "/html/body/main/div/div/a[3]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Advanced",
+      "locator": "/html/body/main/div/div/a[4]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "Learn the Python programming language from scratch. This series is designed for complete beginners and will walk you through the python programming language. Absolutely no experience required. I explain everything in depth and give effective examples to help you understand.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
       "locator": "/html/body/main/div/div/a",
       "attributes": {
-        "href": "https://discord.com/invite/nZTxvywH",
+        "href": "/tutorials/python-programming",
         "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
         ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Learn to make games with python and pygame.",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2FPygame_Tutorials_300x169_008c6fdd30.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Learn to make games with python and pygame.",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Game Development",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This series is designed to teach you the basics of game design with python. We will be using the python module pygame to develop a basic 2D game. I walk through everything step-by-step and explain everything in a beginner friendly way. After following this series you will be able to create your own basic 2D games with python and pygame",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/game-development-with-python",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Machine Learning with Python",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fmlbg_768x572_b3ef71781f.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Machine Learning with Python",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Machine Learning",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This series is designed to teach you the fundamentals of machine learning with python. It will start by introducing some basic machine learning algorithms and slowly move into more advanced topics like neural networks.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/machine-learning-python",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Introduction to Python Modules for Interactive Graphics and Math",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fpython_module_walkthroughs_300x169_0e4f002ebd.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Introduction to Python Modules for Interactive Graphics and Math",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Beginner",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Intermediate",
+      "locator": "/html/body/main/div/div/a[3]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This tutorial series will teach you how to use Kivy for user interfaces, OpenGL Turtle for real-time 2D graphics, and Numpy for advanced math operations in Python, enabling you to create interactive applications with ease.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/python-module-walk-throughs",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "How to Create a Chat Bot in Python",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_23_175958664_0e323a36a3.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "How to Create a Chat Bot in Python",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Intermediate",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This series is designed to teach you how to create simple deep learning chatbot using python, tensorflow and nltk. The chatbot we design will be used for a specific purpose like answering questions about a business.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/ai-chatbot",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Python Neutral Network Tutorials",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_24_225327430_4b17cfc35e.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Python Neutral Network Tutorials",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This series is designed to teach you how to create basic neural networks with python and tensorflow 2.0. It will cover everything from basic neural networks trained on MNIST data to convolutional neural networks.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/python-neural-networks",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Python Voice Assistant Tutorial",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_28_184019339_803b669fd2.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Python Voice Assistant Tutorial",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This python voice assistant tutorial series is designed to teach you how to create a python voice assistant using the google text to speech module as well as the speech recognition module.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/voice-assistant",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "From basics to advanced. Learn the Java programming language.",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_28_184038152_db5f79a3cb.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "From basics to advanced. Learn the Java programming language.",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Java",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Beginner",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "Learn the Java programming language from scratch. This series is designed for complete beginners and will walk you through the Java programming language. Absolutely no experience required. I explain everything in depth and give effective examples to help you understand. It is recommenced that you type along with me and try to create your own programs.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/java-programming",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Discord.py Rewrite Tutorial",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_23_183341661_c477fcbbf9.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Discord.py Rewrite Tutorial",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Discord.py",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This series is designed to teach you how to create a discord BOT using the Discord.py module. Currently there are two versions of Discord.py, we are going to use the most recent one, Discord.py rewrite.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/discord-py",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "Python Django Tutorial",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_25_143223552_131e67e7d3.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "Python Django Tutorial",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Web Development",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This series is designed to teach you how to use the web framework known as django! Django is a full stack web framework meant for rapid development of websites. Throughout this tutorial I will be walking you through how to create a fully functioning website.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/django",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/img",
+      "attributes": {
+        "alt": "How to Build Websites with Python",
+        "class": [
+          "tutorial__TutorialCardImage-sc-1rebzxr-2",
+          "hBRhHJ"
+        ],
+        "src": "/_next/image?url=https%3A%2F%2Fdev-cms.us-east-1.linodeobjects.com%2Fkuva_2023_04_25_152132875_86ddafb7ba.png&w=640&q=75"
+      }
+    },
+    {
+      "tag": "h3",
+      "text": "How to Build Websites with Python",
+      "locator": "/html/body/main/div/div/h3",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardTitle-sc-1rebzxr-3",
+          "dVehcl"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Web Development",
+      "locator": "/html/body/main/div/div/a[1]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Python",
+      "locator": "/html/body/main/div/div/a[2]",
+      "attributes": {
+        "class": [
+          "pill__PillContainer-sc-19boi4z-0",
+          "dYPwbk"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This python flask tutorial is designed to teach you how to build websites quickly and easily with Flask. Flask is a micro web framework that makes it very fast and easy to build websites with python.",
+      "locator": "/html/body/main/div/div/p",
+      "attributes": {
+        "class": [
+          "tutorial__TutorialCardDescription-sc-1rebzxr-5",
+          "cCJBOH"
+        ]
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Get started",
+      "locator": "/html/body/main/div/div/a",
+      "attributes": {
+        "href": "/tutorials/flask",
+        "class": [
+          "button__ButtonStyled-sc-73bwj8-0",
+          "hZeIKp"
+        ]
+      }
+    },
+    {
+      "tag": "img",
+      "text": "",
+      "locator": "/html/body/main/div/div/a/img",
+      "attributes": {
+        "alt": "icon",
+        "src": "/_next/static/media/arrow.470fae58.svg"
       }
     },
     {
@@ -4146,525 +2397,101 @@
         "id": "__next-route-announcer__",
         "role": "alert"
       }
-    }
-  ],
-  "/gear": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
     },
     {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "h1",
-      "text": "500",
-      "locator": "/html/body/main/div/div/h1",
+      "tag": "form",
+      "text": "Join Tim's Coding Corner NewsletterRegister and I'll give you an entire FREE guide onHow To Make Money From Codingjust to prove to you how much value is coming. Check your email forimmediate access.\u200bAnd if that wasn't enough... each email will containfreecoding challenges,project ideasand software engineeringinsights and tips.SubscribeWe won't send you spam, justfreevalue. Unsubscribe at any time.",
+      "locator": "/html/body/div/form",
       "attributes": {
         "class": [
-          "sc-500__H1-sc-9gj1ma-1",
-          "iRFWXp"
+          "seva-form",
+          "formkit-form"
         ]
       }
     },
     {
       "tag": "h2",
-      "text": "Something went wrong on our end.",
-      "locator": "/html/body/main/div/div/div/h2",
-      "attributes": {
-        "class": [
-          "sc-500__H2-sc-9gj1ma-2",
-          "gSAZOM"
-        ]
-      }
+      "text": "Join Tim's Coding Corner Newsletter",
+      "locator": "/html/body/div/form/h2",
+      "attributes": {}
     },
     {
-      "tag": "h3",
-      "text": "We suggest you try refreshing the page, or returning to thehomepage.",
-      "locator": "/html/body/main/div/div/div/h3",
-      "attributes": {
-        "class": [
-          "sc-500__H3-sc-9gj1ma-3",
-          "gTeiuR"
-        ]
-      }
+      "tag": "p",
+      "text": "Register and I'll give you an entire FREE guide onHow To Make Money From Codingjust to prove to you how much value is coming. Check your email forimmediate access.",
+      "locator": "/html/body/div/form/p[1]",
+      "attributes": {}
     },
     {
-      "tag": "a",
-      "text": "homepage",
-      "locator": "/html/body/main/div/div/div/h3/a",
-      "attributes": {
-        "href": "/"
-      }
+      "tag": "p",
+      "text": "\u200b",
+      "locator": "/html/body/div/form/p[2]",
+      "attributes": {}
     },
     {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://discord.com/invite/nZTxvywH",
-        "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
-        ]
-      }
+      "tag": "p",
+      "text": "And if that wasn't enough... each email will containfreecoding challenges,project ideasand software engineeringinsights and tips.",
+      "locator": "/html/body/div/form/p[3]",
+      "attributes": {}
     },
     {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
-        ]
-      }
-    },
-    {
-      "tag": "img",
+      "tag": "input",
       "text": "",
-      "locator": "/html/body/main/a/img",
+      "locator": "/html/body/div/form/input",
       "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
+        "class": [
+          "formkit-input"
+        ],
+        "name": "email_address",
+        "aria-label": "Email Address",
+        "placeholder": "Email Address",
+        "type": "text"
+      }
+    },
+    {
+      "tag": "input",
+      "text": "",
+      "locator": "/html/body/div/form/input",
+      "attributes": {
+        "class": [
+          "formkit-input"
+        ],
+        "aria-label": "First Name",
+        "name": "fields[first_name]",
+        "placeholder": "First Name",
+        "type": "text"
+      }
+    },
+    {
+      "tag": "button",
+      "text": "Subscribe",
+      "locator": "/html/body/div/form/button",
+      "attributes": {
+        "class": [
+          "formkit-submit",
+          "formkit-submit"
+        ]
       }
     },
     {
       "tag": "p",
+      "text": "We won't send you spam, justfreevalue. Unsubscribe at any time.",
+      "locator": "/html/body/div/form/p",
+      "attributes": {}
+    },
+    {
+      "tag": "button",
       "text": "",
-      "locator": "/html/body/next-route-announcer/p",
+      "locator": "/html/body/div/button",
       "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
+        "class": [
+          "formkit-close"
+        ],
+        "type": "button",
+        "aria-label": "Close"
       }
     }
   ],
-  "/community": [
+  "/tutorials/django": [
     {
       "tag": "a",
       "text": "",
@@ -4863,570 +2690,255 @@
     },
     {
       "tag": "h1",
-      "text": "500",
-      "locator": "/html/body/main/div/div/h1",
+      "text": "Python Django Tutorial",
+      "locator": "/html/body/main/div/div/div/h1",
       "attributes": {
         "class": [
-          "sc-500__H1-sc-9gj1ma-1",
-          "iRFWXp"
+          "tutoriallayout__Title-sc-7tt52k-3",
+          "fSVODy"
         ]
       }
     },
     {
       "tag": "h2",
-      "text": "Something went wrong on our end.",
-      "locator": "/html/body/main/div/div/div/h2",
+      "text": "Overview",
+      "locator": "/html/body/main/div/div/div/h2[1]",
       "attributes": {
         "class": [
-          "sc-500__H2-sc-9gj1ma-2",
-          "gSAZOM"
+          "markdown__H2-sc-8ik6ve-1",
+          "iQehEn"
         ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "We suggest you try refreshing the page, or returning to thehomepage.",
-      "locator": "/html/body/main/div/div/div/h3",
-      "attributes": {
-        "class": [
-          "sc-500__H3-sc-9gj1ma-3",
-          "gTeiuR"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "homepage",
-      "locator": "/html/body/main/div/div/div/h3/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/div/div/a",
-      "attributes": {
-        "href": "https://discord.com/invite/nZTxvywH",
-        "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Explore",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Gear",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "/gear",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Shop",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://teespring.com/stores/tech-with-tim-merch-shop",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/footer/div/a[6]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Social",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "https://discordapp.com/invite/mwuJXA3q",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "YouTube",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "https://www.youtube.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "GitHub",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "https://github.com/techwithtim",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Twitter",
-      "locator": "/html/body/main/footer/div/a[4]",
-      "attributes": {
-        "href": "https://twitter.com/TechWithTimm",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Instagram",
-      "locator": "/html/body/main/footer/div/a[5]",
-      "attributes": {
-        "href": "https://www.instagram.com/tech_with_tim/",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Legal",
-      "locator": "/html/body/main/footer/div/h3[1]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Privacy Policy",
-      "locator": "/html/body/main/footer/div/a[1]",
-      "attributes": {
-        "href": "/privacy-policy",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Terms of Service",
-      "locator": "/html/body/main/footer/div/a[2]",
-      "attributes": {
-        "href": "/terms-of-service",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "Contact",
-      "locator": "/html/body/main/footer/div/h3[2]",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "techwithtim@viralnationtalent.com",
-      "locator": "/html/body/main/footer/div/a[3]",
-      "attributes": {
-        "href": "mailtotechwithtim@viralnationtalent.com:",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "h3",
-      "text": "CourseCareers",
-      "locator": "/html/body/main/footer/div/h3",
-      "attributes": {
-        "class": [
-          "footer__ListTitle-sc-1ove3qm-3",
-          "cvrvCM"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/footer/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "footer__Item-sc-1ove3qm-4",
-          "jSgmsf"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Design & Development by",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "https://ibezio.dev/",
-        "class": [
-          "ibezio__FooterContainer-sc-12jq5xr-0",
-          "jsvhVo"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Ibezio Logo",
-        "src": "/images/ibezio.svg"
       }
     },
     {
       "tag": "p",
-      "text": "",
-      "locator": "/html/body/next-route-announcer/p",
-      "attributes": {
-        "id": "__next-route-announcer__",
-        "role": "alert"
-      }
-    }
-  ],
-  "/courses": [
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/div/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/div/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/div/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/div/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/div/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__Item-sc-l1bh4v-3",
-          "cIPwMy"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "",
-      "locator": "/html/body/main/a",
-      "attributes": {
-        "href": "/"
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/a/img",
-      "attributes": {
-        "alt": "Tech With Tim Logo",
-        "src": "/_next/static/media/twtlogo.927af7cb.svg"
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Tutorials",
-      "locator": "/html/body/main/a[1]",
-      "attributes": {
-        "href": "/tutorials",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Courses",
-      "locator": "/html/body/main/a[2]",
-      "attributes": {
-        "href": "/courses",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Community",
-      "locator": "/html/body/main/a[3]",
-      "attributes": {
-        "href": "/community",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Newsletter",
-      "locator": "/html/body/main/a[4]",
-      "attributes": {
-        "href": "/newsletter",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "Donate",
-      "locator": "/html/body/main/a[5]",
-      "attributes": {
-        "href": "/support-donate",
-        "class": [
-          "header__MobileItem-sc-l1bh4v-7",
-          "sEeMc"
-        ]
-      }
-    },
-    {
-      "tag": "a",
-      "text": "My Software Development Program",
-      "locator": "/html/body/main/div/a",
-      "attributes": {
-        "href": "https://coursecareers.com/a/techwithtim?course=software-dev-fundamentals",
-        "class": [
-          "button__ButtonStyled-sc-73bwj8-0",
-          "jYwlRJ"
-        ]
-      }
-    },
-    {
-      "tag": "img",
-      "text": "",
-      "locator": "/html/body/main/div/a/img",
-      "attributes": {
-        "alt": "icon",
-        "src": "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcc-logo.8711d779.png&w=1080&q=75"
-      }
-    },
-    {
-      "tag": "h1",
-      "text": "500",
-      "locator": "/html/body/main/div/div/h1",
+      "text": "This series is designed to teach you how to use the web framework known as django! Django is a full stack web framework meant for rapid development of websites. Throughout this tutorial I will be walking you through how to create a fully functioning website.",
+      "locator": "/html/body/main/div/div/div/p[1]",
       "attributes": {
         "class": [
-          "sc-500__H1-sc-9gj1ma-1",
-          "iRFWXp"
+          "markdown__P-sc-8ik6ve-5",
+          "fKdUXx"
         ]
       }
     },
     {
       "tag": "h2",
-      "text": "Something went wrong on our end.",
-      "locator": "/html/body/main/div/div/div/h2",
+      "text": "What You\u2019ll Learn",
+      "locator": "/html/body/main/div/div/div/h2[2]",
       "attributes": {
         "class": [
-          "sc-500__H2-sc-9gj1ma-2",
-          "gSAZOM"
+          "markdown__H2-sc-8ik6ve-1",
+          "iQehEn"
         ]
       }
     },
     {
-      "tag": "h3",
-      "text": "We suggest you try refreshing the page, or returning to thehomepage.",
-      "locator": "/html/body/main/div/div/div/h3",
+      "tag": "p",
+      "text": "This series is packed full of valuable information. You will learn and understand the following after this tutorial:",
+      "locator": "/html/body/main/div/div/div/p[2]",
       "attributes": {
         "class": [
-          "sc-500__H3-sc-9gj1ma-3",
-          "gTeiuR"
+          "markdown__P-sc-8ik6ve-5",
+          "fKdUXx"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "How to setup and install django",
+      "locator": "/html/body/main/div/div/div/li[1]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "Navigate between pages",
+      "locator": "/html/body/main/div/div/div/li[2]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "Connect and use databases",
+      "locator": "/html/body/main/div/div/div/li[3]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "Create design templates",
+      "locator": "/html/body/main/div/div/div/li[4]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "Deploy your website to a server",
+      "locator": "/html/body/main/div/div/div/li[5]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
+        ]
+      }
+    },
+    {
+      "tag": "h2",
+      "text": "Prerequisites",
+      "locator": "/html/body/main/div/div/div/h2[3]",
+      "attributes": {
+        "class": [
+          "markdown__H2-sc-8ik6ve-1",
+          "iQehEn"
+        ]
+      }
+    },
+    {
+      "tag": "p",
+      "text": "This is NOT a beginner tutorial and I will not be teaching python syntax. It is also highly encouraged that you are familiar with Object Orientated Principles",
+      "locator": "/html/body/main/div/div/div/p[3]",
+      "attributes": {
+        "class": [
+          "markdown__P-sc-8ik6ve-5",
+          "fKdUXx"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "Intermediate Programming Knowledge",
+      "locator": "/html/body/main/div/div/div/li[1]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
+        ]
+      }
+    },
+    {
+      "tag": "li",
+      "text": "Experience With Python 3 Syntax",
+      "locator": "/html/body/main/div/div/div/li[2]",
+      "attributes": {
+        "class": [
+          "markdown__Li-sc-8ik6ve-4",
+          "eWsNYv"
         ]
       }
     },
     {
       "tag": "a",
-      "text": "homepage",
-      "locator": "/html/body/main/div/div/div/h3/a",
+      "text": "Setup, Installation & Page Navigation",
+      "locator": "/html/body/main/div/div/div/a[1]",
       "attributes": {
-        "href": "/"
+        "href": "/tutorials/django/django-setup"
       }
     },
     {
       "tag": "a",
-      "text": "Discord",
-      "locator": "/html/body/main/div/div/a",
+      "text": "SQLite3 Database Setup",
+      "locator": "/html/body/main/div/div/div/a[2]",
       "attributes": {
-        "href": "https://discord.com/invite/nZTxvywH",
+        "href": "/tutorials/django/sqlite3-database"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Admin Page",
+      "locator": "/html/body/main/div/div/div/a[3]",
+      "attributes": {
+        "href": "/tutorials/django/admin-page"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "HTML Templates",
+      "locator": "/html/body/main/div/div/div/a[4]",
+      "attributes": {
+        "href": "/tutorials/django/html-templates"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Simple Forms",
+      "locator": "/html/body/main/div/div/div/a[5]",
+      "attributes": {
+        "href": "/tutorials/django/simple-forms"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Custom Forms",
+      "locator": "/html/body/main/div/div/div/a[6]",
+      "attributes": {
+        "href": "/tutorials/django/custom-forms"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Adding a Sidebar",
+      "locator": "/html/body/main/div/div/div/a[7]",
+      "attributes": {
+        "href": "/tutorials/django/adding-a-sidebar"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Adding Bootstrap",
+      "locator": "/html/body/main/div/div/div/a[8]",
+      "attributes": {
+        "href": "/tutorials/django/adding-bootstrap"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "User Registration & Sign Up",
+      "locator": "/html/body/main/div/div/div/a[9]",
+      "attributes": {
+        "href": "/tutorials/django/user-registration"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Login/Logout Page",
+      "locator": "/html/body/main/div/div/div/a[10]",
+      "attributes": {
+        "href": "/tutorials/django/login-logout"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "User Specific Pages & Data",
+      "locator": "/html/body/main/div/div/div/a[11]",
+      "attributes": {
+        "href": "/tutorials/django/user-specific-pages-data"
+      }
+    },
+    {
+      "tag": "a",
+      "text": "Next lessonSetup, Installation & Page Navigation",
+      "locator": "/html/body/main/div/div/div/a",
+      "attributes": {
+        "href": "/tutorials/django/django-setup",
         "class": [
-          "link__LinkContainer-sc-1jbsg0k-0",
-          "gzVXGB"
+          "navigation__NavigationItem-sc-1e1l6oh-2",
+          "cBMood"
         ]
       }
     },

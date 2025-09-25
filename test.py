@@ -40,173 +40,173 @@ from langchain_core.documents import Document
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
+
+#streamlit
+import streamlit as st
 load_dotenv()
 
-#--- for scraping
-def path_generation(element):
-    values=[]
-    child=element
-    for parent in child.parents: #for every parent object
-        siblings=parent.find_all(child.name,recursive=False)
-        if len(siblings) > 1: #if has siblings
-            count = 1
-            for sib in siblings:
-                if sib is element:
-                    values.append(f"{child.name}[{count}]")
-                    break
-                count+=1
-        else:
-            values.append(child.name)
-        if parent.name == '[document]':
-            break
-        child=parent
-    values.reverse()
-    return "/" + "/".join(values)
-
-def beautiful(data):
-    soup = BeautifulSoup(data,"lxml")
-    tags=["a", "button", "input", "select", "textarea", "form", "h1", "h2", "h3", "p", "img", "li"]
-    interaction_map=[]
-    for element in soup.find_all(tags):
-        xpath=path_generation(element)
-
-        attributes={}
-        attributes_to_find=["id", "class", "name", "href", "src", "alt", "type", "value", "placeholder", "role", "aria-label"]
-        for attribute in element.attrs:
-            if attribute in attributes_to_find:
-                attributes[attribute]=element.attrs[attribute]
-        item={
-            "tag": element.name,
-            "text":element.get_text(strip=True),
-            "locator":xpath,
-            "attributes":attributes
-        }
-        interaction_map.append(item)
-    return interaction_map
-
 if False:
-    async def main():
+    #--- for scraping
+    def path_generation(element):
+        values=[]
+        child=element
+        for parent in child.parents: #for every parent object
+            siblings=parent.find_all(child.name,recursive=False)
+            if len(siblings) > 1: #if has siblings
+                count = 1
+                for sib in siblings:
+                    if sib is element:
+                        values.append(f"{child.name}[{count}]")
+                        break
+                    count+=1
+            else:
+                values.append(child.name)
+            if parent.name == '[document]':
+                break
+            child=parent
+        values.reverse()
+        return "/" + "/".join(values)
 
-        config = CrawlerRunConfig(
-            deep_crawl_strategy=BFSDeepCrawlStrategy(
-                max_depth=2,
-                include_external=False
-            ),
-            scraping_strategy=LXMLWebScrapingStrategy(),
-            verbose=True,
-        )
+    def beautiful(data):
+        soup = BeautifulSoup(data,"lxml")
+        tags=["a", "button", "input", "select", "textarea", "form", "h1", "h2", "h3", "p", "img", "li"]
+        interaction_map=[]
+        for element in soup.find_all(tags):
+            xpath=path_generation(element)
 
-        site="https://www.techwithtim.net"
-        async with AsyncWebCrawler() as crawler:
-            results = await crawler.arun(
-                url=site,
-                config=config
+            attributes={}
+            attributes_to_find=["id", "class", "name", "href", "src", "alt", "type", "value", "placeholder", "role", "aria-label"]
+            for attribute in element.attrs:
+                if attribute in attributes_to_find:
+                    attributes[attribute]=element.attrs[attribute]
+            item={
+                "tag": element.name,
+                "text":element.get_text(strip=True),
+                "locator":xpath,
+                "attributes":attributes
+            }
+            interaction_map.append(item)
+        return interaction_map
+
+    if False:
+        async def main():
+
+            config = CrawlerRunConfig(
+                deep_crawl_strategy=BFSDeepCrawlStrategy(
+                    max_depth=2,
+                    include_external=False
+                ),
+                scraping_strategy=LXMLWebScrapingStrategy(),
+                verbose=True,
             )
-            scraped=[]
-            content={}
-            for result in results:
-                if result.url not in scraped:
-                    url=str(result.url).replace(site,"")
-                    content[url]=beautiful(result.html)
-                    scraped.append(result.url)
-            print(content)
-            with open("temp.json","w") as f:
-                f.write(json.dumps(content,indent=2))
 
-"""
-1. crawl4ai -> crawl each website to get raw html
-for crawled pages:
-2.    beautiful soup function
+            site="https://www.techwithtim.net"
+            async with AsyncWebCrawler() as crawler:
+                results = await crawler.arun(
+                    url=site,
+                    config=config
+                )
+                scraped=[]
+                content={}
+                for result in results:
+                    if result.url not in scraped:
+                        url=str(result.url).replace(site,"")
+                        content[url]=beautiful(result.html)
+                        scraped.append(result.url)
+                print(content)
+                with open("temp.json","w") as f:
+                    f.write(json.dumps(content,indent=2))
 
-Beautiful soup function-> recursive function with html object to be checked and path
- excluded tags include: ["script","style","link","meta","noscript","br","hr","span","b","i","u","strong","em","div"]
- for i in tags:
-    if i not in exluded tags:
-        ans = write the attributes and the path in json form
-        add the path
-        yield ans 
-    else:
-        add the path
-    
-    if i is dict:
-        open up the stuff and recall the function with that new value (enter the dict)
-    if i is list:
-        for i in list:
-            recall the function but with i as the new value
+    """
+    1. crawl4ai -> crawl each website to get raw html
+    for crawled pages:
+    2.    beautiful soup function
 
-3. final values are flat json with each wanted html and its corresponding path
+    Beautiful soup function-> recursive function with html object to be checked and path
+    excluded tags include: ["script","style","link","meta","noscript","br","hr","span","b","i","u","strong","em","div"]
+    for i in tags:
+        if i not in exluded tags:
+            ans = write the attributes and the path in json form
+            add the path
+            yield ans 
+        else:
+            add the path
         
-"""
+        if i is dict:
+            open up the stuff and recall the function with that new value (enter the dict)
+        if i is list:
+            for i in list:
+                recall the function but with i as the new value
 
-def fix_schema(schema_part):
-            if isinstance(schema_part, dict):
-                for key, value in list(schema_part.items()):
-                    if key == "additionalProperties" and value is True:
-                        schema_part[key] = {}  # The fix!
-                    else:
-                        fix_schema(value)
-            elif isinstance(schema_part, list):
-                for item in schema_part:
-                    fix_schema(item)
-            return schema_part
+    3. final values are flat json with each wanted html and its corresponding path
+            
+    """
 
-async def get_tools(session: ClientSession) -> List[FunctionTool]:
-    await session.initialize()
-    tool_definitions = await session.list_tools()
-    llama_tools=[]
-    for tool_def in tool_definitions.tools:
-        fixed_schema = fix_schema(tool_def.inputSchema)
+    def fix_schema(schema_part):
+                if isinstance(schema_part, dict):
+                    for key, value in list(schema_part.items()):
+                        if key == "additionalProperties" and value is True:
+                            schema_part[key] = {}  # The fix!
+                        else:
+                            fix_schema(value)
+                elif isinstance(schema_part, list):
+                    for item in schema_part:
+                        fix_schema(item)
+                return schema_part
 
-        pydantic_model= create_model(
-            f"{tool_def.name}_Schema",
-            **{prop: (dict,None) for prop in fixed_schema.get("properties",{}).keys()}
+    async def get_tools(session: ClientSession) -> List[FunctionTool]:
+        await session.initialize()
+        tool_definitions = await session.list_tools()
+        llama_tools=[]
+        for tool_def in tool_definitions.tools:
+            fixed_schema = fix_schema(tool_def.inputSchema)
+
+            pydantic_model= create_model(
+                f"{tool_def.name}_Schema",
+                **{prop: (dict,None) for prop in fixed_schema.get("properties",{}).keys()}
+            )
+
+            async def tool_function(tool_name:str = tool_def.name,**kwargs):
+                print(f"Executing tool '{tool_name}' with arguments: {kwargs}")
+                result=await session.call_tool(tool_name,kwargs)
+                return result
+            
+            tool=FunctionTool.from_defaults(
+                fn=tool_function,
+                name=tool_def.name,
+                description=tool_def.description,
+                fn_schema=pydantic_model    
+            )
+            llama_tools.append(tool)
+        return llama_tools
+
+    async def get_agent(tools:list,llm,sys_prompt:str):
+
+        agent = FunctionAgent(
+            name="My Agent",
+            description="An agent that can search the web",
+            tools=tools,
+            llm=llm,
+            system_prompt=sys_prompt,
         )
+        return agent
 
-        async def tool_function(tool_name:str = tool_def.name,**kwargs):
-            print(f"Executing tool '{tool_name}' with arguments: {kwargs}")
-            result=await session.call_tool(tool_name,kwargs)
-            return result
-        
-        tool=FunctionTool.from_defaults(
-            fn=tool_function,
-            name=tool_def.name,
-            description=tool_def.description,
-            fn_schema=pydantic_model    
-        )
-        llama_tools.append(tool)
-    return llama_tools
-
-async def get_agent(tools:list,llm,sys_prompt:str):
-
-    agent = FunctionAgent(
-        name="My Agent",
-        description="An agent that can search the web",
-        tools=tools,
-        llm=llm,
-        system_prompt=sys_prompt,
-    )
-    return agent
-
-async def handle_user_message(
+    async def handle_user_message(
         message_content: str,
         agent: FunctionAgent,
         agent_context: Context,
         verbose: bool = False,
     ):
-    handler = agent.run(message_content,ctx=agent_context)
-    async for event in handler.stream_events():
-        if verbose and type(event)==ToolCall:
-            print(f"Calling tool {event.tool_name} with kwargs {event.tool_kwargs}")
-        elif verbose and type(event) == ToolCallResult:
-            print(f"Tool {event.tool_name} returned {event.tool_output}")
-    response = await handler
-    return str(response)
+        handler = agent.run(message_content,ctx=agent_context)
+        async for event in handler.stream_events():
+            if verbose and type(event)==ToolCall:
+                print(f"Calling tool {event.tool_name} with kwargs {event.tool_kwargs}")
+            elif verbose and type(event) == ToolCallResult:
+                print(f"Tool {event.tool_name} returned {event.tool_output}")
+        response = await handler
+        return str(response)
 
-#For embedding code
-if True:
-    user=int(input("1. for embedding content\n2. for accessing basic content\n3. For embedding code\n4. For accessing the code"))
-    if user == 1:
-        async def main():
+async def embed():
             client = genai.Client() # Use the embedding model
             chroma_client = chromadb.PersistentClient(path="./vector_database") #start chroma client
             collection = chroma_client.get_or_create_collection(name="Students") #create collection
@@ -252,13 +252,12 @@ if True:
                     metadatas=document_metadatas, #the information of documents
                     ids=ids #ids of each content
                 )
-                print("Data added mimimimi")
+                st.write("Data added mimimimi")
 
             else:
                 print("data alr exists")
 
-    elif user == 2:
-        async def main():
+async def basic_content():
             client=genai.Client()
             chroma_client= chromadb.PersistentClient(path="./vector_database")
             collection = chroma_client.get_collection(name="Students")
@@ -280,88 +279,107 @@ if True:
             clean_text = " ".join([line.strip() for line in results["documents"][0][0].strip().split('\n')])
             print(clean_text)
 
-    elif user == 3:
-        #loading and splitting text
-        async def main():
-            client=genai.Client()
-            chroma_client=chromadb.PersistentClient(path="./Code_database")
-            collection=chroma_client.get_or_create_collection(name="Code")
+#loading and splitting text
+async def embed_code():
+    client=genai.Client()
+    chroma_client=chromadb.PersistentClient(path="./Code_database")
+    collection=chroma_client.get_or_create_collection(name="Code")
 
-            loader=TextLoader("./Graph_test.py") #pull up the text
-            docs=loader.load() #load the text
-            text_splitter=RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
-            splits= text_splitter.split_documents(docs)
-            
-            for i, chunk in enumerate(splits):
-                chunk.metadata["document_type"]= "Code data"
-                chunk.metadata["chunk_id"]=i
+    loader=TextLoader("./test-project/src/App.jsx") #pull up the text
+    docs=loader.load() #load the text
+    text_splitter=RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+    splits= text_splitter.split_documents(docs)
+    
+    for i, chunk in enumerate(splits):
+        chunk.metadata["document_type"]= "Code data"
+        chunk.metadata["chunk_id"]=i
 
-            chunks= [e.page_content for e in splits]
-            result=client.models.embed_content(
-                model="gemini-embedding-001",
-                contents = [e.page_content for e in splits],
-                config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT",output_dimensionality=3072)
-            )
-            gemini_embeddings= [e.values for e in result.embeddings]
+    chunks= [e.page_content for e in splits]
+    result=client.models.embed_content(
+        model="gemini-embedding-001",
+        contents = [e.page_content for e in splits],
+        config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT",output_dimensionality=3072)
+    )
+    gemini_embeddings= [e.values for e in result.embeddings]
 
-            collection.add(
-                embeddings=gemini_embeddings,
-                documents=chunks,
-                metadatas=[chunk.metadata for chunk in splits],
-                ids=[f"code_chunk_{chunk.metadata['chunk_id']}" for chunk in splits]
-            )
+    collection.add(
+        embeddings=gemini_embeddings,
+        documents=chunks,
+        metadatas=[chunk.metadata for chunk in splits],
+        ids=[f"code_chunk_{chunk.metadata['chunk_id']}" for chunk in splits]
+    )
+    st.write("Code added to database!")
 
-    elif user == 4:
-        async def main():
-            client=genai.Client()
-            chroma_client= chromadb.PersistentClient(path="./Code_database")
-            collection = chroma_client.get_collection(name="Code")
-            query=str(input("What is the users request"))
-            result = client.models.embed_content(
-                model="gemini-embedding-001",
-                contents=query,
-                config=types.EmbedContentConfig(
-                    task_type="CODE_RETRIEVAL_QUERY",
-                    output_dimensionality=3072 # Must match the dimension used for storage!
-                )
-            )
-            query_embedding = [e.values for e in result.embeddings]
+async def access_code():
+    client=genai.Client()
+    chroma_client= chromadb.PersistentClient(path="./Code_database")
+    collection = chroma_client.get_collection(name="Code")
+    query=str(input("What is the users request"))
+    result = client.models.embed_content(
+        model="gemini-embedding-001",
+        contents=query,
+        config=types.EmbedContentConfig(
+            task_type="CODE_RETRIEVAL_QUERY",
+            output_dimensionality=3072 # Must match the dimension used for storage!
+        )
+    )
+    query_embedding = [e.values for e in result.embeddings]
 
-            results = collection.query( #queries the thing
-                query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
-                n_results=2
-            )
-            
-            docs=[]
-            for i in range(len(results["ids"][0])):
-                doc = Document(
-                    page_content=results["documents"][0][i],
-                    metadata=results["metadatas"][0][i]
-                )
-                docs.append(doc)
-            
-            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k")
-            prompt = ChatPromptTemplate.from_template("""
-                Answer the following question based only on the provided context.
-                Provide a detailed answer
+    results = collection.query( #queries the thing
+        query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
+        n_results=2
+    )
+    
+    docs=[]
+    for i in range(len(results["ids"][0])):
+        doc = Document(
+            page_content=results["documents"][0][i],
+            metadata=results["metadatas"][0][i]
+        )
+        docs.append(doc)
+    
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k")
+    prompt = ChatPromptTemplate.from_template("""
+        You are an automation tester and must tell me the instructions to test an object on a website. 
+        Please tell me the detailed instructions in numbered steps to check if code is working
+        Answer the following question based only on the provided context.
+        Provide a simple set of instructions
+        to first open the website, use the following link: http://localhost:5173/
+        
+        <context>
+        {context}
+        </context>
                 
-                <context>
-                {context}
-                </context>
-                        
-                Question: {input}                                                           
-            """)
+        Question: {input}                                                           
+    """)
 
-            document_chain = create_stuff_documents_chain(llm,prompt)
+    document_chain = create_stuff_documents_chain(llm,prompt)
 
-            response = document_chain.invoke({
-                "input": query,
-                "context": docs
-            })
+    response = document_chain.invoke({
+        "input": query,
+        "context": docs
+    })
 
-            print(response)
+    with open("instructions.txt","w") as f:
+        f.write(response)
 
 
+#For embedding code
+if True:
+    st.title("オクタゴンテスター")
+    st.write("Please select an option:")
+    user=st.selectbox("Choose an action:",
+    ("Embed Content", "Access Content", "Embed Code", "Access Code"))
+    if st.button("Start Action"):
+        with st.spinner("Please wait"):
+            if user == 1:
+                embed()
+            elif user == 2:
+                basic_content()
+            elif user == 3:
+                embed_code()
+            elif user == 4:
+                access_code()
 
 #For browseruse
 if False:
@@ -439,5 +457,5 @@ if False:
         finally:
             pass
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())

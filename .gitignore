@@ -3,3 +3,4 @@ _pycache_
 chrome_langchain_db
 chrome_langchain_db2
 codebase_db
+.env

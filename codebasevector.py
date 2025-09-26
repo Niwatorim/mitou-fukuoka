@@ -9,13 +9,12 @@ import os
 
 embeddings = OllamaEmbeddings(model="mxbai-embed-large")
 
-# Define the path using raw strings or os.path.join for consistency
 repo_path = r"C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka"
 
-# Load documents from the cloned repository
+# Load documents from repository
 loader = GenericLoader.from_filesystem(
     repo_path,
-    glob="test.py", # **/ meaning load recursively, search for that filename in every folder of the directory
+    glob="test.py", # **/ meaning load recursively, search for that filename in every folder of the directory and */ means load everything in that directory
     suffixes=[".py"],
     parser=LanguageParser(language=Language.PYTHON, parser_threshold=500)
 )

@@ -1,0 +1,22 @@
+Here are the detailed instructions to test the Vite logo:
+
+1.  **Open the Website:**
+    *   Navigate your web browser or automation script to `http://localhost:5173/`.
+
+2.  **Locate the Vite Logo Element:**
+    *   Using your automation framework, identify the image element associated with the Vite logo. You can typically do this by its `alt` attribute (`alt="Vite logo"`) or by its position within the `<a>` tag that links to `https://vite.dev`.
+
+3.  **Verify Logo Visibility:**
+    *   Assert that the Vite logo image is present and visible on the webpage.
+
+4.  **Verify Logo Attributes:**
+    *   Check that the `src` attribute of the image element points to the correct Vite logo asset (e.g., `/vite.svg`).
+    *   Confirm that the `alt` attribute of the image element is correctly set to "Vite logo".
+
+5.  **Verify Link Functionality:**
+    *   Identify the parent `<a>` tag of the Vite logo image.
+    *   Assert that the `href` attribute of this `<a>` tag is `https://vite.dev`.
+    *   Assert that the `target` attribute of this `<a>` tag is `_blank` (indicating it should open in a new tab/window).
+    *   Simulate a click on the Vite logo.
+    *   Verify that a new browser tab or window opens.
+    *   In the new tab/window, assert that the URL loaded is `https://vite.dev`.

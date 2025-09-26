@@ -1,1 +1,15 @@
-use 'a-Tutorials' located in: '/html/body/main/div/a[1]'  to go from https://www.techwithtim.net/ to https://www.techwithtim.net/tutorials
+Here are the instructions to test the Vite logo:
+
+1.  **Open the Website:**
+    *   Open your web browser and navigate to `http://localhost:5173/`.
+
+2.  **Verify Vite Logo Presence:**
+    *   Visually confirm that the "Vite logo" image is displayed on the page. It should be one of the first two logos at the top.
+
+3.  **Verify Vite Logo Link:**
+    *   Hover your mouse cursor over the Vite logo. Confirm that it appears as a clickable link (e.g., the cursor changes to a pointer).
+
+4.  **Test Vite Logo Navigation:**
+    *   Click on the Vite logo.
+    *   Observe that a new browser tab or window opens.
+    *   Verify that the URL in the newly opened tab/window is `https://vite.dev`.

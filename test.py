@@ -277,7 +277,7 @@ async def basic_content():
                 n_results=1
             )
             clean_text = " ".join([line.strip() for line in results["documents"][0][0].strip().split('\n')])
-            print(clean_text)
+            st.write(clean_text)
 
 #loading and splitting text
 async def embed_code():
@@ -314,72 +314,102 @@ async def access_code():
     client=genai.Client()
     chroma_client= chromadb.PersistentClient(path="./Code_database")
     collection = chroma_client.get_collection(name="Code")
-    query=str(input("What is the users request"))
-    result = client.models.embed_content(
-        model="gemini-embedding-001",
-        contents=query,
-        config=types.EmbedContentConfig(
-            task_type="CODE_RETRIEVAL_QUERY",
-            output_dimensionality=3072 # Must match the dimension used for storage!
-        )
-    )
-    query_embedding = [e.values for e in result.embeddings]
+    query=st.text_area("User Query",placeholder="Please test the Login Button....")
+    if st.button("Process Request"):
+        with st.spinner("Starting request"):    
+            result = client.models.embed_content(
+                model="gemini-embedding-001",
+                contents=query,
+                config=types.EmbedContentConfig(
+                    task_type="CODE_RETRIEVAL_QUERY",
+                    output_dimensionality=3072 # Must match the dimension used for storage!
+                )
+            )
+            query_embedding = [e.values for e in result.embeddings]
 
-    results = collection.query( #queries the thing
-        query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
-        n_results=2
-    )
-    
-    docs=[]
-    for i in range(len(results["ids"][0])):
-        doc = Document(
-            page_content=results["documents"][0][i],
-            metadata=results["metadatas"][0][i]
-        )
-        docs.append(doc)
-    
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k")
-    prompt = ChatPromptTemplate.from_template("""
-        You are an automation tester and must tell me the instructions to test an object on a website. 
-        Please tell me the detailed instructions in numbered steps to check if code is working
-        Answer the following question based only on the provided context.
-        Provide a simple set of instructions
-        to first open the website, use the following link: http://localhost:5173/
-        
-        <context>
-        {context}
-        </context>
+            results = collection.query( #queries the thing
+                query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
+                n_results=2
+            )
+            
+            docs=[]
+            for i in range(len(results["ids"][0])):
+                doc = Document(
+                    page_content=results["documents"][0][i],
+                    metadata=results["metadatas"][0][i]
+                )
+                docs.append(doc)
+            
+            llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k")
+            prompt = ChatPromptTemplate.from_template("""
+                You are an automation tester and must tell me the instructions to test an object on a website. 
+                Please tell me the detailed instructions in numbered steps to check if code is working
+                Answer the following question based only on the provided context.
+                Provide a simple set of instructions
+                to first open the website, use the following link: http://localhost:5173/
                 
-        Question: {input}                                                           
-    """)
+                <context>
+                {context}
+                </context>
+                        
+                Question: {input}                                                           
+            """)
 
-    document_chain = create_stuff_documents_chain(llm,prompt)
+            document_chain = create_stuff_documents_chain(llm,prompt)
 
-    response = document_chain.invoke({
-        "input": query,
-        "context": docs
-    })
+            response = document_chain.invoke({
+                "input": query,
+                "context": docs
+            })
 
-    with open("instructions.txt","w") as f:
-        f.write(response)
+            st.success("Instructions created successfully")
+            st.write("Agent Instructions:")
+            st.write(response)
+            with open("instructions.txt","w") as f:
+                f.write(response)
+            
 
+#browser_use
+from browser_use import Agent, ChatGoogle
+
+#-- for browser-use
+async def browseruse(): #for browser use
+        with open("instructions.txt","r") as f:
+            task=str(f.readlines())
+        agent = Agent(
+            task=task,
+            llm=ChatGoogle(model="gemini-2.5-flash"),
+        )
+        history = await agent.run()
+        for i in history.model_actions():
+            key= list(i.keys())[0]
+            if key == "done":
+                st.success(i[key]["text"])
+            else:
+                with st.expander(key):
+                    st.write(i[key])
+            
 
 #For embedding code
 if True:
     st.title("オクタゴンテスター")
     st.write("Please select an option:")
     user=st.selectbox("Choose an action:",
-    ("Embed Content", "Access Content", "Embed Code", "Access Code"))
-    if st.button("Start Action"):
-        with st.spinner("Please wait"):
-            if user == 1:
-                embed()
-            elif user == 2:
-                basic_content()
-            elif user == 3:
-                embed_code()
-            elif user == 4:
-                access_code()
+    ("Embed Content", "Access Content", "Embed Code", "Access Code","Exectute Task"))
+    if user == "Embed Content":
+        if st.button("Start Action"):
+                asyncio.run(embed())
+    elif user == "Access Content":
+        if st.button("Start Action"):
+            asyncio.run(basic_content())
+    elif user == "Embed Code":
+        if st.button("Start Action"):
+            asyncio.run(embed_code())
+    elif user == "Access Code":
+        asyncio.run(access_code())
+    elif user == "Exectute Task":
+        if st.button("Start Test?"):
+                asyncio.run(browseruse())
 
 #For browseruse
 if False:

@@ -70,7 +70,8 @@ async def main_scraping(site):
     config = CrawlerRunConfig(
         deep_crawl_strategy=BFSDeepCrawlStrategy(
             max_depth=2,
-            include_external=False
+            include_external=False,
+            max_pages=3
         ),
         scraping_strategy=LXMLWebScrapingStrategy(),
         verbose=True,
@@ -188,7 +189,8 @@ elif user == 2:
         for i in nodes_data:
             print("----- i -----")
             print(i)
-            i[2]=str("'"+i[2]["tag"]+"-"+i[2]["text"]+"' located in: '" +i[2]["locator"]+"' ") #replace all this yap with i[2] = str(i[2])
+            #i[2]=str("'"+i[2]["tag"]+"-"+i[2]["text"]+"' located in: '" +i[2]["locator"]+"' ") #replace all this yap with i[2] = str(i[2])
+            i[2]=str("'"+i[2]["tag"]+"-"+i[2]["text"])
         nodes=[]
         for i in nodes_data:
             nodes.append((i[1],i[0],{"label":i[2]}))
@@ -202,13 +204,14 @@ elif user == 2:
         nx.draw_networkx_edge_labels(G,pos,edge_labels=edge_labels)
         #-------Finding shortest path
         
-        values=shortestPath(G,edge_labels)
-        print(values)
+        user=str(input("Find shortest path?"))
+        if user == "y":
+            values=shortestPath(G,edge_labels)
+            print(values)
+            with open("instructions.txt","w") as file:
+                for i in values:
+                    file.write(i+"\n")  
 
-        with open("instructions.txt","w") as file:
-            for i in values:
-                file.write(i+"\n")  
-        
         plt.axis("off")
         plt.show()
 elif user == 3:

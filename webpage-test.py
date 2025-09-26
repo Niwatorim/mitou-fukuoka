@@ -43,6 +43,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 #streamlit
 import streamlit as st
+from deep_translator import GoogleTranslator
 load_dotenv()
 
 if False:
@@ -282,41 +283,42 @@ async def basic_content():
 #loading and splitting text
 async def embed_code():
     client=genai.Client()
-    chroma_client=chromadb.PersistentClient(path="./Code_database")
-    collection=chroma_client.get_or_create_collection(name="Code")
+    chroma_client=chromadb.PersistentClient(path="./Webpage")
+    collection=chroma_client.get_or_create_collection(name="webpage-owash")
+    st.text_input("")
+    if st.button("実行開始"):
+        loader=TextLoader("./temp.json") #pull up the text
+        docs=loader.load() #load the text
+        text_splitter=RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+        splits= text_splitter.split_documents(docs)
+        
+        for i, chunk in enumerate(splits):
+            chunk.metadata["document_type"]= "Code data"
+            chunk.metadata["chunk_id"]=i
 
-    loader=TextLoader("./test-project/src/App.jsx") #pull up the text
-    docs=loader.load() #load the text
-    text_splitter=RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
-    splits= text_splitter.split_documents(docs)
-    
-    for i, chunk in enumerate(splits):
-        chunk.metadata["document_type"]= "Code data"
-        chunk.metadata["chunk_id"]=i
+        chunks= [e.page_content for e in splits]
+        result=client.models.embed_content(
+            model="gemini-embedding-001",
+            contents = [e.page_content for e in splits],
+            config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT",output_dimensionality=3072)
+        )
+        gemini_embeddings= [e.values for e in result.embeddings]
 
-    chunks= [e.page_content for e in splits]
-    result=client.models.embed_content(
-        model="gemini-embedding-001",
-        contents = [e.page_content for e in splits],
-        config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT",output_dimensionality=3072)
-    )
-    gemini_embeddings= [e.values for e in result.embeddings]
-
-    collection.add(
-        embeddings=gemini_embeddings,
-        documents=chunks,
-        metadatas=[chunk.metadata for chunk in splits],
-        ids=[f"code_chunk_{chunk.metadata['chunk_id']}" for chunk in splits]
-    )
-    st.write("Code added to database!")
+        collection.add(
+            embeddings=gemini_embeddings,
+            documents=chunks,
+            metadatas=[chunk.metadata for chunk in splits],
+            ids=[f"code_chunk_{chunk.metadata['chunk_id']}" for chunk in splits]
+        )
+        st.success("コードがデータベースに追加されました！")
 
 async def access_code():
     client=genai.Client()
-    chroma_client= chromadb.PersistentClient(path="./Code_database")
-    collection = chroma_client.get_collection(name="Code")
-    query=st.text_area("User Query",placeholder="Please test the Login Button....")
-    if st.button("Process Request"):
-        with st.spinner("Starting request"):    
+    chroma_client= chromadb.PersistentClient(path="./Webpage")
+    collection = chroma_client.get_collection(name="webpage-owash")
+    query=st.text_area("リクエスト内容",placeholder="(例）ログインボタンをテストしてください...")
+    if st.button("リクエストを処理"):
+        with st.spinner("リクエストを処理中... "):    
             result = client.models.embed_content(
                 model="gemini-embedding-001",
                 contents=query,
@@ -343,10 +345,11 @@ async def access_code():
             llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k")
             prompt = ChatPromptTemplate.from_template("""
                 You are an automation tester and must tell me the instructions to test an object on a website. 
-                Please tell me the detailed instructions in numbered steps to check if code is working
+                Please tell me the detailed instructions in numbered steps to check if the website is working
                 Answer the following question based only on the provided context.
                 Provide a simple set of instructions
-                to first open the website, use the following link: http://localhost:5173/
+                to first open the website, use the following link: https://juice-shop.herokuapp.com/#/
+                Do NOT click on any external links such as google or anything
                 
                 <context>
                 {context}
@@ -362,53 +365,62 @@ async def access_code():
                 "context": docs
             })
 
-            st.success("Instructions created successfully")
-            st.write("Agent Instructions:")
+            st.success("指示が正常に作成されました")
+            st.divider()
+            st.subheader("エージェントへの指示:")
             st.write(response)
-            with open("instructions.txt","w") as f:
+            with open("instructions2.txt","w") as f:
                 f.write(response)
+                f.write("\nif the test from the users request fails, alert the user that the test has failed")
             
-
 #browser_use
 from browser_use import Agent, ChatGoogle
 
 #-- for browser-use
 async def browseruse(): #for browser use
-        with open("instructions.txt","r") as f:
+        translator = GoogleTranslator(source='en', target='ja')
+        st.subheader("タスクを実行中")
+        with open("instructions2.txt","r") as f:
             task=str(f.readlines())
         agent = Agent(
             task=task,
             llm=ChatGoogle(model="gemini-2.5-flash"),
+            max_failures=4
+
         )
         history = await agent.run()
         for i in history.model_actions():
             key= list(i.keys())[0]
-            if key == "done":
-                st.success(i[key]["text"])
-            else:
+            if key == "done" and i[key]["success"] == True:
+                data=i[key]["text"]
+                st.success(data)
+            elif key == "done" and i[key]["success"] == False:
+                st.error("Test failed:")
+                st.error("Please check your code and retry the test, as the website currently is not working as expected.")
+            elif key != "replace_file_str":
                 with st.expander(key):
-                    st.write(i[key])
+                    reg_data=i[key]
+                    st.write(reg_data)
             
 
 #For embedding code
 if True:
     st.title("オクタゴンテスター")
-    st.write("Please select an option:")
-    user=st.selectbox("Choose an action:",
-    ("Embed Content", "Access Content", "Embed Code", "Access Code","Exectute Task"))
-    if user == "Embed Content":
-        if st.button("Start Action"):
-                asyncio.run(embed())
-    elif user == "Access Content":
-        if st.button("Start Action"):
-            asyncio.run(basic_content())
-    elif user == "Embed Code":
-        if st.button("Start Action"):
-            asyncio.run(embed_code())
-    elif user == "Access Code":
+    st.write("オプションを選択してください：")
+    user=st.selectbox("アクションを選択してください:",
+    ("コードの埋め込み", "コードにアクセス","タスクを実行"))
+    # if user == "Embed Content":
+    #     if st.button("Start Action"):
+    #             asyncio.run(embed())
+    # elif user == "Access Content":
+    #     if st.button("Start Action"):
+    #         asyncio.run(basic_content())
+    if user == "コードの埋め込み":
+        asyncio.run(embed_code())            
+    elif user == "コードにアクセス":
         asyncio.run(access_code())
-    elif user == "Exectute Task":
-        if st.button("Start Test?"):
+    elif user == "タスクを実行":
+        if st.button("テスト開始"):
                 asyncio.run(browseruse())
 
 #For browseruse

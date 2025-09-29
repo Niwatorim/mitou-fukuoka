@@ -1,15 +1,10 @@
 #open-ai
-import subprocess
 from mcp import ClientSession
-from mcp.client.sse import sse_client
-import time
 import asyncio
 
 #ollama
-from llama_index.tools.mcp import BasicMCPClient, McpToolSpec
 from llama_index.core.agent.workflow import FunctionAgent,ToolCallResult,ToolCall
 from llama_index.core.workflow import Context
-from llama_index.llms.ollama import Ollama
 from llama_index.core.tools import FunctionTool
 from pydantic import create_model
 from typing import List
@@ -31,7 +26,6 @@ from google.genai import types
 
 #chroma db
 import chromadb
-from chromadb.utils import embedding_functions
 
 #langchain
 from langchain.document_loaders import TextLoader
@@ -43,7 +37,6 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 #streamlit
 import streamlit as st
-from deep_translator import GoogleTranslator
 load_dotenv()
 
 if False:
@@ -207,79 +200,6 @@ if False:
         response = await handler
         return str(response)
 
-async def embed():
-            client = genai.Client() # Use the embedding model
-            chroma_client = chromadb.PersistentClient(path="./vector_database") #start chroma client
-            collection = chroma_client.get_or_create_collection(name="Students") #create collection
-            
-            documents = [
-                            """
-                            Alexandra Thompson, a 19-year-old computer science sophomore with a 3.7 GPA,
-                            is a member of the programming and chess clubs who enjoys pizza, swimming, and hiking
-                            in her free time in hopes of working at a tech company after graduating from the University of Washington.
-                            """,
-                            """
-                            The university chess club provides an outlet for students to come together and enjoy playing
-                            the classic strategy game of chess. Members of all skill levels are welcome, from beginners learning
-                            the rules to experienced tournament players. The club typically meets a few times per week to play casual games,
-                            participate in tournaments, analyze famous chess matches, and improve members' skills.
-                            """,
-                            """
-                            The University of Washington, founded in 1861 in Seattle, is a public research university
-                            with over 45,000 students across three campuses in Seattle, Tacoma, and Bothell.
-                            As the flagship institution of the six public universities in Washington state,
-                            UW encompasses over 500 buildings and 20 million square feet of space,
-                            including one of the largest library systems in the world.
-                            """
-                        ]
-            if collection.count() == 0:
-                ids=[]
-                for i in range(len(documents)):
-                    ids.append(str(i))
-
-                print(ids)
-                document_metadatas = [{"source": "student info"}, {"source": "club info"}, {'source': 'university info'}]
-                result = client.models.embed_content(
-                    model="gemini-embedding-001",
-                    contents= documents,
-                    config=types.EmbedContentConfig(task_type="SEMANTIC_SIMILARITY",output_dimensionality=3072)
-                )
-                print(result)
-                gemini_embeddings = [e.values for e in result.embeddings] # This extracts the list of values from each object
-
-                collection.add(
-                    embeddings=gemini_embeddings, # Pass the pre-computed embeddings
-                    documents=documents, #the actual documents
-                    metadatas=document_metadatas, #the information of documents
-                    ids=ids #ids of each content
-                )
-                st.write("Data added mimimimi")
-
-            else:
-                print("data alr exists")
-
-async def basic_content():
-            client=genai.Client()
-            chroma_client= chromadb.PersistentClient(path="./vector_database")
-            collection = chroma_client.get_collection(name="Students")
-            query="What is the chess client"
-            result = client.models.embed_content(
-                model="gemini-embedding-001",
-                contents=query,
-                config=types.EmbedContentConfig(
-                    task_type="SEMANTIC_SIMILARITY",
-                    output_dimensionality=3072 # Must match the dimension used for storage!
-                )
-            )
-            query_embedding = [e.values for e in result.embeddings]
-
-            results = collection.query( #queries the thing
-                query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
-                n_results=1
-            )
-            clean_text = " ".join([line.strip() for line in results["documents"][0][0].strip().split('\n')])
-            st.write(clean_text)
-
 #loading and splitting text
 async def embed_code():
     client=genai.Client()
@@ -314,7 +234,6 @@ async def embed_code():
 
 async def access_code():
     client=genai.Client()
-    translator = GoogleTranslator(source='en', target='ja')
     chroma_client= chromadb.PersistentClient(path="./Code_database")
     collection = chroma_client.get_collection(name="Code")
     query=st.text_area("リクエスト内容",placeholder="(例）ログインボタンをテストしてください...")
@@ -368,18 +287,15 @@ async def access_code():
             st.success("指示が正常に作成されました")
             st.divider()
             st.subheader("エージェントへの指示:")
-            japanese_text = translator.translate(response)
             st.write(response)
             with open("instructions.txt","w") as f:
                 f.write(response)
-            
 
 #browser_use
 from browser_use import Agent, ChatGoogle
 
 #-- for browser-use
 async def browseruse(): #for browser use
-        translator = GoogleTranslator(source='en', target='ja')
         st.subheader("タスクを実行中")
         with open("instructions.txt","r") as f:
             task=str(f.readlines())
@@ -397,7 +313,7 @@ async def browseruse(): #for browser use
                 with st.expander(key):
                     reg_data=i[key]
                     st.write(reg_data)
-            
+
 
 #For embedding code
 if True:
@@ -405,12 +321,6 @@ if True:
     st.write("オプションを選択してください：")
     user=st.selectbox("アクションを選択してください:",
     ("コードの埋め込み", "コードにアクセス","タスクを実行"))
-    # if user == "Embed Content":
-    #     if st.button("Start Action"):
-    #             asyncio.run(embed())
-    # elif user == "Access Content":
-    #     if st.button("Start Action"):
-    #         asyncio.run(basic_content())
     if user == "コードの埋め込み":
         asyncio.run(embed_code())            
     elif user == "コードにアクセス":
@@ -418,82 +328,3 @@ if True:
     elif user == "タスクを実行":
         if st.button("テスト開始"):
                 asyncio.run(browseruse())
-
-#For browseruse
-if False:
-    async def main(): #for browser use
-        with open("instructions.txt","r") as f:
-            task=str(f.readlines())
-        agent = Agent(
-            task=task,
-            llm=ChatGoogle(model="gemini-2.5-flash"),
-        )
-        await agent.run()
-
-#For llama_index
-if False:
-    async def main():
-        try:
-            SYSTEM_PROMPT = """\
-            You are an AI assistant for Tool Calling.
-
-            Before you help a user, you need to work with tools to interact with the website
-            """
-
-            open_server = subprocess.Popen(["npx", "@playwright/mcp@latest", "--port", "8050"])
-            time.sleep(10)
-            
-            llm=Ollama(model="llama3.1",request_timeout=300)
-
-            async with sse_client("http://localhost:8050/sse") as (read, write):
-                async with ClientSession(read_stream=read, write_stream=write) as session:
-                    
-                    fixed_tools=await get_tools(session)
-                    agent = await get_agent(tools=fixed_tools,llm=llm,sys_prompt=SYSTEM_PROMPT)
-                    agent_context = Context(agent)
-
-                    while True:
-                        user_input = input("Enter your message: ")
-                        if user_input.lower() == "exit":
-                            break
-                        print("User: ",user_input)
-                        response = await handle_user_message(user_input,agent,agent_context,verbose=True)
-                        print("Agent: ",response)
-        finally:
-            if open_server:
-                open_server.terminate()
-
-#For llama index
-if False:
-    async def get_tools(session: ClientSession):
-        await session.initialize()
-        tools=[]
-        result=await session.list_tools()
-        for i in result.tools:
-            object={
-                "type":"function",
-                "function": {
-                    "name": i.name,
-                    "description": i.description,
-                    "parameters": i.inputSchema,
-                },
-            }
-            tools.append(object)
-        return tools
-
-    async def main():
-        try:
-            open_server = subprocess.Popen(["npx", "@playwright/mcp@latest", "--port", "8050"])
-            time.sleep(3)
-            async with sse_client("http://localhost:8050/sse") as (read,write):
-                async with ClientSession(read_stream=read,write_stream=write) as session:
-                    tools=await get_tools(session)
-                    print(tools)
-        except Exception as e:
-            print("couldnt open, with error: ",e)
-
-        finally:
-            pass
-
-# if __name__ == "__main__":
-#     asyncio.run(main())

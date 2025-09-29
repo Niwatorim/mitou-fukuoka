@@ -8,7 +8,6 @@ import asyncio
 from crawl4ai import AsyncWebCrawler,CrawlerRunConfig
 from crawl4ai.deep_crawling import BFSDeepCrawlStrategy
 from crawl4ai.content_scraping_strategy import LXMLWebScrapingStrategy
-from bs4 import BeautifulSoup
 import json
 from urllib.parse import urljoin
 from browser_use import Agent, ChatGoogle
@@ -170,6 +169,7 @@ elif user == 2:
             with open("instructions.txt","w") as file:
                 for i in values:
                     file.write(i+"\n")  
+
 
         plt.axis("off")
         plt.show()

@@ -1,3 +1,7 @@
+"""
+This app should work
+
+"""
 #---- Dependencies
 #misc
 from dotenv import load_dotenv

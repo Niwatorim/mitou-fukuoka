@@ -71,7 +71,7 @@ async def main_scraping(site):
         deep_crawl_strategy=BFSDeepCrawlStrategy(
             max_depth=2,
             include_external=False,
-            max_pages=3
+            max_pages=7
         ),
         scraping_strategy=LXMLWebScrapingStrategy(),
         verbose=True,
@@ -125,47 +125,6 @@ def shortestPath(G,edge_labels) -> List[str]: #Find shortest path
         steps.append(step)
     return steps
 
-#unused
-def getmeta(docs:str) -> List[dict]: #function to find all the meta data and find the values we are looking for
-    meta=docs.find_all("meta")
-    useful=[]
-    for i in meta:
-        metadata={}
-        for j,v in i.attrs.items():
-            if j == "name" or j == "content" or j == "title":
-                metadata[j]=v
-        if metadata != {}:
-            useful.append(metadata)
-    return useful        
-
-def find(tag): #Find the elements
-    #finding attributes
-    attributes=["href","src","alt","name","type","id"]
-    new_attrs={}
-    if tag.attrs:
-        for k,v in tag.attrs.items():
-            if k in attributes:
-                new_attrs[k]=v
-    
-    content= tag.find(text=True,recursive=False)
-    if content:
-        content=content.strip()
-    else:
-        content=""
-    
-    dictionary={ #the new dictionary we wanna return
-        "tag":tag.name, #returns type of tag
-        "attributes":new_attrs,
-        "text":content,
-        "children":[]
-    }
-
-    for i in tag.children:
-        if isinstance(i, bs4.element.Tag):
-            dictionary["children"].append(find(i))
-    
-    return dictionary
-
 user= int(input("1. Scrape \n2. Show graph and return instructions \n3. User browser use"))
 if user == 1:
     user=str(input("Give site to scrape, else default to techwithtim"))
@@ -216,3 +175,33 @@ elif user == 2:
         plt.show()
 elif user == 3:
     asyncio.run(browseruse())
+
+
+#unused
+def find(tag): #Find the elements
+    #finding attributes
+    attributes=["href","src","alt","name","type","id"]
+    new_attrs={}
+    if tag.attrs:
+        for k,v in tag.attrs.items():
+            if k in attributes:
+                new_attrs[k]=v
+    
+    content= tag.find(text=True,recursive=False)
+    if content:
+        content=content.strip()
+    else:
+        content=""
+    
+    dictionary={ #the new dictionary we wanna return
+        "tag":tag.name, #returns type of tag
+        "attributes":new_attrs,
+        "text":content,
+        "children":[]
+    }
+
+    for i in tag.children:
+        if isinstance(i, bs4.element.Tag):
+            dictionary["children"].append(find(i))
+    
+    return dictionary

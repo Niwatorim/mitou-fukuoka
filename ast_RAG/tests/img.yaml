@@ -1,0 +1,30 @@
+component: img
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: verify
+  instruction: Verify the image element with class 'logo' is visible
+  selector: img.logo
+  expected: Image element is present and visible
+- step: 3
+  action: verify
+  instruction: Verify the image element has the correct alt attribute
+  selector: img.logo
+  attribute: alt
+  expected: Vite logo
+- step: 4
+  action: verify
+  instruction: Verify the image element has the correct src attribute
+  selector: img.logo
+  attribute: src
+  expected: /vite.svg
+- step: 5
+  action: verify
+  instruction: Verify the image element has the correct className attribute
+  selector: img.logo
+  attribute: className
+  expected: logo

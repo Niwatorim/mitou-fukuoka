@@ -343,22 +343,3 @@ def parse_code(code_string):
         check=True,
     )
     return values.stdout
-
-
-# ast_code=parse_code("const x = 2")
-# ast_data=json.loads(ast_code)
-# print(ast_data)
-
-def ast_rag(file):
-    command = ["node","parser_test.js",file]
-    values=subprocess.run(
-        command,
-        capture_output=True,
-        text=True,
-        check=True
-    )
-    return values.stdout
-data=json.loads(ast_rag("./test-project/src/App.jsx"))
-with open("code_structure.json","w") as f:
-    json.dump(data,f,indent=4)
-    

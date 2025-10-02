@@ -1,0 +1,19 @@
+component: a
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: click
+  instruction: Click the link for React documentation
+  selector: a[href="https://react.dev"][target="_blank"]
+- step: 3
+  action: verify
+  instruction: Verify that a new browser tab or window has opened
+  expected: New tab/window is open
+- step: 4
+  action: verify
+  instruction: Verify the URL of the newly opened tab
+  expected: URL of new tab is 'https://react.dev'

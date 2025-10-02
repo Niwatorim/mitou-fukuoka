@@ -37,6 +37,10 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 
 #streamlit
 import streamlit as st
+
+#esprima
+import esprima
+import subprocess
 load_dotenv()
 
 if False:
@@ -314,9 +318,8 @@ async def browseruse(): #for browser use
                     reg_data=i[key]
                     st.write(reg_data)
 
-
-#For embedding code
-if True:
+#Streamlit
+if False:
     st.title("オクタゴンテスター")
     st.write("オプションを選択してください：")
     user=st.selectbox("アクションを選択してください:",
@@ -328,3 +331,34 @@ if True:
     elif user == "タスクを実行":
         if st.button("テスト開始"):
                 asyncio.run(browseruse())
+
+#-- linking code to functions
+
+def parse_code(code_string):
+    values=subprocess.run(
+        ["node","ast_generator.js"],
+        input=code_string,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return values.stdout
+
+
+# ast_code=parse_code("const x = 2")
+# ast_data=json.loads(ast_code)
+# print(ast_data)
+
+def ast_rag(file):
+    command = ["node","parser_test.js",file]
+    values=subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    return values.stdout
+data=json.loads(ast_rag("./test-project/src/App.jsx"))
+with open("code_structure.json","w") as f:
+    json.dump(data,f,indent=4)
+    

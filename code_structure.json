@@ -1,0 +1,243 @@
+{
+    "file": "/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/test-project/src/App.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "a",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "href",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "https://vite.dev"
+                    },
+                    "strategy": {
+                        "action": "click",
+                        "expectation": "navigation",
+                        "description": "Click link and verify navigation to its destination"
+                    }
+                }
+            ],
+            "attributes": {
+                "href": {
+                    "type": "StringLiteral",
+                    "value": "https://vite.dev"
+                },
+                "target": {
+                    "type": "StringLiteral",
+                    "value": "_blank"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "img",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "logo"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "attributes": {
+                "src": {
+                    "type": "Identifier",
+                    "name": "viteLogo"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "logo"
+                },
+                "alt": {
+                    "type": "StringLiteral",
+                    "value": "Vite logo"
+                }
+            },
+            "selectors": [
+                ".logo"
+            ]
+        },
+        {
+            "name": "a",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "href",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "https://react.dev"
+                    },
+                    "strategy": {
+                        "action": "click",
+                        "expectation": "navigation",
+                        "description": "Click link and verify navigation to its destination"
+                    }
+                }
+            ],
+            "attributes": {
+                "href": {
+                    "type": "StringLiteral",
+                    "value": "https://react.dev"
+                },
+                "target": {
+                    "type": "StringLiteral",
+                    "value": "_blank"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "img",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "logo react"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "attributes": {
+                "src": {
+                    "type": "Identifier",
+                    "name": "reactLogo"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "logo react"
+                },
+                "alt": {
+                    "type": "StringLiteral",
+                    "value": "React logo"
+                }
+            },
+            "selectors": [
+                ".logo.react"
+            ]
+        },
+        {
+            "name": "h1",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "div",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "card"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "card"
+                }
+            },
+            "selectors": [
+                ".card"
+            ]
+        },
+        {
+            "name": "button",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "onClick",
+                    "value": {
+                        "type": "Function",
+                        "functionType": "ArrowFunctionExpression",
+                        "param": []
+                    },
+                    "strategy": {
+                        "action": "click",
+                        "expectation": "handler_triggered",
+                        "description": "Click element to trigger onClick"
+                    }
+                }
+            ],
+            "attributes": {
+                "onClick": {
+                    "type": "Function",
+                    "functionType": "ArrowFunctionExpression",
+                    "param": []
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "p",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "code",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "p",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "read-the-docs"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "read-the-docs"
+                }
+            },
+            "selectors": [
+                ".read-the-docs"
+            ]
+        }
+    ],
+    "summary": "Attributes from the code of /Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/test-project/src/App.jsx"
+}

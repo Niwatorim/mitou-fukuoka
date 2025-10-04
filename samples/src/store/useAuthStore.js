@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
-import { disconnect } from "mongoose";
+// import { disconnect } from "mongoose";
 
 const BASE_URL = "http://localhost:5001";
 

@@ -7,18 +7,7 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: verify
-  instruction: Verify the 'img' element with class 'logo react' is available
-  selector: img.logo.react
-  expected: Element 'img.logo.react' is present in the DOM
-- step: 3
-  action: verify
-  instruction: Verify the 'alt' attribute of the 'img' element
-  selector: img.logo.react
-  attribute: alt
-  expected: React logo
-- step: 4
-  action: verify
-  instruction: Verify the 'src' attribute of the 'img' element
-  selector: img.logo.react
-  attribute: src
-  expected: reactLogo
+  instruction: Verify the 'React logo' image is visible
+  selector: .logo.react
+  expected: The image with class 'logo react' should be present and visible on the
+    page.

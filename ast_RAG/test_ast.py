@@ -24,7 +24,8 @@ load_dotenv("../.env")
 
 #put ast into code_structure.json (needs to be called in main)
 def ast_rag(file):
-    command = ["node","parser_test.js",file]
+    parser_path= "/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/parser_test.js"
+    command = ["node",parser_path,file]
     values=subprocess.run(
         command,
         capture_output=True,
@@ -106,11 +107,12 @@ def access_code(instructions):
     Component: {input}
 
     Return instructions with this exact structure and nothing else:
+    if "text" is not empty, then use it to help identify the element within the test_steps
     "component": "component_name",
     "url": "http://localhost:5173/",
     "test_steps": [
         "step": 1, "action": "navigate", "instruction": "Open the application", "target": "http://localhost:5173/",
-        "step": 2, "action": "click", "instruction": "Click the submit button", "selector": "#submit-btn", "expected": "Form submits successfully",
+        "step": 2, "action": "click", "instruction": "Click the submit button","text":"Submit", "selector": "#submit-btn", "expected": "Form submits successfully",
     ]
     
 
@@ -153,7 +155,7 @@ def cycle():
     existing_files = set()
     for index,i in enumerate(data["components"]):
         if i["testableAttributes"]:
-            instruction= f"please give instructions to test the component {i["name"]} with the following attributes {i["attributes"]}"
+            instruction= f"please give instructions to test the component {i}"
             yaml_data=access_code(instruction)
             filename = unique_file(i['name'], existing_files)
 
@@ -174,18 +176,38 @@ async def test_browser_use():
         history = await agent.run()
         success={"name":file,"success":history.is_successful()}
         success_files.append(success)
-    print(success_files)
+    print("Failures:")
+    for i in success_files:
+        if i["success"]==False:
+            print(i["name"])
+        
+
+
+
 
 async def main():
-    # data=json.loads(ast_rag("./test-project/src/App.jsx"))
+    # data=json.loads(ast_rag("/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/test-project/src/App.jsx"))
     # with open("code_structure.json","w") as f:
     #     json.dump(data,f,indent=4)
     # embed_ast()
     # cycle()
     await test_browser_use()
-    # with open("./tests/a.yaml","r") as f:
+
+
+    
+    # with open("./tests/p.yaml","r") as f:
     #     data=yaml.safe_load(f)
-    # print(str(yaml.dump(data["test_steps"], default_flow_style=False, sort_keys=False)))
+    # task=str(yaml.dump(data["test_steps"], default_flow_style=False, sort_keys=False))
+    # agent = Agent(
+    #     task=task,
+    #     llm=ChatGoogle(model="gemini-2.5-flash"),
+    # )
+    # history = await agent.run()
+    # print(history.is_successful())
+    # for i in history.action_history():
+    #     print(i)
+
+
 
 if __name__ == "__main__":
     asyncio.run(main())

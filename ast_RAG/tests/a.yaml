@@ -7,11 +7,6 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: click
-  instruction: Click the link that opens 'https://vite.dev' in a new tab
-  selector: a[href="https://vite.dev"][target="_blank"]
-  expected: A new browser tab/window is opened
-- step: 3
-  action: verify
-  instruction: Verify the URL of the newly opened tab/window
-  target: https://vite.dev
-  expected: The new tab/window's URL is 'https://vite.dev'
+  instruction: Click link and verify navigation to its destination
+  selector: a[href="https://vite.dev"]
+  expected: Navigation to https://vite.dev

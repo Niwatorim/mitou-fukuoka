@@ -7,12 +7,6 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: click
-  instruction: Click the button to trigger its onClick handler
-  selector: button
-  expected: The onClick handler of the button is triggered
-- step: 3
-  action: verify
-  instruction: Verify the expected outcome of the button click (e.g., a state change,
-    a new element appearing, or a console log)
-  expected: The application state or UI reflects the successful execution of the onClick
-    function
+  instruction: Click element to trigger onClick
+  selector: .button
+  expected: The button's onClick handler is triggered

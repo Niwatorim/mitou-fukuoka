@@ -7,13 +7,11 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: click
-  instruction: Click the link for React documentation
-  selector: a[href="https://react.dev"][target="_blank"]
+  instruction: Click the link with href 'https://react.dev'
+  selector: a[href='https://react.dev']
+  expected: Initiate navigation to 'https://react.dev'
 - step: 3
   action: verify
-  instruction: Verify that a new browser tab or window has opened
-  expected: New tab/window is open
-- step: 4
-  action: verify
-  instruction: Verify the URL of the newly opened tab
-  expected: URL of new tab is 'https://react.dev'
+  instruction: Verify the current URL is 'https://react.dev'
+  target: https://react.dev
+  expected: The application has navigated to 'https://react.dev'

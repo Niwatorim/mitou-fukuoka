@@ -334,12 +334,27 @@ if False:
 
 #-- linking code to functions
 
-def parse_code(code_string):
+# def parse_code(code_string):
+#     values=subprocess.run(
+#         ["node","ast_generator.js"],
+#         input=code_string,
+#         capture_output=True,
+#         text=True,
+#         check=True,
+#     )
+#     return values.stdout
+
+# with open("./test-project/src/App.jsx","r") as f:
+#     print(json.dumps(parse_code(f.read())))
+
+def ast_rag(file):
+    command = ["node","parser_test.js",file]
     values=subprocess.run(
-        ["node","ast_generator.js"],
-        input=code_string,
+        command,
         capture_output=True,
         text=True,
-        check=True,
+        check=True
     )
     return values.stdout
+
+print(ast_rag("./test-project/src/App.jsx"))

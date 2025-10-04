@@ -7,24 +7,6 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: verify
-  instruction: Verify the image element with class 'logo' is visible
-  selector: img.logo
-  expected: Image element is present and visible
-- step: 3
-  action: verify
-  instruction: Verify the image element has the correct alt attribute
-  selector: img.logo
-  attribute: alt
-  expected: Vite logo
-- step: 4
-  action: verify
-  instruction: Verify the image element has the correct src attribute
-  selector: img.logo
-  attribute: src
-  expected: /vite.svg
-- step: 5
-  action: verify
-  instruction: Verify the image element has the correct className attribute
-  selector: img.logo
-  attribute: className
-  expected: logo
+  instruction: Verify the image element with class 'logo' is displayed
+  selector: .logo
+  expected: Image element with class 'logo' is visible on the page

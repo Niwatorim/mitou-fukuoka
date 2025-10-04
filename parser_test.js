@@ -153,6 +153,30 @@ function getFunctionName(parentFunctionPath) {
     return 'Anonymous';
 }
 
+function findText(path){
+    let text = "";
+    path.traverse({
+        JSXText(new_path){
+            const textValue = new_path.node.value.trim();
+            if (textValue){
+                text += textValue + " ";
+            }
+        }
+    });
+    return text.trim();
+}
+
+function divChildren(path){
+    let children = [];
+    path.children.forEach( (p) =>{
+        if (isTestable(p.name,path)){
+            children.push(p.name)
+
+        }
+
+    })
+}
+
 function extractComponentInfo(path,text){
     const node = path.node //current node
     const name = getComponentName(node.name); //current nodes name
@@ -169,12 +193,23 @@ function extractComponentInfo(path,text){
 
     //parent functions
     const functionName = getFunctionName(parent)
+
     const info={
         name: name,
         parentFunction: functionName,
         testableAttributes:[],
+        text: "",
         attributes:{},
         selectors:[]
+    }
+
+    if (name == "p" || name == "h1" || name == "h2" || name == "h3"){
+        //find text
+        info.text = findText(path.parentPath)
+    }
+
+    if (name == "div"){
+        info.attributes["contains"] = divChildren(path.parentPath)
     }
 
     //for every attribute
@@ -361,7 +396,7 @@ function testStrategy(name,value){
 const filepath = process.argv[2]; 
 
 if (!filepath) {
-    console.error("❌ Error: Please provide a filepath to analyze.");
+    console.error("Error: Please provide a filepath to analyze.");
     process.exit(1); // Exit with an error
 }
 

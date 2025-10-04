@@ -170,11 +170,15 @@ function divChildren(path){
     let children = [];
     path.children.forEach( (p) =>{
         if (isTestable(p.name,path)){
-            children.push(p.name)
-
+            components={
+                name:p.name,
+                attributes:p.attributes
+            }
+            children.push(components)
         }
 
     })
+    return children;
 }
 
 function extractComponentInfo(path,text){

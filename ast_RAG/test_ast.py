@@ -160,9 +160,9 @@ def cycle():
             with open(filename,"w") as f:
                 yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
 
-
 async def test_browser_use():
     directory= os.listdir("./tests")
+    success_files=[]
     for file in directory:
         with open(f"./tests/{file}","r") as f:
             data=yaml.safe_load(f)
@@ -172,9 +172,9 @@ async def test_browser_use():
             llm=ChatGoogle(model="gemini-2.5-flash"),
         )
         history = await agent.run()
-        print(history.final_result())
-        print(history.is_successful())
-
+        success={"name":file,"success":history.is_successful()}
+        success_files.append(success)
+    print(success_files)
 
 async def main():
     # data=json.loads(ast_rag("./test-project/src/App.jsx"))

@@ -158,12 +158,16 @@ async def browseruse(): #for browser use
         agent = Agent(
             task=task,
             llm=ChatGoogle(model="gemini-2.5-flash"),
-            max_failures=4
+            max_failures=3
         )
         history = await agent.run()
         for i in history.model_actions():
             key= list(i.keys())[0]
-            if key == "done" and i[key]["success"] == True:
+            if key == "replace_file_str":
+                st.subheader("生成されたPlaywrightコード (Generated Playwright Code)")
+                # Use st.code to display it beautifully
+                st.code(i[key], language="python")
+            elif key == "done" and i[key]["success"] == True:
                 data=i[key]["text"]
                 st.success(data)
             elif key == "done" and i[key]["success"] == False:

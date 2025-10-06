@@ -20,3 +20,18 @@ Here are the detailed instructions to test the Vite logo:
     *   Simulate a click on the Vite logo.
     *   Verify that a new browser tab or window opens.
     *   In the new tab/window, assert that the URL loaded is `https://vite.dev`.
+    *   After you verify the link, stop and close the browser.
+
+6.  **Generate the test code:**
+    * Write the step by step playwright code script of the actions that just performed. 
+    *   Example: 
+        from playwright.sync_api import sync_playwright, expect
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=False)
+            page = browser.new_page()
+            page.goto("https://www.example.com")
+            heading_element = page.locator("h1")
+            expect(heading_element).to_have_text("Example Domain")
+            context.close()
+            browser.close()
+    * Now it's your turn.

@@ -1,0 +1,17 @@
+component: a
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: click
+  instruction: Click the link with href 'https://react.dev'
+  selector: a[href='https://react.dev']
+  expected: Initiate navigation to 'https://react.dev'
+- step: 3
+  action: verify
+  instruction: Verify the current URL is 'https://react.dev'
+  target: https://react.dev
+  expected: The application has navigated to 'https://react.dev'

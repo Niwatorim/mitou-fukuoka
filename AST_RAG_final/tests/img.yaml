@@ -1,0 +1,12 @@
+component: img
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: verify
+  instruction: Verify the image element with class 'logo' is displayed
+  selector: .logo
+  expected: Image element with class 'logo' is visible on the page

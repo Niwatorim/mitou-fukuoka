@@ -230,5 +230,5 @@ def process_directory(root_dir, ast_dir):
     )
     print(f"Successfully added {len(documents)} documents to the '{collection}' collection.")
 
-# how to retrieve from 2 collections -> ask gemini
+# how to retrieve from 2 collections -> ask gemini v
 # write the retrieval function in the main file?

@@ -6,7 +6,34 @@
             "parentFunction": "App",
             "testableAttributes": [],
             "text": "",
-            "attributes": {},
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "a",
+                        "testableAttributes": [
+                            {
+                                "name": "href",
+                                "value": {
+                                    "type": "StringLiteral",
+                                    "value": "https://vite.dev"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "name": "a",
+                        "testableAttributes": [
+                            {
+                                "name": "href",
+                                "value": {
+                                    "type": "StringLiteral",
+                                    "value": "https://react.dev"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
             "selectors": []
         },
         {
@@ -145,7 +172,7 @@
             "name": "h1",
             "parentFunction": "App",
             "testableAttributes": [],
-            "text": "",
+            "text": "Vite + React",
             "attributes": {},
             "selectors": []
         },
@@ -168,6 +195,21 @@
             ],
             "text": "",
             "attributes": {
+                "contains": [
+                    {
+                        "name": "button",
+                        "testableAttributes": [
+                            {
+                                "name": "onClick",
+                                "value": {
+                                    "type": "Function",
+                                    "functionType": "ArrowFunctionExpression",
+                                    "param": []
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "className": {
                     "type": "StringLiteral",
                     "value": "card"

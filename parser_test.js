@@ -166,18 +166,40 @@ function findText(path){
     return text.trim();
 }
 
-function divChildren(path){
-    let children = [];
-    path.children.forEach( (p) =>{
-        if (isTestable(p.name,path)){
-            components={
-                name:p.name,
-                attributes:p.attributes
+function divChildren(path, text) {
+    const children = [];
+    const jsxElement = path.parentPath;
+    
+    if (jsxElement.node.children) {
+        jsxElement.node.children.forEach((child) => {
+            if (child.type === 'JSXElement') {
+                const childName = getComponentName(child.openingElement.name);
+                const testableAttrs = [];
+                
+                child.openingElement.attributes.forEach(attr => {
+                    if (attr.type === "JSXAttribute") {
+                        const attrName = attr.name.name;
+                        const attrValue = extractAttributeValue(attr, text);
+                        
+                        if (isTestable(attrName, attrValue)) {
+                            testableAttrs.push({
+                                name: attrName,
+                                value: attrValue
+                            });
+                        }
+                    }
+                });
+                
+                if (testableAttrs.length > 0) {
+                    children.push({
+                        name: childName,
+                        testableAttributes: testableAttrs
+                    });
+                }
             }
-            children.push(components)
-        }
-
-    })
+        });
+    }
+    
     return children;
 }
 
@@ -213,7 +235,7 @@ function extractComponentInfo(path,text){
     }
 
     if (name == "div"){
-        info.attributes["contains"] = divChildren(path.parentPath)
+        info.attributes["contains"] = divChildren(path,text)
     }
 
     //for every attribute

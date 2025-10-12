@@ -1,3 +1,7 @@
 #.gitignore
 node_modules/
 test-project/
+Code_database/
+code-graph-rag/
+mitou/
+.tmp/

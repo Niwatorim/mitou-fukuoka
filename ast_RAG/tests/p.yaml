@@ -7,9 +7,8 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: verify
-  instruction: Verify the presence and text content of the 'read-the-docs' paragraph
-    element
-  selector: .read-the-docs
+  instruction: Verify the paragraph element with the specified text is visible
   text: Click on the Vite and React logos to learn more
-  expected: The paragraph element with class 'read-the-docs' and text 'Click on the
-    Vite and React logos to learn more' is visible on the page.
+  selector: .read-the-docs
+  expected: Paragraph element 'Click on the Vite and React logos to learn more' is
+    present and visible

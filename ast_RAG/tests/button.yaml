@@ -7,6 +7,6 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: click
-  instruction: Click element to trigger onClick
-  selector: .button
-  expected: The button's onClick handler is triggered
+  instruction: Click the button to trigger its onClick handler
+  selector: button
+  expected: The onClick handler is triggered

@@ -7,6 +7,11 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: verify
-  instruction: Verify that the 'card' div element is displayed on the page
+  instruction: Verify the presence of the card component
   selector: .card
   expected: The div with class 'card' should be visible
+- step: 3
+  action: click
+  instruction: Click the button inside the card component
+  selector: .card button
+  expected: The button inside the card should be clickable

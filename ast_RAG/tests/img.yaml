@@ -7,6 +7,6 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: verify
-  instruction: Verify the image element with class 'logo' is displayed
+  instruction: Verify the 'img' component with class 'logo' is present
   selector: .logo
-  expected: Image element with class 'logo' is visible on the page
+  expected: The image element is present and visible on the page

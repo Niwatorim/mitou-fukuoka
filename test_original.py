@@ -356,5 +356,20 @@ def ast_rag(file):
         check=True
     )
     return values.stdout
+# print(ast_rag("./test-project/src/App.jsx"))
 
-print(ast_rag("./test-project/src/App.jsx"))
+from playwright.sync_api import sync_playwright
+from axe_playwright_python.sync_playwright import Axe
+
+axe = Axe()
+
+with sync_playwright() as playwright:
+    browser = playwright.chromium.launch()
+    page = browser.new_page()
+    page.goto("http://localhost:5173/")
+    results = axe.run(page)
+    browser.close()
+
+print(f"Found {results.violations_count} violations.")
+print(f"Full axe-core response: {results.generate_snapshot()}")
+print(results.generate_report())

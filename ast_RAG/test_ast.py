@@ -21,7 +21,6 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from dotenv import load_dotenv
 load_dotenv("../.env")
 
-
 #put ast into code_structure.json (needs to be called in main)
 def ast_rag(file):
     parser_path= "/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/parser_test.js"
@@ -107,7 +106,6 @@ def access_code(instructions):
     Component: {input}
 
     Return instructions with this exact structure and nothing else:
-    if "text" is not empty, then use it to help identify the element within the test_steps
     "component": "component_name",
     "url": "http://localhost:5173/",
     "test_steps": [
@@ -180,10 +178,6 @@ async def test_browser_use():
     for i in success_files:
         if i["success"]==False:
             print(i["name"])
-        
-
-
-
 
 async def main():
     # data=json.loads(ast_rag("/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/test-project/src/App.jsx"))
@@ -193,8 +187,6 @@ async def main():
     # cycle()
     await test_browser_use()
 
-
-    
     # with open("./tests/p.yaml","r") as f:
     #     data=yaml.safe_load(f)
     # task=str(yaml.dump(data["test_steps"], default_flow_style=False, sort_keys=False))
@@ -206,8 +198,6 @@ async def main():
     # print(history.is_successful())
     # for i in history.action_history():
     #     print(i)
-
-
 
 if __name__ == "__main__":
     asyncio.run(main())

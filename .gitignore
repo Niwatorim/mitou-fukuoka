@@ -7,3 +7,6 @@ mitou/
 .tmp/
 ast_Rag/Neo4J Docker/
 
+# Ignore Neo4j database files
+*.db
+*.db.*

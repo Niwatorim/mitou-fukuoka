@@ -6,7 +6,7 @@ code-graph-rag/
 mitou/
 .tmp/
 ast_Rag/Neo4J Docker/
-
+ast_Rag/GraphRAG-with-Llama-3.1/
 # Ignore Neo4j database files
 *.db
 *.db.*

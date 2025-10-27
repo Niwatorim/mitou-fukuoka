@@ -7,6 +7,12 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: verify
-  instruction: Verify the 'img' component with class 'logo' is present
+  instruction: Verify the image element with class 'logo' is present
   selector: .logo
-  expected: The image element is present and visible on the page
+  expected: The image with class 'logo' should be visible on the page
+- step: 3
+  action: verify
+  instruction: Verify the 'alt' attribute of the image with class 'logo'
+  selector: .logo
+  attribute: alt
+  expected: The 'alt' attribute should be 'Vite logo'

@@ -9,4 +9,9 @@ test_steps:
   action: click
   instruction: Click the link to React documentation
   selector: a[href="https://react.dev"]
-  expected: Verify navigation to https://react.dev
+  expected: The application navigates to https://react.dev
+- step: 3
+  action: verify
+  instruction: Verify the current URL
+  target: https://react.dev
+  expected: The current URL is https://react.dev

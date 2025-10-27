@@ -9,5 +9,4 @@ test_steps:
   action: verify
   instruction: Verify the 'React logo' image is visible
   selector: .logo.react
-  expected: The image with class 'logo react' should be present and visible on the
-    page.
+  expected: The image with class 'logo react' should be present on the page.

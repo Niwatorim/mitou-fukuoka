@@ -7,11 +7,11 @@ test_steps:
   target: http://localhost:5173/
 - step: 2
   action: click
-  instruction: Click the link to Vite.js
+  instruction: Click the Vite.dev link
   selector: a[href="https://vite.dev"]
-  expected: Browser initiates navigation to https://vite.dev
+  expected: A new browser tab opens and navigates to https://vite.dev
 - step: 3
   action: verify
-  instruction: Verify that the browser navigated to the Vite.js website
+  instruction: Verify the URL in the new tab
   target: https://vite.dev
-  expected: Current URL is https://vite.dev
+  expected: The URL of the new tab is https://vite.dev

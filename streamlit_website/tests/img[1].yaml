@@ -1,0 +1,19 @@
+component: img
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: verify
+  instruction: Verify the React logo image element is visible on the page
+  selector: .logo.react
+  expected: The image with class 'logo react' should be present and visible.
+- step: 3
+  action: verify
+  instruction: Verify the 'alt' attribute of the React logo image
+  selector: .logo.react
+  attribute: alt
+  value: React logo
+  expected: The image's 'alt' attribute should be 'React logo'.

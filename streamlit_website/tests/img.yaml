@@ -1,0 +1,23 @@
+component: img
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: verify
+  instruction: Verify the Vite logo image is displayed
+  selector: img.logo
+  expected: The image with class 'logo' should be visible on the page.
+- step: 3
+  action: verify
+  instruction: Verify the Vite logo image has the correct alt text
+  selector: img.logo
+  expected: The image 'alt' attribute should be 'Vite logo'.
+- step: 4
+  action: verify
+  instruction: Verify the Vite logo image has a valid source
+  selector: img.logo
+  expected: The image 'src' attribute should not be empty and should point to a valid
+    image asset.

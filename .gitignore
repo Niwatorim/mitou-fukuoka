@@ -10,3 +10,8 @@ ast_Rag/GraphRAG-with-Llama-3.1/
 # Ignore Neo4j database files
 *.db
 *.db.*
+# Ignore Neo4j transaction data
+ast_RAG/GraphRAG-with-Llama-3.1/data/transactions/
+
+# A more general rule to ignore all .db files is also a good idea
+*.db

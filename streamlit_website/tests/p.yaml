@@ -1,0 +1,14 @@
+component: p
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: verify
+  instruction: Verify the 'p' element with text 'Click on the Vite and React logos
+    to learn more' is visible
+  selector: .read-the-docs
+  text: Click on the Vite and React logos to learn more
+  expected: The 'p' element should be present and display the correct text

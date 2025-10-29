@@ -1,0 +1,15 @@
+component: a
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+- step: 2
+  action: click
+  instruction: Click the link to Vite documentation
+  selector: a[href="https://vite.dev"]
+- step: 3
+  action: verify
+  instruction: Verify the current URL is https://vite.dev
+  target: https://vite.dev

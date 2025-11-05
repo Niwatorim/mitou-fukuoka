@@ -1,0 +1,23 @@
+component: button
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+  expected: Page loads successfully
+- step: 2
+  action: verify
+  instruction: Verify the initial count displayed on the button
+  selector: text="count is 0"
+  expected: Button displays "count is 0"
+- step: 3
+  action: click
+  instruction: Click the count button
+  selector: text="count is 0"
+  expected: The count increments
+- step: 4
+  action: verify
+  instruction: Verify the count displayed on the button has incremented to 1
+  selector: text="count is 1"
+  expected: Button displays "count is 1"

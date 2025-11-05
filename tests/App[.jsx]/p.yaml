@@ -1,0 +1,19 @@
+component: p
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+  expected: Page loads successfully
+- step: 2
+  action: verify
+  instruction: Verify the 'read-the-docs' paragraph is visible
+  selector: .read-the-docs
+  expected: The paragraph with class 'read-the-docs' is visible on the page
+- step: 3
+  action: verify
+  instruction: Verify the text content of the 'read-the-docs' paragraph
+  selector: .read-the-docs
+  expected: The paragraph contains the text 'Click on the Vite and React logos to
+    learn more'

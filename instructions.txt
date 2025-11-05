@@ -1,1 +1,0 @@
-use 'a-Newsletter' located in: '/html/body/main/div/a[4]'  to go from https://www.techwithtim.net/ to https://www.techwithtim.net/newsletter

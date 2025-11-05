@@ -1,0 +1,38 @@
+component: card_div
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: navigate
+  instruction: Open the application
+  target: http://localhost:5173/
+  expected: Page loads successfully
+- step: 2
+  action: verify
+  instruction: Verify the 'card' div is present on the page
+  selector: .card
+  expected: Element with class 'card' is visible
+- step: 3
+  action: verify
+  instruction: Verify the button inside the 'card' div shows 'count is 0'
+  selector: .card button
+  expected: Button text is 'count is 0'
+- step: 4
+  action: click
+  instruction: Click the count button
+  selector: .card button
+  expected: Button click is registered
+- step: 5
+  action: verify
+  instruction: Verify the button text updates to 'count is 1'
+  selector: .card button
+  expected: Button text is 'count is 1'
+- step: 6
+  action: click
+  instruction: Click the count button again
+  selector: .card button
+  expected: Button click is registered
+- step: 7
+  action: verify
+  instruction: Verify the button text updates to 'count is 2'
+  selector: .card button
+  expected: Button text is 'count is 2'

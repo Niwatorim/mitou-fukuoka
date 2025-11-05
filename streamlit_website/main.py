@@ -1,5 +1,9 @@
 import streamlit as st
 import asyncio
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 async def new():
     st.title("Octagon tester")

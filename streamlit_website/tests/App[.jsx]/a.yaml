@@ -5,11 +5,9 @@ test_steps:
   action: navigate
   instruction: Open the application
   target: http://localhost:5173/
+  expected: Page loads successfully
 - step: 2
   action: click
-  instruction: Click the link to Vite documentation
+  instruction: Click the Vite link
   selector: a[href="https://vite.dev"]
-- step: 3
-  action: verify
-  instruction: Verify the current URL is https://vite.dev
-  target: https://vite.dev
+  expected: User is navigated to "https://vite.dev" in a new tab

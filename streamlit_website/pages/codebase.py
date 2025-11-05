@@ -21,7 +21,6 @@ selected = option_menu(
         orientation="horizontal",
     )
 
-
 if selected== "Run Tests":
     st.switch_page("pages/tests.py")
 if selected == "Test Results":
@@ -34,11 +33,14 @@ with c1:
     if st.button("Create AST-structure"):
         try:
             if file and os.path.exists(file):
+                storage={}
                 data_string = ast_rag(file)
                 data = json.loads(data_string)
+                name=os.path.basename(data["file"])
+                storage[name]=data
                 code_struct_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "code_structure.json")
                 with open(code_struct_path,"w") as f:
-                    json.dump(data,f,indent=4)
+                    json.dump(storage,f,indent=4)
                 st.session_state.codebase=True
                 st.success("Code structure parsed successfully!")
             else:

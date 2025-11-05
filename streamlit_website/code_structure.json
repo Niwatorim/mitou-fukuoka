@@ -1,296 +1,298 @@
 {
-    "file": "/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/streamlit_website/victim-site/App.jsx",
-    "components": [
-        {
-            "name": "div",
-            "parentFunction": "App",
-            "testableAttributes": [],
-            "text": "",
-            "attributes": {
-                "contains": [
-                    {
-                        "name": "a",
-                        "testableAttributes": [
-                            {
-                                "name": "href",
-                                "value": {
-                                    "type": "StringLiteral",
-                                    "value": "https://vite.dev"
+    "App.jsx": {
+        "file": "/Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/streamlit_website/victim-site/App.jsx",
+        "components": [
+            {
+                "name": "div",
+                "parentFunction": "App",
+                "testableAttributes": [],
+                "text": "",
+                "attributes": {
+                    "contains": [
+                        {
+                            "name": "a",
+                            "testableAttributes": [
+                                {
+                                    "name": "href",
+                                    "value": {
+                                        "type": "StringLiteral",
+                                        "value": "https://vite.dev"
+                                    }
                                 }
-                            }
-                        ]
-                    },
-                    {
-                        "name": "a",
-                        "testableAttributes": [
-                            {
-                                "name": "href",
-                                "value": {
-                                    "type": "StringLiteral",
-                                    "value": "https://react.dev"
+                            ]
+                        },
+                        {
+                            "name": "a",
+                            "testableAttributes": [
+                                {
+                                    "name": "href",
+                                    "value": {
+                                        "type": "StringLiteral",
+                                        "value": "https://react.dev"
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                ]
+                            ]
+                        }
+                    ]
+                },
+                "selectors": []
             },
-            "selectors": []
-        },
-        {
-            "name": "a",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "href",
-                    "value": {
+            {
+                "name": "a",
+                "parentFunction": "App",
+                "testableAttributes": [
+                    {
+                        "name": "href",
+                        "value": {
+                            "type": "StringLiteral",
+                            "value": "https://vite.dev"
+                        },
+                        "strategy": {
+                            "action": "click",
+                            "expectation": "navigation",
+                            "description": "Click link and verify navigation to its destination"
+                        }
+                    }
+                ],
+                "text": "",
+                "attributes": {
+                    "href": {
                         "type": "StringLiteral",
                         "value": "https://vite.dev"
                     },
-                    "strategy": {
-                        "action": "click",
-                        "expectation": "navigation",
-                        "description": "Click link and verify navigation to its destination"
+                    "target": {
+                        "type": "StringLiteral",
+                        "value": "_blank"
                     }
-                }
-            ],
-            "text": "",
-            "attributes": {
-                "href": {
-                    "type": "StringLiteral",
-                    "value": "https://vite.dev"
                 },
-                "target": {
-                    "type": "StringLiteral",
-                    "value": "_blank"
-                }
+                "selectors": []
             },
-            "selectors": []
-        },
-        {
-            "name": "img",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "className",
-                    "value": {
+            {
+                "name": "img",
+                "parentFunction": "App",
+                "testableAttributes": [
+                    {
+                        "name": "className",
+                        "value": {
+                            "type": "StringLiteral",
+                            "value": "logo"
+                        },
+                        "strategy": {
+                            "action": "inspect",
+                            "expectation": "selector_available",
+                            "description": "Use this attribute to locate the element"
+                        }
+                    }
+                ],
+                "text": "",
+                "attributes": {
+                    "src": {
+                        "type": "Identifier",
+                        "name": "viteLogo"
+                    },
+                    "className": {
                         "type": "StringLiteral",
                         "value": "logo"
                     },
-                    "strategy": {
-                        "action": "inspect",
-                        "expectation": "selector_available",
-                        "description": "Use this attribute to locate the element"
+                    "alt": {
+                        "type": "StringLiteral",
+                        "value": "Vite logo"
                     }
-                }
-            ],
-            "text": "",
-            "attributes": {
-                "src": {
-                    "type": "Identifier",
-                    "name": "viteLogo"
                 },
-                "className": {
-                    "type": "StringLiteral",
-                    "value": "logo"
-                },
-                "alt": {
-                    "type": "StringLiteral",
-                    "value": "Vite logo"
-                }
+                "selectors": [
+                    ".logo"
+                ]
             },
-            "selectors": [
-                ".logo"
-            ]
-        },
-        {
-            "name": "a",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "href",
-                    "value": {
+            {
+                "name": "a",
+                "parentFunction": "App",
+                "testableAttributes": [
+                    {
+                        "name": "href",
+                        "value": {
+                            "type": "StringLiteral",
+                            "value": "https://react.dev"
+                        },
+                        "strategy": {
+                            "action": "click",
+                            "expectation": "navigation",
+                            "description": "Click link and verify navigation to its destination"
+                        }
+                    }
+                ],
+                "text": "",
+                "attributes": {
+                    "href": {
                         "type": "StringLiteral",
                         "value": "https://react.dev"
                     },
-                    "strategy": {
-                        "action": "click",
-                        "expectation": "navigation",
-                        "description": "Click link and verify navigation to its destination"
+                    "target": {
+                        "type": "StringLiteral",
+                        "value": "_blank"
                     }
-                }
-            ],
-            "text": "",
-            "attributes": {
-                "href": {
-                    "type": "StringLiteral",
-                    "value": "https://react.dev"
                 },
-                "target": {
-                    "type": "StringLiteral",
-                    "value": "_blank"
-                }
+                "selectors": []
             },
-            "selectors": []
-        },
-        {
-            "name": "img",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "className",
-                    "value": {
+            {
+                "name": "img",
+                "parentFunction": "App",
+                "testableAttributes": [
+                    {
+                        "name": "className",
+                        "value": {
+                            "type": "StringLiteral",
+                            "value": "logo react"
+                        },
+                        "strategy": {
+                            "action": "inspect",
+                            "expectation": "selector_available",
+                            "description": "Use this attribute to locate the element"
+                        }
+                    }
+                ],
+                "text": "",
+                "attributes": {
+                    "src": {
+                        "type": "Identifier",
+                        "name": "reactLogo"
+                    },
+                    "className": {
                         "type": "StringLiteral",
                         "value": "logo react"
                     },
-                    "strategy": {
-                        "action": "inspect",
-                        "expectation": "selector_available",
-                        "description": "Use this attribute to locate the element"
-                    }
-                }
-            ],
-            "text": "",
-            "attributes": {
-                "src": {
-                    "type": "Identifier",
-                    "name": "reactLogo"
-                },
-                "className": {
-                    "type": "StringLiteral",
-                    "value": "logo react"
-                },
-                "alt": {
-                    "type": "StringLiteral",
-                    "value": "React logo"
-                }
-            },
-            "selectors": [
-                ".logo.react"
-            ]
-        },
-        {
-            "name": "h1",
-            "parentFunction": "App",
-            "testableAttributes": [],
-            "text": "Vite + React",
-            "attributes": {},
-            "selectors": []
-        },
-        {
-            "name": "div",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "className",
-                    "value": {
+                    "alt": {
                         "type": "StringLiteral",
-                        "value": "card"
-                    },
-                    "strategy": {
-                        "action": "inspect",
-                        "expectation": "selector_available",
-                        "description": "Use this attribute to locate the element"
+                        "value": "React logo"
                     }
-                }
-            ],
-            "text": "",
-            "attributes": {
-                "contains": [
+                },
+                "selectors": [
+                    ".logo.react"
+                ]
+            },
+            {
+                "name": "h1",
+                "parentFunction": "App",
+                "testableAttributes": [],
+                "text": "Vite + React",
+                "attributes": {},
+                "selectors": []
+            },
+            {
+                "name": "div",
+                "parentFunction": "App",
+                "testableAttributes": [
                     {
-                        "name": "button",
-                        "testableAttributes": [
-                            {
-                                "name": "onClick",
-                                "value": {
-                                    "type": "Function",
-                                    "functionType": "ArrowFunctionExpression",
-                                    "param": []
-                                }
-                            }
-                        ]
+                        "name": "className",
+                        "value": {
+                            "type": "StringLiteral",
+                            "value": "card"
+                        },
+                        "strategy": {
+                            "action": "inspect",
+                            "expectation": "selector_available",
+                            "description": "Use this attribute to locate the element"
+                        }
                     }
                 ],
-                "className": {
-                    "type": "StringLiteral",
-                    "value": "card"
-                }
+                "text": "",
+                "attributes": {
+                    "contains": [
+                        {
+                            "name": "button",
+                            "testableAttributes": [
+                                {
+                                    "name": "onClick",
+                                    "value": {
+                                        "type": "Function",
+                                        "functionType": "ArrowFunctionExpression",
+                                        "param": []
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "className": {
+                        "type": "StringLiteral",
+                        "value": "card"
+                    }
+                },
+                "selectors": [
+                    ".card"
+                ]
             },
-            "selectors": [
-                ".card"
-            ]
-        },
-        {
-            "name": "button",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "onClick",
-                    "value": {
+            {
+                "name": "button",
+                "parentFunction": "App",
+                "testableAttributes": [
+                    {
+                        "name": "onClick",
+                        "value": {
+                            "type": "Function",
+                            "functionType": "ArrowFunctionExpression",
+                            "param": []
+                        },
+                        "strategy": {
+                            "action": "click",
+                            "expectation": "handler_triggered",
+                            "description": "Click element to trigger onClick"
+                        }
+                    }
+                ],
+                "text": "",
+                "attributes": {
+                    "onClick": {
                         "type": "Function",
                         "functionType": "ArrowFunctionExpression",
                         "param": []
-                    },
-                    "strategy": {
-                        "action": "click",
-                        "expectation": "handler_triggered",
-                        "description": "Click element to trigger onClick"
                     }
-                }
-            ],
-            "text": "",
-            "attributes": {
-                "onClick": {
-                    "type": "Function",
-                    "functionType": "ArrowFunctionExpression",
-                    "param": []
-                }
+                },
+                "selectors": []
             },
-            "selectors": []
-        },
-        {
-            "name": "p",
-            "parentFunction": "App",
-            "testableAttributes": [],
-            "text": "Edit src/App.jsx and save to test HMR",
-            "attributes": {},
-            "selectors": []
-        },
-        {
-            "name": "code",
-            "parentFunction": "App",
-            "testableAttributes": [],
-            "text": "",
-            "attributes": {},
-            "selectors": []
-        },
-        {
-            "name": "p",
-            "parentFunction": "App",
-            "testableAttributes": [
-                {
-                    "name": "className",
-                    "value": {
+            {
+                "name": "p",
+                "parentFunction": "App",
+                "testableAttributes": [],
+                "text": "Edit src/App.jsx and save to test HMR",
+                "attributes": {},
+                "selectors": []
+            },
+            {
+                "name": "code",
+                "parentFunction": "App",
+                "testableAttributes": [],
+                "text": "",
+                "attributes": {},
+                "selectors": []
+            },
+            {
+                "name": "p",
+                "parentFunction": "App",
+                "testableAttributes": [
+                    {
+                        "name": "className",
+                        "value": {
+                            "type": "StringLiteral",
+                            "value": "read-the-docs"
+                        },
+                        "strategy": {
+                            "action": "inspect",
+                            "expectation": "selector_available",
+                            "description": "Use this attribute to locate the element"
+                        }
+                    }
+                ],
+                "text": "Click on the Vite and React logos to learn more",
+                "attributes": {
+                    "className": {
                         "type": "StringLiteral",
                         "value": "read-the-docs"
-                    },
-                    "strategy": {
-                        "action": "inspect",
-                        "expectation": "selector_available",
-                        "description": "Use this attribute to locate the element"
                     }
-                }
-            ],
-            "text": "Click on the Vite and React logos to learn more",
-            "attributes": {
-                "className": {
-                    "type": "StringLiteral",
-                    "value": "read-the-docs"
-                }
-            },
-            "selectors": [
-                ".read-the-docs"
-            ]
-        }
-    ],
-    "summary": "Attributes from the code of /Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/streamlit_website/victim-site/App.jsx"
+                },
+                "selectors": [
+                    ".read-the-docs"
+                ]
+            }
+        ],
+        "summary": "Attributes from the code of /Users/niwatorimostiqo/Desktop/Coding/Mitou Fukuoka/streamlit_website/victim-site/App.jsx"
+    }
 }

@@ -25,7 +25,7 @@ FILE_NAME="../test-project/src/App.jsx"
 JSLANGUAGE = Language(tsj.language()) #creates language
 FUNCTIONS= ["arrow_function","function_declaration","function"]
 VARIABLES= ["array_pattern"]
-
+gemini_API=os.getenv("GEMINI_API_KEY")
 CONSOLE= Console()
 
 def ast_rag(file:str):
@@ -94,8 +94,8 @@ def embed_ast(file: str) -> None:
     3) Falls back to in-memory Chroma if persistent DB cannot be written
     """
 
-
-    client = genai.Client()
+    st.write(gemini_API)
+    client = genai.Client(api_key=gemini_API)
     try:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(current_dir, "Code_database")
@@ -152,11 +152,55 @@ def cycle(test_path:str):
     1) Cycle through every component and generate instructions
     2) Store files in tests folder
     """
+
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    #initialize the client and stuff
+    client=genai.Client()
+    chroma_client= chromadb.PersistentClient(path=os.path.join(current_dir, "Code_database"))
+    collection = chroma_client.get_collection(name="ast")
+
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",
+                                google_api_key=gemini_API,
+                                model_kwargs={
+                                    "response_mime_type":"application/yaml"
+                                })
+    prompt = ChatPromptTemplate.from_template("""
+    You are a test automation expert. Generate test instructions in a valid YAML format.
+
+    Context: {context}
+    Component: {input}
+
+    Return a single, valid YAML document with this exact structure and nothing else:
+    ---
+    component: component_name
+    url: http://localhost:5173/
+    test_steps:
+    - step: 1
+        action: navigate
+        instruction: Open the application
+        target: "http://localhost:5173/"
+        expected: Page loads successfully
+    - step: 2
+        action: click
+        instruction: Click the submit button
+        selector: "#submit-btn"
+        expected: Form submits successfully
+    
+
+    Requirements:
+    - Each instruction must be ONE clear action
+    - Include specific selectors (id, class, data-testid, or text)
+    - Use action types: navigate, click, type, verify, wait, select
+    """)
+
+    CONSOLE.print("[bold yellow] Making message [/bold yellow]")
+    document_chain = create_stuff_documents_chain(llm,prompt)
+    
     def access_code(instructions):
-        client=genai.Client()
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        chroma_client= chromadb.PersistentClient(path=os.path.join(current_dir, "Code_database"))
-        collection = chroma_client.get_collection(name="ast")
+        """
+        Gets the code and makes instructions
+        """
+
         query=instructions
         result = client.models.embed_content(
             model="gemini-embedding-001",
@@ -182,34 +226,6 @@ def cycle(test_path:str):
             )
             docs.append(doc)
         CONSOLE.print("[green] making IDs [/green]")
-        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",
-                                    google_api_key="AIzaSyB46zy_IKF197pOSJZDBXy-1PjHsKg46_k",
-                                    model_kwargs={
-                                        "response_mime_type":"application/yaml"
-                                    })
-        prompt = ChatPromptTemplate.from_template("""
-        You are a test automation expert. Generate test instructions in JSON format.
-
-        Context: {context}
-        Component: {input}
-
-        Return instructions with this exact structure and nothing else:
-        "component": "component_name",
-        "url": "http://localhost:5173/",
-        "test_steps": [
-            "step": 1, "action": "navigate", "instruction": "Open the application", "target": "http://localhost:5173/",
-            "step": 2, "action": "click", "instruction": "Click the submit button","text":"Submit", "selector": "#submit-btn", "expected": "Form submits successfully",
-        ]
-        
-
-        Requirements:
-        - Each instruction must be ONE clear action
-        - Include specific selectors (id, class, data-testid, or text)
-        - Use action types: navigate, click, type, verify, wait, select
-        """)
-
-        CONSOLE.print("[bold yellow] Making message [/bold yellow]")
-        document_chain = create_stuff_documents_chain(llm,prompt)
 
         CONSOLE.print("[yellow]invoke message [/yellow]")
         response = document_chain.invoke({
@@ -219,14 +235,18 @@ def cycle(test_path:str):
         CONSOLE.print(
             Panel(
             response,title="response",expand=True))
-        return (json.loads(response))
+        return (yaml.safe_load(response))
 
     #helper function for cycle()
     def unique_file(name,existing_files):
+        """
+        Makes a unique file name to stop overwrites
+        """
+
         count=1
-        file=os.path.join(test_path, f"{name}.yaml")
+        file=f"{name}.yaml"
         while file in existing_files:
-            file=os.path.join(test_path, f"{name}[{count}].yaml")
+            file=f"{name}[{count}].yaml"
             count+=1
         
         existing_files.add(file)
@@ -236,40 +256,64 @@ def cycle(test_path:str):
     os.makedirs(test_path, exist_ok=True)
     current_dir = os.path.dirname(os.path.abspath(__file__))
     code_struct_path = os.path.join(current_dir, "code_structure.json")
-    with open(code_struct_path,"r") as f:
-        data=json.load(f)
-    existing_files = set()
-    for index,i in enumerate(data["components"]):
-        # Check if testableAttributes exists and is not empty
-        if "testableAttributes" in i and i["testableAttributes"] and len(i["testableAttributes"]) > 0:
-            instruction= f"please give instructions to test the component {i}"
-            yaml_data=access_code(instruction)
-            filename = unique_file(i['name'], existing_files)
-            files.append(filename)
-            with open(filename,"w") as f:
-                yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
 
-async def test_browser_use(limit=None,headless:bool = False)->list[str]:
+    with open(code_struct_path,"r") as f:
+        data:dict=json.load(f)
+    existing_files = set()
+
+    for key,values in data.items():
+        name, extension=os.path.splitext(key)
+        directory=f"{name}[{extension}]"
+        full_path=os.path.join(test_path,directory)
+        os.makedirs(full_path,exist_ok=True)
+        for index,i in enumerate(values["components"]):
+
+            # Check if testableAttributes exists and is not empty
+            if "testableAttributes" in i and i["testableAttributes"] and len(i["testableAttributes"]) > 0:
+                instruction= f"please give instructions to test the component {i}"
+                yaml_data=access_code(instruction)
+                filename = unique_file(i['name'], existing_files)
+                files.append(filename)
+                final_path=os.path.join(full_path,filename)
+                with open(final_path,"w") as f:
+                    if yaml_data:
+                        yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
+
+async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]:
     """ Runs agent. If input not None, will limit number of tests """
-    directory= os.listdir("./tests")
+    path=os.path.join("tests",test_path)
+    directory= os.listdir(path)
     success_files=[]
     count=0
+
     for file in directory:
-        with open(f"./tests/{file}","r") as f:
+        with open(os.path.join(path,file),"r") as f:
             data=yaml.safe_load(f)
         task=str(yaml.dump(data["test_steps"], default_flow_style=False, sort_keys=False))
         browser=Browser(
             headless=headless,
         )
-        agent = Agent(
-            task=task,
-            llm=ChatGoogle(model="gemini-2.5-flash"),
-            browser=browser,
-            generate_gif=True
-        )
-        history = await agent.run()
-        success={"name":file,"success":history.is_successful()}
-        success_files.append(success)
+        try:
+            agent = Agent(
+                task=task,
+                llm=ChatGoogle(model="gemini-2.5-flash"),
+                browser=browser
+            )
+            history = await agent.run()
+            others={
+                "structured_output":history.structured_output,
+                "action":history.action_names(),
+                "extracted":history.extracted_content(),  
+                "errors":history.errors(),                  
+                "actions":history.model_actions(),           
+                "model_output":history.model_outputs(),          
+                "last action":history.last_action(),          
+            }
+
+            success={"path":test_path,"name":file,"success":history.is_successful(),**others}
+            success_files.append(success)
+        except Exception as e:
+            st.warning(str(e))
         count+=1
         if limit:
             if count == limit:
@@ -285,8 +329,10 @@ async def test_browser_use(limit=None,headless:bool = False)->list[str]:
 async def results_writer(results: list[dict[str:str|bool]])->None:
     """
     Takes list of dictionaries and writes yaml files to new folder called "results"
-    dictionary format: name: str
+    dictionary format: path: full path to be saved
+                       name: str
                        success: bool
+                       **kwargs
     """
     current_dir = os.path.dirname(os.path.abspath(__file__))
     results_path= os.path.join(current_dir,"results")
@@ -294,8 +340,16 @@ async def results_writer(results: list[dict[str:str|bool]])->None:
         os.makedirs(results_path)
 
     for i in results:
-        file_path = os.path.join(results_path, i["name"])
-        output= f"success: {i["success"]}"
+        directory=os.path.join(results_path,i["path"])
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
+        file_path = os.path.join(directory, i["name"])
+        output_data = i.copy()
+        if "path" in output_data:
+            del output_data["path"]
+
+        output = "\n".join(f"{key}: {value}" for key, value in output_data.items())
         with open(file_path,"w") as f:
             f.write(output)
 
@@ -362,8 +416,6 @@ def get_graph():
     final_nodes=list(nodes.values())
 
     return final_nodes,edges,node_types
-
-
 
 #------ Graph Creation ---
 def graph_creation(file_name:str) -> None:

@@ -3,8 +3,9 @@ from streamlit_option_menu import option_menu
 import os
 
 result_path=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
-
-c1,c2,c3 = st.columns(3)
+directories=[item for item in os.listdir(result_path)
+             if os.path.isdir(os.path.join(result_path,item))
+            ]
 
 try:
     selected = option_menu(
@@ -30,29 +31,43 @@ try:
     if num_tests == 0 or num_tests == None:
         st.warning("Run some tests first")
     
+    c1,c2,c3 = st.columns(3)
     with c1:
-        st.write("Number of tests run: ",num_tests)
+        st.write("Number of tests run: ")
+        st.subheader(num_tests)
     with c2:
-        st.write("Number of tests passed: ",passed)
+        st.write("Number of tests passed: ")
+        st.subheader(passed)
     with c3:
-        st.write("Number of tests failed ",fails)
+        st.write("Number of tests failed ")
+        st.subheader(fails)
 
 
     result_files=[]
-    if os.path.exists(result_path):
-        items=os.listdir(result_path)
-        for item in items:
-            result_files.append(item)
+    with st.sidebar:
+        with st.sidebar:
 
-    preview = st.radio(
-        "Choose a test to preview",
-        [item for item in result_files],
-        index=None,
-    )
+            option=st.selectbox("Which file to test?",
+                (directories))
+                
+            if option:
+                path = os.path.join(result_path,option)
+                if os.path.exists(path):
+                    items=os.listdir(path)
+                    for item in items:
+                        full_item_path = os.path.join(path, item)
+                        if os.path.isfile(full_item_path):
+                            result_files.append(item)
+
+        preview = st.radio(
+            "Choose a test to preview",
+            [item for item in result_files],
+            index=None,
+        )
 
     if preview:
         try:
-            file_path = os.path.join(result_path, preview)
+            file_path = os.path.join(result_path, path, preview)
             if os.path.exists(file_path):
                 with open(file_path,"r") as f:
                     data=f.read()

@@ -10,7 +10,7 @@ Octagon Tester is a full-stack platform for automated parsing, analysis, and tes
 - **Display** test results & analytics
 
 Built with [Streamlit](https://streamlit.io/) for rapid UI, with multi-page flows for code upload, graph visualization, test management, and result analysis.
-
+Honestly not sure how it works but it does 💀
 ---
 
 ## 📁 Folder Structure
@@ -154,12 +154,12 @@ streamlit run main.py
 
 ## 🤝 Contributing & Support
 - Open issues/PRs for bugs or feature requests
-- Contact: [your_email@example.com] (replace this with your actual email)
+- Contact: niwatorim001@gmail.com
 
 ---
 
 ## 📝 License
-MIT License (or specify your license here)
+Just trust me bro
 
 ---
 

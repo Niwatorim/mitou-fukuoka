@@ -2,3 +2,4 @@ Code_database/
 __pycache__/
 mitou/
 .env
+ast_RAG/

@@ -1,10 +1,10 @@
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from tree_sitter import Language, Parser, Query, QueryCursor, Node
 from langchain_community.document_loaders import TextLoader
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 from browser_use import Agent, ChatGoogle,Browser
-from langchain.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
 from langchain_neo4j import Neo4jGraph
 import tree_sitter_javascript as tsj
@@ -176,15 +176,15 @@ def cycle(test_path:str):
     url: http://localhost:5173/
     test_steps:
     - step: 1
-        action: navigate
-        instruction: Open the application
-        target: "http://localhost:5173/"
-        expected: Page loads successfully
+      action: navigate
+      instruction: Open the application
+      target: "http://localhost:5173/"
+      expected: Page loads successfully
     - step: 2
-        action: click
-        instruction: Click the submit button
-        selector: "#submit-btn"
-        expected: Form submits successfully
+      action: click
+      instruction: Click the submit button
+      selector: "#submit-btn"
+      expected: Form submits successfully
     
 
     Requirements:
@@ -193,8 +193,14 @@ def cycle(test_path:str):
     - Use action types: navigate, click, type, verify, wait, select
     """)
 
+    # Helper function to format documents into a single string
+    def format_docs(docs):
+        """Format document list into a single context string"""
+        return "\n\n".join(doc.page_content for doc in docs)
+
     CONSOLE.print("[bold yellow] Making message [/bold yellow]")
-    document_chain = create_stuff_documents_chain(llm,prompt)
+    # Create modern LCEL chain using StrOutputParser
+    document_chain = prompt | llm | StrOutputParser()
     
     def access_code(instructions):
         """
@@ -228,9 +234,10 @@ def cycle(test_path:str):
         CONSOLE.print("[green] making IDs [/green]")
 
         CONSOLE.print("[yellow]invoke message [/yellow]")
+        # Invoke chain with formatted context
         response = document_chain.invoke({
             "input": query,
-            "context": docs
+            "context": format_docs(docs)  # Format docs into string context
         })
         CONSOLE.print(
             Panel(
@@ -279,6 +286,7 @@ def cycle(test_path:str):
                     if yaml_data:
                         yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
 
+        
 async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]:
     """ Runs agent. If input not None, will limit number of tests """
     path=os.path.join("tests",test_path)

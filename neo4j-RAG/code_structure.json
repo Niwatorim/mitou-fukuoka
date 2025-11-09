@@ -1,0 +1,268 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\App.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex items-center justify-center h-screen"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "Loader"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex items-center justify-center h-screen"
+                }
+            },
+            "selectors": [
+                ".flex.items-center.justify-center.h-screen"
+            ]
+        },
+        {
+            "name": "Loader",
+            "parentFunction": "App",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-10 animate-spin"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-10 animate-spin"
+                }
+            },
+            "selectors": [
+                ".size-10.animate-spin"
+            ]
+        },
+        {
+            "name": "Navbar",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Routes",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Route",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "path": {
+                    "type": "StringLiteral",
+                    "value": "/"
+                },
+                "element": {
+                    "type": "ConditionalExpression",
+                    "code": "authUser ? <HomePage /> : <Navigate to=\"/login\" />"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "HomePage",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Navigate",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "value": "/login"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "Route",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "path": {
+                    "type": "StringLiteral",
+                    "value": "/signup"
+                },
+                "element": {
+                    "type": "ConditionalExpression",
+                    "code": "!authUser ? <SignUpPage /> : <Navigate to=\"/\" />"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "SignUpPage",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Navigate",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "value": "/"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "Route",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "path": {
+                    "type": "StringLiteral",
+                    "value": "/login"
+                },
+                "element": {
+                    "type": "ConditionalExpression",
+                    "code": "!authUser ? <LoginPage /> : <Navigate to=\"/\" />"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "LoginPage",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Navigate",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "value": "/"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "Route",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "path": {
+                    "type": "StringLiteral",
+                    "value": "/settings"
+                },
+                "element": {
+                    "type": "JSXElement",
+                    "code": "<SettingsPage />"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "SettingsPage",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Route",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "path": {
+                    "type": "StringLiteral",
+                    "value": "/profile"
+                },
+                "element": {
+                    "type": "ConditionalExpression",
+                    "code": "authUser ? <ProfilePage /> : <Navigate to=\"/login\" />"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "ProfilePage",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "Navigate",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "value": "/login"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "Toaster",
+            "parentFunction": "App",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\App.jsx"
+}

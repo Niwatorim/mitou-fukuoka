@@ -1,0 +1,12 @@
+component: SignUpPage
+url: http://localhost:5173/signup
+test_steps:
+- step: 1
+  action: browser_navigate
+  instruction: Open the SignUp page
+  target: http://localhost:5173/signup
+- step: 2
+  action: browser_evaluate
+  instruction: Verify the presence of the main content container
+  function: () => document.querySelector('div.w-full.max-w-md.space-y-8') !== null
+  expected: true

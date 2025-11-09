@@ -1,0 +1,22 @@
+component: SignUpPage
+url: http://localhost:5173/signup
+test_steps:
+- step: 1
+  action: browser_navigate
+  instruction: Open the SignUp page
+  target: http://localhost:5173/signup
+- step: 2
+  action: browser_evaluate
+  instruction: Verify the presence and exact class attribute value of the MessageSquare
+    icon container
+  element: div containing MessageSquare icon with specific styling
+  ref: div.size-12.rounded-xl.bg-primary\/10.flex.items-center.justify-center.group-hover\:bg-primary\/20.transition-colors
+  function: "(element) => {\n        if (!element) return false;\n        // Normalize\
+    \ whitespace for robust comparison\n        const expectedClassName = \"size-12\
+    \ rounded-xl bg-primary/10 flex items-center justify-center \\r\\n           \
+    \   group-hover:bg-primary/20 transition-colors\";\n        const normalizedExpectedClassName\
+    \ = expectedClassName.replace(/\\s+/g, ' ').trim();\n        const normalizedActualClassName\
+    \ = element.className.replace(/\\s+/g, ' ').trim();\n        return normalizedActualClassName\
+    \ === normalizedExpectedClassName;\n      }"
+  expected: A div element with the exact specified class attributes should be present
+    and match the expected value after normalization.

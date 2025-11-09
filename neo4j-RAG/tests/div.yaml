@@ -1,0 +1,11 @@
+component: SignUpPage
+url: http://localhost:5173/signup
+test_steps:
+- step: 1
+  action: browser_navigate
+  instruction: Open the SignUp page
+  target: http://localhost:5173/signup
+- step: 2
+  action: browser_wait_for
+  instruction: Verify the main layout div is present on the page
+  selector: .min-h-screen.grid.lg\:grid-cols-2

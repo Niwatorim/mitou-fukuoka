@@ -1,0 +1,9 @@
+component: SignUpPage
+url: null
+test_steps:
+- step: 1
+  action: browser_evaluate
+  instruction: Verify that the div with class 'text-center mb-8' is present on the
+    page.
+  function: () => { return document.querySelector('.text-center.mb-8') !== null; }
+  expected: The div with class 'text-center mb-8' should be available.

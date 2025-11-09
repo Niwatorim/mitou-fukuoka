@@ -1,0 +1,14 @@
+component: SignUpPage
+url: http://localhost:5173/
+test_steps:
+- step: 1
+  action: browser_navigate
+  instruction: Open the application at the base URL
+  target: http://localhost:5173/
+- step: 2
+  action: browser_evaluate
+  instruction: Verify the main content container div is present with its styling classes
+  function: () => document.querySelector('.flex.flex-col.justify-center.items-center.p-6.sm\:p-12')
+    !== null
+  expected: The div with class 'flex flex-col justify-center items-center p-6 sm:p-12'
+    should be present on the page.

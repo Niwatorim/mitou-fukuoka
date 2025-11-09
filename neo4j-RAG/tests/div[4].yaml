@@ -1,0 +1,14 @@
+component: SignUpPage
+url: http://localhost:5713/signup
+test_steps:
+- step: 1
+  action: browser_navigate
+  instruction: Open the SignUp page
+  target: http://localhost:5713/signup
+- step: 2
+  action: browser_evaluate
+  instruction: Verify the presence of the main content container for SignUpPage
+  function: () => document.querySelector('.flex.flex-col.items-center.gap-2.group')
+    !== null
+  expected: The div with class 'flex flex-col items-center gap-2 group' should be
+    present

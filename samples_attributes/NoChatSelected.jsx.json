@@ -1,0 +1,261 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\NoChatSelected.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "w-full flex flex-1 flex-col items-center justify-center p-16 bg-base-100/50"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "w-full flex flex-1 flex-col items-center justify-center p-16 bg-base-100/50"
+                }
+            },
+            "selectors": [
+                ".w-full.flex.flex-1.flex-col.items-center.justify-center.p-16.bg-base-100/50"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "max-w-md text-center space-y-6"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "h2"
+                    },
+                    {
+                        "name": "p"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "max-w-md text-center space-y-6"
+                }
+            },
+            "selectors": [
+                ".max-w-md.text-center.space-y-6"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex justify-center gap-4 mb-4"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex justify-center gap-4 mb-4"
+                }
+            },
+            "selectors": [
+                ".flex.justify-center.gap-4.mb-4"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "relative"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "relative"
+                }
+            },
+            "selectors": [
+                ".relative"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "w-16 h-16 rounded-2xl bg-primary/10 flex items-center\r\n             justify-center animate-bounce"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "MessageSquare"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "w-16 h-16 rounded-2xl bg-primary/10 flex items-center\r\n             justify-center animate-bounce"
+                }
+            },
+            "selectors": [
+                ".w-16.h-16.rounded-2xl.bg-primary/10.flex.items-center\r\n.justify-center.animate-bounce"
+            ]
+        },
+        {
+            "name": "MessageSquare",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "w-8 h-8 text-primary "
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "w-8 h-8 text-primary "
+                }
+            },
+            "selectors": [
+                ".w-8.h-8.text-primary"
+            ]
+        },
+        {
+            "name": "h2",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-2xl font-bold"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "Welcome to Chatty!",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-2xl font-bold"
+                }
+            },
+            "selectors": [
+                ".text-2xl.font-bold"
+            ]
+        },
+        {
+            "name": "p",
+            "parentFunction": "NoChatSelected",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-base-content/60"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "Select a conversation from the sidebar to start chatting",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-base-content/60"
+                }
+            },
+            "selectors": [
+                ".text-base-content/60"
+            ]
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\NoChatSelected.jsx"
+}

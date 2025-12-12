@@ -1,0 +1,162 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\pages\\HomePage.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "HomePage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "h-screen bg-base-200"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "h-screen bg-base-200"
+                }
+            },
+            "selectors": [
+                ".h-screen.bg-base-200"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "HomePage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex items-center justify-center pt-20 px-4"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex items-center justify-center pt-20 px-4"
+                }
+            },
+            "selectors": [
+                ".flex.items-center.justify-center.pt-20.px-4"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "HomePage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]"
+                }
+            },
+            "selectors": [
+                ".bg-base-100.rounded-lg.shadow-cl.w-full.max-w-6xl.h-[calc(100vh-8rem)]"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "HomePage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex h-full rounded-lg overflow-hidden"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "Sidebar"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex h-full rounded-lg overflow-hidden"
+                }
+            },
+            "selectors": [
+                ".flex.h-full.rounded-lg.overflow-hidden"
+            ]
+        },
+        {
+            "name": "Sidebar",
+            "parentFunction": "HomePage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "NoChatSelected",
+            "parentFunction": "HomePage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "ChatContainer",
+            "parentFunction": "HomePage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\pages\\HomePage.jsx"
+}

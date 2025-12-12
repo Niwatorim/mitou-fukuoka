@@ -1,0 +1,562 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\Navbar.jsx",
+    "components": [
+        {
+            "name": "header",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 \r\n    backdrop-blur-lg bg-base-100/80"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 \r\n    backdrop-blur-lg bg-base-100/80"
+                }
+            },
+            "selectors": [
+                ".bg-base-100.border-b.border-base-300.fixed.w-full.top-0.z-40.\r\n.backdrop-blur-lg.bg-base-100/80"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "container mx-auto px-4 h-16"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "container mx-auto px-4 h-16"
+                }
+            },
+            "selectors": [
+                ".container.mx-auto.px-4.h-16"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex items-center justify-between h-full"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex items-center justify-between h-full"
+                }
+            },
+            "selectors": [
+                ".flex.items-center.justify-between.h-full"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex items-center gap-8"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "Link"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex items-center gap-8"
+                }
+            },
+            "selectors": [
+                ".flex.items-center.gap-8"
+            ]
+        },
+        {
+            "name": "Link",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex items-center gap-2.5 hover:opacity-80 transition-all"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "value": "/"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex items-center gap-2.5 hover:opacity-80 transition-all"
+                }
+            },
+            "selectors": [
+                ".flex.items-center.gap-2.5.hover:opacity-80.transition-all"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-9 rounded-lg bg-primary/10 flex items-center justify-center"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "MessageSquare"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-9 rounded-lg bg-primary/10 flex items-center justify-center"
+                }
+            },
+            "selectors": [
+                ".size-9.rounded-lg.bg-primary/10.flex.items-center.justify-center"
+            ]
+        },
+        {
+            "name": "MessageSquare",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "w-5 h-5 text-primary"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "w-5 h-5 text-primary"
+                }
+            },
+            "selectors": [
+                ".w-5.h-5.text-primary"
+            ]
+        },
+        {
+            "name": "h1",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-lg font-bold"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "Chatty",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-lg font-bold"
+                }
+            },
+            "selectors": [
+                ".text-lg.font-bold"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex items-center gap-2"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "Link"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex items-center gap-2"
+                }
+            },
+            "selectors": [
+                ".flex.items-center.gap-2"
+            ]
+        },
+        {
+            "name": "Link",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "TemplateLiteral",
+                        "code": "`\r\n              btn btn-sm gap-2 transition-colors\r\n              \r\n              `"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "code": "\"/settings\""
+                },
+                "className": {
+                    "type": "TemplateLiteral",
+                    "code": "`\r\n              btn btn-sm gap-2 transition-colors\r\n              \r\n              `"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "Settings",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "w-4 h-4"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "w-4 h-4"
+                }
+            },
+            "selectors": [
+                ".w-4.h-4"
+            ]
+        },
+        {
+            "name": "span",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "hidden sm:inline"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "hidden sm:inline"
+                }
+            },
+            "selectors": [
+                ".hidden.sm:inline"
+            ]
+        },
+        {
+            "name": "Link",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "TemplateLiteral",
+                        "code": "`btn btn-sm gap-2`"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "code": "\"/profile\""
+                },
+                "className": {
+                    "type": "TemplateLiteral",
+                    "code": "`btn btn-sm gap-2`"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "User",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5"
+                }
+            },
+            "selectors": [
+                ".size-5"
+            ]
+        },
+        {
+            "name": "span",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "hidden sm:inline"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "hidden sm:inline"
+                }
+            },
+            "selectors": [
+                ".hidden.sm:inline"
+            ]
+        },
+        {
+            "name": "button",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex gap-2 items-center"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                },
+                {
+                    "name": "onClick",
+                    "value": {
+                        "type": "Identifier",
+                        "name": "logout"
+                    },
+                    "strategy": {
+                        "action": "click",
+                        "expectation": "handler_triggered",
+                        "description": "Click element to trigger onClick"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex gap-2 items-center"
+                },
+                "onClick": {
+                    "type": "Identifier",
+                    "name": "logout"
+                }
+            },
+            "selectors": [
+                ".flex.gap-2.items-center"
+            ]
+        },
+        {
+            "name": "LogOut",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5"
+                }
+            },
+            "selectors": [
+                ".size-5"
+            ]
+        },
+        {
+            "name": "span",
+            "parentFunction": "Navbar",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "hidden sm:inline"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "hidden sm:inline"
+                }
+            },
+            "selectors": [
+                ".hidden.sm:inline"
+            ]
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\Navbar.jsx"
+}

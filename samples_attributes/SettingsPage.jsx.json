@@ -1,0 +1,16 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\pages\\SettingsPage.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "SettingsPage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "contains": []
+            },
+            "selectors": []
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\pages\\SettingsPage.jsx"
+}

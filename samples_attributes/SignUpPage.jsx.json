@@ -1,0 +1,1473 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\pages\\SignUpPage.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "min-h-screen grid lg:grid-cols-2"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "AuthImagePattern"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "min-h-screen grid lg:grid-cols-2"
+                }
+            },
+            "selectors": [
+                ".min-h-screen.grid.lg:grid-cols-2"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex flex-col justify-center items-center p-6 sm:p-12"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex flex-col justify-center items-center p-6 sm:p-12"
+                }
+            },
+            "selectors": [
+                ".flex.flex-col.justify-center.items-center.p-6.sm:p-12"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "w-full max-w-md space-y-8"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "form"
+                    },
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "w-full max-w-md space-y-8"
+                }
+            },
+            "selectors": [
+                ".w-full.max-w-md.space-y-8"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-center mb-8"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-center mb-8"
+                }
+            },
+            "selectors": [
+                ".text-center.mb-8"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "flex flex-col items-center gap-2 group"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "h1"
+                    },
+                    {
+                        "name": "p"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "flex flex-col items-center gap-2 group"
+                }
+            },
+            "selectors": [
+                ".flex.flex-col.items-center.gap-2.group"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-12 rounded-xl bg-primary/10 flex items-center justify-center \r\n              group-hover:bg-primary/20 transition-colors"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "MessageSquare"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-12 rounded-xl bg-primary/10 flex items-center justify-center \r\n              group-hover:bg-primary/20 transition-colors"
+                }
+            },
+            "selectors": [
+                ".size-12.rounded-xl.bg-primary/10.flex.items-center.justify-center.\r\n.group-hover:bg-primary/20.transition-colors"
+            ]
+        },
+        {
+            "name": "MessageSquare",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "h1",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-2xl font-bold mt-2"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "Create Account",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-2xl font-bold mt-2"
+                }
+            },
+            "selectors": [
+                ".text-2xl.font-bold.mt-2"
+            ]
+        },
+        {
+            "name": "p",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-base-content/60"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "Get started with your free account",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-base-content/60"
+                }
+            },
+            "selectors": [
+                ".text-base-content/60"
+            ]
+        },
+        {
+            "name": "form",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "onSubmit",
+                    "value": {
+                        "type": "Identifier",
+                        "name": "handleSubmit"
+                    },
+                    "strategy": {
+                        "action": "click",
+                        "expectation": "handler_triggered",
+                        "description": "Click element to trigger onSubmit"
+                    }
+                },
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "space-y-6"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "onSubmit": {
+                    "type": "Identifier",
+                    "name": "handleSubmit"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "space-y-6"
+                }
+            },
+            "selectors": [
+                ".space-y-6"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "form-control"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "label"
+                    },
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "form-control"
+                }
+            },
+            "selectors": [
+                ".form-control"
+            ]
+        },
+        {
+            "name": "label",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "span",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {},
+            "selectors": []
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "relative"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "input"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "relative"
+                }
+            },
+            "selectors": [
+                ".relative"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "User"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                }
+            },
+            "selectors": [
+                ".absolute.inset-y-0.left-0.pl-3.flex.items-center.pointer-events-none"
+            ]
+        },
+        {
+            "name": "User",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5 text-base-content/40"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5 text-base-content/40"
+                }
+            },
+            "selectors": [
+                ".size-5.text-base-content/40"
+            ]
+        },
+        {
+            "name": "input",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "TemplateLiteral",
+                        "code": "`input input-bordered w-full pl-10`"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                },
+                {
+                    "name": "value",
+                    "value": {
+                        "type": "MemberExpression",
+                        "code": "formData.fullName"
+                    },
+                    "strategy": {
+                        "action": "verify",
+                        "expectation": "text_present",
+                        "description": "Verify \"value\" content is correct"
+                    }
+                },
+                {
+                    "name": "onChange",
+                    "value": {
+                        "type": "Function",
+                        "functionType": "ArrowFunctionExpression",
+                        "param": [
+                            {
+                                "type": "Identifier",
+                                "start": 2701,
+                                "end": 2702,
+                                "loc": {
+                                    "start": {
+                                        "line": 68,
+                                        "column": 29,
+                                        "index": 2701
+                                    },
+                                    "end": {
+                                        "line": 68,
+                                        "column": 30,
+                                        "index": 2702
+                                    },
+                                    "identifierName": "e"
+                                },
+                                "name": "e"
+                            }
+                        ]
+                    },
+                    "strategy": {
+                        "action": "input",
+                        "expectation": "value_changed",
+                        "description": "Type into the element to trigger onChange"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "type": {
+                    "type": "StringLiteral",
+                    "value": "text"
+                },
+                "className": {
+                    "type": "TemplateLiteral",
+                    "code": "`input input-bordered w-full pl-10`"
+                },
+                "placeholder": {
+                    "type": "StringLiteral",
+                    "value": "Jane Doe"
+                },
+                "value": {
+                    "type": "MemberExpression",
+                    "code": "formData.fullName"
+                },
+                "onChange": {
+                    "type": "Function",
+                    "functionType": "ArrowFunctionExpression",
+                    "param": [
+                        {
+                            "type": "Identifier",
+                            "start": 2701,
+                            "end": 2702,
+                            "loc": {
+                                "start": {
+                                    "line": 68,
+                                    "column": 29,
+                                    "index": 2701
+                                },
+                                "end": {
+                                    "line": 68,
+                                    "column": 30,
+                                    "index": 2702
+                                },
+                                "identifierName": "e"
+                            },
+                            "name": "e"
+                        }
+                    ]
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "form-control"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "label"
+                    },
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "form-control"
+                }
+            },
+            "selectors": [
+                ".form-control"
+            ]
+        },
+        {
+            "name": "label",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "label"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "label"
+                }
+            },
+            "selectors": [
+                ".label"
+            ]
+        },
+        {
+            "name": "span",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "label-text font-medium"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "label-text font-medium"
+                }
+            },
+            "selectors": [
+                ".label-text.font-medium"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "relative"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "input"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "relative"
+                }
+            },
+            "selectors": [
+                ".relative"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "Mail"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                }
+            },
+            "selectors": [
+                ".absolute.inset-y-0.left-0.pl-3.flex.items-center.pointer-events-none"
+            ]
+        },
+        {
+            "name": "Mail",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5 text-base-content/40"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5 text-base-content/40"
+                }
+            },
+            "selectors": [
+                ".size-5.text-base-content/40"
+            ]
+        },
+        {
+            "name": "input",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "TemplateLiteral",
+                        "code": "`input input-bordered w-full pl-10`"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                },
+                {
+                    "name": "value",
+                    "value": {
+                        "type": "MemberExpression",
+                        "code": "formData.email"
+                    },
+                    "strategy": {
+                        "action": "verify",
+                        "expectation": "text_present",
+                        "description": "Verify \"value\" content is correct"
+                    }
+                },
+                {
+                    "name": "onChange",
+                    "value": {
+                        "type": "Function",
+                        "functionType": "ArrowFunctionExpression",
+                        "param": [
+                            {
+                                "type": "Identifier",
+                                "start": 3489,
+                                "end": 3490,
+                                "loc": {
+                                    "start": {
+                                        "line": 86,
+                                        "column": 29,
+                                        "index": 3489
+                                    },
+                                    "end": {
+                                        "line": 86,
+                                        "column": 30,
+                                        "index": 3490
+                                    },
+                                    "identifierName": "e"
+                                },
+                                "name": "e"
+                            }
+                        ]
+                    },
+                    "strategy": {
+                        "action": "input",
+                        "expectation": "value_changed",
+                        "description": "Type into the element to trigger onChange"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "type": {
+                    "type": "StringLiteral",
+                    "value": "email"
+                },
+                "className": {
+                    "type": "TemplateLiteral",
+                    "code": "`input input-bordered w-full pl-10`"
+                },
+                "placeholder": {
+                    "type": "StringLiteral",
+                    "value": "you@example.com"
+                },
+                "value": {
+                    "type": "MemberExpression",
+                    "code": "formData.email"
+                },
+                "onChange": {
+                    "type": "Function",
+                    "functionType": "ArrowFunctionExpression",
+                    "param": [
+                        {
+                            "type": "Identifier",
+                            "start": 3489,
+                            "end": 3490,
+                            "loc": {
+                                "start": {
+                                    "line": 86,
+                                    "column": 29,
+                                    "index": 3489
+                                },
+                                "end": {
+                                    "line": 86,
+                                    "column": 30,
+                                    "index": 3490
+                                },
+                                "identifierName": "e"
+                            },
+                            "name": "e"
+                        }
+                    ]
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "form-control"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "label"
+                    },
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "form-control"
+                }
+            },
+            "selectors": [
+                ".form-control"
+            ]
+        },
+        {
+            "name": "label",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "label"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "label"
+                }
+            },
+            "selectors": [
+                ".label"
+            ]
+        },
+        {
+            "name": "span",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "label-text font-medium"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "label-text font-medium"
+                }
+            },
+            "selectors": [
+                ".label-text.font-medium"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "relative"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "input"
+                    },
+                    {
+                        "name": "button"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "relative"
+                }
+            },
+            "selectors": [
+                ".relative"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "Lock"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                }
+            },
+            "selectors": [
+                ".absolute.inset-y-0.left-0.pl-3.flex.items-center.pointer-events-none"
+            ]
+        },
+        {
+            "name": "Lock",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5 text-base-content/40"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5 text-base-content/40"
+                }
+            },
+            "selectors": [
+                ".size-5.text-base-content/40"
+            ]
+        },
+        {
+            "name": "input",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "TemplateLiteral",
+                        "code": "`input input-bordered w-full pl-10`"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                },
+                {
+                    "name": "value",
+                    "value": {
+                        "type": "MemberExpression",
+                        "code": "formData.password"
+                    },
+                    "strategy": {
+                        "action": "verify",
+                        "expectation": "text_present",
+                        "description": "Verify \"value\" content is correct"
+                    }
+                },
+                {
+                    "name": "onChange",
+                    "value": {
+                        "type": "Function",
+                        "functionType": "ArrowFunctionExpression",
+                        "param": [
+                            {
+                                "type": "Identifier",
+                                "start": 4302,
+                                "end": 4303,
+                                "loc": {
+                                    "start": {
+                                        "line": 104,
+                                        "column": 29,
+                                        "index": 4302
+                                    },
+                                    "end": {
+                                        "line": 104,
+                                        "column": 30,
+                                        "index": 4303
+                                    },
+                                    "identifierName": "e"
+                                },
+                                "name": "e"
+                            }
+                        ]
+                    },
+                    "strategy": {
+                        "action": "input",
+                        "expectation": "value_changed",
+                        "description": "Type into the element to trigger onChange"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "type": {
+                    "type": "ConditionalExpression",
+                    "code": "showPassword ? \"text\" : \"password\""
+                },
+                "className": {
+                    "type": "TemplateLiteral",
+                    "code": "`input input-bordered w-full pl-10`"
+                },
+                "placeholder": {
+                    "type": "StringLiteral",
+                    "value": "\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2"
+                },
+                "value": {
+                    "type": "MemberExpression",
+                    "code": "formData.password"
+                },
+                "onChange": {
+                    "type": "Function",
+                    "functionType": "ArrowFunctionExpression",
+                    "param": [
+                        {
+                            "type": "Identifier",
+                            "start": 4302,
+                            "end": 4303,
+                            "loc": {
+                                "start": {
+                                    "line": 104,
+                                    "column": 29,
+                                    "index": 4302
+                                },
+                                "end": {
+                                    "line": 104,
+                                    "column": 30,
+                                    "index": 4303
+                                },
+                                "identifierName": "e"
+                            },
+                            "name": "e"
+                        }
+                    ]
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "button",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "absolute inset-y-0 right-0 pr-3 flex items-center"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                },
+                {
+                    "name": "onClick",
+                    "value": {
+                        "type": "Function",
+                        "functionType": "ArrowFunctionExpression",
+                        "param": []
+                    },
+                    "strategy": {
+                        "action": "click",
+                        "expectation": "handler_triggered",
+                        "description": "Click element to trigger onClick"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "type": {
+                    "type": "StringLiteral",
+                    "value": "button"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "absolute inset-y-0 right-0 pr-3 flex items-center"
+                },
+                "onClick": {
+                    "type": "Function",
+                    "functionType": "ArrowFunctionExpression",
+                    "param": []
+                }
+            },
+            "selectors": [
+                ".absolute.inset-y-0.right-0.pr-3.flex.items-center"
+            ]
+        },
+        {
+            "name": "EyeOff",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5 text-base-content/40"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5 text-base-content/40"
+                }
+            },
+            "selectors": [
+                ".size-5.text-base-content/40"
+            ]
+        },
+        {
+            "name": "Eye",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5 text-base-content/40"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5 text-base-content/40"
+                }
+            },
+            "selectors": [
+                ".size-5.text-base-content/40"
+            ]
+        },
+        {
+            "name": "button",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "btn btn-primary w-full"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                },
+                {
+                    "name": "disabled",
+                    "value": {
+                        "type": "Identifier",
+                        "name": "isSigningUp"
+                    },
+                    "strategy": {
+                        "action": "verify",
+                        "expectation": "state_matches",
+                        "description": "Verify disabled state is correct"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "type": {
+                    "type": "StringLiteral",
+                    "value": "submit"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "btn btn-primary w-full"
+                },
+                "disabled": {
+                    "type": "Identifier",
+                    "name": "isSigningUp"
+                }
+            },
+            "selectors": [
+                ".btn.btn-primary.w-full"
+            ]
+        },
+        {
+            "name": "Loader2",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "size-5 animate-spin"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "size-5 animate-spin"
+                }
+            },
+            "selectors": [
+                ".size-5.animate-spin"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-center"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "p"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-center"
+                }
+            },
+            "selectors": [
+                ".text-center"
+            ]
+        },
+        {
+            "name": "p",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-base-content/60"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "Already have an account? Sign in",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-base-content/60"
+                }
+            },
+            "selectors": [
+                ".text-base-content/60"
+            ]
+        },
+        {
+            "name": "Link",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "link link-primary"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "to": {
+                    "type": "StringLiteral",
+                    "value": "/login"
+                },
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "link link-primary"
+                }
+            },
+            "selectors": [
+                ".link.link-primary"
+            ]
+        },
+        {
+            "name": "AuthImagePattern",
+            "parentFunction": "SignUpPage",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "title": {
+                    "type": "StringLiteral",
+                    "value": "Join our community"
+                },
+                "subtitle": {
+                    "type": "StringLiteral",
+                    "value": "Connect with friends, share moments, and stay in touch with your loved ones."
+                }
+            },
+            "selectors": []
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\pages\\SignUpPage.jsx"
+}

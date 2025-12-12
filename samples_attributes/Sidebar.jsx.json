@@ -1,0 +1,16 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\Sidebar.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "Sidebar",
+            "testableAttributes": [],
+            "text": "",
+            "attributes": {
+                "contains": []
+            },
+            "selectors": []
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\Sidebar.jsx"
+}

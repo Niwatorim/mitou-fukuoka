@@ -49,7 +49,6 @@ def load_ast(ast_root_dir):
                 ast_json = json.load(f)
     return ast_json
 
-
 # --- The Traversal Logic ---
 
 def get_node_text(node, source_code):

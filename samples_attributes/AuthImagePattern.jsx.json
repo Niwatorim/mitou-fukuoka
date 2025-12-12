@@ -1,0 +1,194 @@
+{
+    "file": "C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\AuthImagePattern.jsx",
+    "components": [
+        {
+            "name": "div",
+            "parentFunction": "AuthImagePattern",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "hidden lg:flex items-center justify-center bg-base-200 p-12"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "hidden lg:flex items-center justify-center bg-base-200 p-12"
+                }
+            },
+            "selectors": [
+                ".hidden.lg:flex.items-center.justify-center.bg-base-200.p-12"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "AuthImagePattern",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "max-w-md text-center"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [
+                    {
+                        "name": "div"
+                    },
+                    {
+                        "name": "h2"
+                    },
+                    {
+                        "name": "p"
+                    }
+                ],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "max-w-md text-center"
+                }
+            },
+            "selectors": [
+                ".max-w-md.text-center"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "AuthImagePattern",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "grid grid-cols-3 gap-3 mb-8"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [],
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "grid grid-cols-3 gap-3 mb-8"
+                }
+            },
+            "selectors": [
+                ".grid.grid-cols-3.gap-3.mb-8"
+            ]
+        },
+        {
+            "name": "div",
+            "parentFunction": "Anonymous",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "TemplateLiteral",
+                        "code": "`aspect-square rounded-2xl bg-primary/10 ${\r\n                  i % 2 === 0 ? \"animate-pulse\" : \"\"\r\n                }`"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "contains": [],
+                "key": {
+                    "type": "Identifier",
+                    "name": "i"
+                },
+                "className": {
+                    "type": "TemplateLiteral",
+                    "code": "`aspect-square rounded-2xl bg-primary/10 ${\r\n                  i % 2 === 0 ? \"animate-pulse\" : \"\"\r\n                }`"
+                }
+            },
+            "selectors": []
+        },
+        {
+            "name": "h2",
+            "parentFunction": "AuthImagePattern",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-2xl font-bold mb-4"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-2xl font-bold mb-4"
+                }
+            },
+            "selectors": [
+                ".text-2xl.font-bold.mb-4"
+            ]
+        },
+        {
+            "name": "p",
+            "parentFunction": "AuthImagePattern",
+            "testableAttributes": [
+                {
+                    "name": "className",
+                    "value": {
+                        "type": "StringLiteral",
+                        "value": "text-base-content/60"
+                    },
+                    "strategy": {
+                        "action": "inspect",
+                        "expectation": "selector_available",
+                        "description": "Use this attribute to locate the element"
+                    }
+                }
+            ],
+            "text": "",
+            "attributes": {
+                "className": {
+                    "type": "StringLiteral",
+                    "value": "text-base-content/60"
+                }
+            },
+            "selectors": [
+                ".text-base-content/60"
+            ]
+        }
+    ],
+    "summary": "Attributes from the code of C:\\Users\\ThinkPad\\Documents\\Mitou_Fukuoka_25\\saim-code\\mitou-fukuoka\\samples\\src\\components\\AuthImagePattern.jsx"
+}

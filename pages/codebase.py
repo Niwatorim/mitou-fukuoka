@@ -5,9 +5,15 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import streamlit as st
 from streamlit_option_menu import option_menu
 from streamlit_agraph import agraph, Node, Edge, Config
-from functions import ast_rag,embed_ast,get_graph, graph_creation
+from functions import ast_rag,embed_ast,get_graph, graph_creation, parse_repo_url
 import json
+from dotenv import load_dotenv
+import requests
 
+load_dotenv()
+
+FLASK_NGROK_URL = os.getenv('FLASK_NGROK_URL')
+GITHUB_APP_INSTALLATION_LINK = os.getenv('GITHUB_APP_INSTALLATION_LINK')
 
 if "codebase" not in st.session_state:
     st.session_state.codebase=False
@@ -26,7 +32,46 @@ if selected== "Run Tests":
 if selected == "Test Results":
     st.switch_page("pages/results.py")
 
-file = st.text_input("give file path")
+file = st.text_input("upload file") # github URL now
+
+"""
+add code here to handle github repo URL
+check if there's installation ID
+if yes -> update graph when user push the code
+if no -> shows the github app installation link in the UI
+"""
+
+st.subheader("Github Repository Setup")
+repo_url = st.text_input("Enter Github Repository URL")
+
+if repo_url:
+    repo_name = parse_repo_url(repo_url)
+
+    if repo_name:
+        st.info(f"Checking installation status for : {repo_name}")
+
+        try:
+            response = requests.get(f"{FLASK_NGROK_URL}/check_installation", params={"repo": repo_name})
+            if response.status_code == 200:
+                result = response.json()
+
+                if response.get("installed"):
+                    st.success("Repository is connected!")
+                    st.session_state['current_repo'] = repo_name
+                    st.session_state['installation_id'] = result['installation_id']
+                    # if already installed, if want to use the program again, no need to paste the github repo link again, the user can just push the code, and the graph shown in streamlit UI is updated
+                
+                else:
+                    st.warning("Access missing. Please install the Github App.")
+                    st.markdown(f"[**Click here to install the Github App**]({GITHUB_APP_INSTALLATION_LINK})")
+                    st.caption("After installing, come back here and click the URL box again.")
+            else:
+                st.error("Could not connect to backend server.")
+                
+        except requests.exceptions.ConnectionError:
+            st.error("Backend Flask server is not running!")
+    else:
+        st.error("Invalid GitHub URL format")
 
 c1,c2=st.columns(2,gap="small")
 with c1:

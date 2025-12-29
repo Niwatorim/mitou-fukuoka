@@ -1,4 +1,4 @@
-component: a
+component: React link
 url: http://localhost:5173/
 test_steps:
 - step: 1
@@ -8,11 +8,11 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: click
-  instruction: Click the React documentation link
-  selector: a[href="https://react.dev"]
-  expected: User navigates to 'https://react.dev'
+  instruction: Click the link with text 'React logos'
+  selector: text="React logos"
+  expected: A new browser tab or window opens
 - step: 3
   action: verify
-  instruction: Verify the current URL
-  target: https://react.dev
-  expected: Current URL is 'https://react.dev'
+  instruction: Verify the URL of the newly opened tab/window
+  target: new_tab_url
+  expected: The URL is 'https://react.dev'

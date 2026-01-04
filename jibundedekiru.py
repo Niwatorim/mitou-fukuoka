@@ -28,7 +28,7 @@ def get_ancestry(node: Node) -> list[dict]:
 
     while current is not None:
         # Functions
-        if current.type in ["function_declaration", "function"]: 
+        if current.type in ["function_declaration", "function"]:
             name_node = current.child_by_field_name("name")
             if name_node:
                 ancestry.append({"name": name_node.text.decode("utf8"), "type": "function"})
@@ -297,11 +297,11 @@ def new_graph_creation(file_name:str) -> None:
 
 
     codebase=tree_splitter(file_name)
-    console.print(
-        Panel(
-            f"[bold green] {json.dumps(codebase,indent=2)}[/bold green]"
-        )
-    )
+    # console.print(
+    #     Panel(
+    #         f"[bold green] {json.dumps(codebase,indent=2)}[/bold green]"
+    #     )
+    # )
     #---- Create the file node
     create_file= "MERGE (f:File {name: $filename})"
 
@@ -503,6 +503,7 @@ def components(file_name, components: list[dict], graph: Neo4jGraph):
         ancestry_names = [a["name"] for a in comp.get("ancestry", [])]
         ui_id = create_id(file_name, comp["name"], ancestry_names)
 
+
         all_ui.append({
             "id": ui_id,
             "name": comp["name"],
@@ -511,28 +512,59 @@ def components(file_name, components: list[dict], graph: Neo4jGraph):
                 create_id(file_name, comp["ui_parent"], ancestry_names[:-1])
                 if comp.get("ui_parent") else None
             ),
-            "rendered_by": comp.get("rendered_by")
+            "rendered_by": comp.get("rendered_by"),
+            "handlers":[a["event"] for a in comp["handlers"]]
         })
 
     graph.query("""
     UNWIND $batch AS item
+
     MERGE (ui:Frontend {id: item.id})
     SET ui.name = item.name,
-        ui.properties = item.properties
+        ui.properties = item.properties,
+        ui.handlers = item.handlers
 
     WITH ui, item
 
+    FOREACH (h IN item.handlers |
+        MERGE (handler:Handler {id: h.id, event:h.event})
+        MERGE (ui)-[:HAS_HANDLER]->(handler)
+    
+        FOREACH(_ IN CASE WHEN h.function_id IS NOT NULL THEN [1] ELSE [] END |
+            MERGE (f: Function {id: h.function_id})
+            MERGE (handler)-[:CALLS]->(f)        
+        )
+    )
+    
     FOREACH (_ IN CASE WHEN item.ui_parent IS NOT NULL THEN [1] ELSE [] END |
         MERGE (parent:Frontend {id: item.ui_parent})
-        MERGE (parent)-[:RENDERS]->(ui)
+        MERGE (parent)-[:CONTAINS]->(ui)
     )
 
     FOREACH (_ IN CASE WHEN item.rendered_by IS NOT NULL THEN [1] ELSE [] END |
         MERGE (f:Function {id: item.rendered_by})
         MERGE (f)-[:RENDERS]->(ui)
     )
+
     """, {"batch": all_ui})
 
+    graph.query("""
+    UNWIND $batch AS item
+
+    MERGE (ui:Frontend {id: item.id})
+    SET ui.name = item.name,
+
+    WITH ui, item
+
+    FOREACH (h IN item.handlers |
+        MERGE (handler:Handler {id: h.id, event:h.event})
+        MERGE (ui)-[:HAS_HANDLER]->(handler)
+    
+        FOREACH(_ IN CASE WHEN h.function_id IS NOT NULL THEN [1] ELSE [] END |
+            MERGE (f: Function {id: h.function_id})
+            MERGE (handler)-[:CALLS]->(f)        
+        )
+    )""", {"batch": all_ui})
 
 def imports(file_name:str, imports:list[dict],graph:Neo4jGraph): # new
     all_imports=[]
@@ -694,35 +726,78 @@ def get_frontend(node:Node):
                         func_name = name_node.text.decode("utf8")
                         return create_id(file_name, func_name, [])
                 current = current.parent
-
             return None
 
+    def get_handler(attr_node: Node, ui_id:str):
+        name_node = None
+        for child in attr_node.children:
+            if child.type == "property_identifier":
+                name_node = child
+                break
+        if not name_node:
+            return None
+    
+        attr_name = name_node.text.decode("utf8")
+        if not attr_name.startswith("on"):
+            return None
+        
+        event = attr_name[2:].lower()
+        for child in attr_node.children:
+            if child.type == "jsx_expression":
+                for expr in child.children:
+                    if expr.type in ["arrow_function","function_expression"]:
+                        return {
+                            "event":event,
+                            "function_type":"inline",
+                            "code":expr.text.decode("utf8")
+                        }
+                    
+                    if expr.type == "identifier":
+                        return {
+                            "event": event,
+                            "function_type": "named",
+                            "function_name":expr.text.decode("utf8")
+                        }
+        return None
 
     query=Query(JSLANGUAGE,"""
         (identifier)@name
         (jsx_attribute)@properties
     """)
+
     attribute={
         "name":"",
         "properties":[],
         "callbacks":[],
         "parent":None,
         "ancestry":[],
-        "top_level":False
+        "top_level":False,
+        "handlers":[]
     }
+
     cursor = QueryCursor(query)
     values=cursor.captures(node)
     
+    if values.get("properties"):
+        for i in values.get("properties"):
+            attribute["properties"].append(i.text.decode("utf8"))
+            handler = get_handler(i)
+            if handler:
+                attribute["handlers"].append(handler)
+    
     if values.get("name"):
-        attribute["name"] = values["name"][0].text.decode()
+        attribute["name"] = values["name"][0].text.decode("utf8")
     
     ancestry = get_ancestry(node)
     attribute["ancestry"] = ancestry
 
     # JSX parent (UI > UI)
     ui_parent = None
-    if ancestry and ancestry[-1]["type"] == "ui":
-        ui_parent = ancestry[-1]["name"]
+    for a in reversed(ancestry):
+        if a["type"] == "ui":
+            ui_parent = a["name"]
+            break
+
 
     attribute["ui_parent"] = ui_parent
 
@@ -734,6 +809,27 @@ def get_frontend(node:Node):
     if not ancestry:
         attribute["top_level"]=True
 
+    attribute["handlers"].append({
+        "id":handler_id(FILE_NAME,event,ui_id),
+        "event":event,
+        "function_id": (
+            named_function_id if handler["function_type"] == "named"
+            else inline_function_id(FILE_NAME, handler_id)
+        )
+    })
+    attr_copy = attribute.copy()
+    attr_copy["handlers"] = [
+        {
+            "event": h["event"],
+            "handler_type": h["handler_type"],
+            "handler_code": h["handler_node"].text.decode("utf8")[:50] + "..." 
+                if len(h["handler_node"].text.decode("utf8")) > 50 
+                else h["handler_node"].text.decode("utf8")
+        } if isinstance(h, dict) and "handler_node" in h else h
+        for h in attribute.get("handlers", [])
+    ]
+
+    CONSOLE.print(f"[yellow] {json.dumps(attr_copy, indent=4)} [/yellow]")
     return attribute
 
 def get_parent_function(node:Node):

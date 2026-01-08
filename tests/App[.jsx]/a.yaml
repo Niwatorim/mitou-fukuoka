@@ -8,6 +8,10 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: click
-  instruction: Click the Vite link
-  selector: a[href="https://vite.dev"]
-  expected: User is navigated to "https://vite.dev" in a new tab
+  instruction: Click the link to Vite documentation
+  selector: a[href="https://vite.dev"][target="_blank"]
+  expected: A new browser tab/window opens and navigates to "https://vite.dev"
+- step: 3
+  action: verify
+  instruction: Confirm the URL in the newly opened tab
+  expected: The URL of the newly opened tab is "https://vite.dev"

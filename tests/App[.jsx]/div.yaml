@@ -1,4 +1,4 @@
-component: card_div
+component: div
 url: http://localhost:5173/
 test_steps:
 - step: 1
@@ -8,31 +8,11 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: verify
-  instruction: Verify the 'card' div is present on the page
+  instruction: Verify the div component with class "card" is present
   selector: .card
-  expected: Element with class 'card' is visible
+  expected: The div element with class "card" should be visible on the page
 - step: 3
-  action: verify
-  instruction: Verify the button inside the 'card' div shows 'count is 0'
-  selector: .card button
-  expected: Button text is 'count is 0'
-- step: 4
   action: click
-  instruction: Click the count button
+  instruction: Click the button inside the card to increment the count
   selector: .card button
-  expected: Button click is registered
-- step: 5
-  action: verify
-  instruction: Verify the button text updates to 'count is 1'
-  selector: .card button
-  expected: Button text is 'count is 1'
-- step: 6
-  action: click
-  instruction: Click the count button again
-  selector: .card button
-  expected: Button click is registered
-- step: 7
-  action: verify
-  instruction: Verify the button text updates to 'count is 2'
-  selector: .card button
-  expected: Button text is 'count is 2'
+  expected: The button inside the card should be clickable and trigger the count increment

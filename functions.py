@@ -3,10 +3,22 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from tree_sitter import Language, Parser, Query, QueryCursor, Node
 from langchain_community.document_loaders import TextLoader
 from langchain_google_genai import ChatGoogleGenerativeAI
-from browser_use import Agent, ChatGoogle,Browser
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_ollama import OllamaEmbeddings
+
+import sys
+import asyncio
+
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+from browser_use import Agent, ChatGoogle,Browser, ChatOllama
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
 from langchain_neo4j import Neo4jGraph
+from langchain_neo4j import Neo4jVector
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 import tree_sitter_javascript as tsj
 from rich.console import Console
 from google.genai import types
@@ -17,6 +29,8 @@ import streamlit as st
 import os,yaml,json
 import subprocess
 import chromadb
+import re
+import time
 
 # Load .env from the current directory where main.py is run
 load_dotenv()
@@ -25,8 +39,22 @@ FILE_NAME="../test-project/src/App.jsx"
 JSLANGUAGE = Language(tsj.language()) #creates language
 FUNCTIONS= ["arrow_function","function_declaration","function"]
 VARIABLES= ["array_pattern"]
-gemini_API=os.getenv("GEMINI_API_KEY")
+gemini_API=os.getenv("GOOGLE_API_KEY")
 CONSOLE= Console()
+
+NEO4J_URI = os.getenv('NEO4J_URI')
+NEO4J_USERNAME = os.getenv('NEO4J_USERNAME')
+NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD')
+NEO4J_DATABASE = os.getenv('NEO4J_DATABASE')
+
+def parse_repo_url(url):
+    """
+    Helper functionn to extract "owner/repo" from URL
+    """
+    match = re.search(r'github\.com/([^/]+)/([^/]+)', url)
+    if match:
+        return f"{match.group(1)}/{match.group(2)}"
+    return None
 
 def ast_rag(file:str):
     """ 
@@ -146,7 +174,7 @@ def embed_ast(file: str) -> None:
 
     st.success("Embedding completed and stored successfully!")
 
-def cycle(test_path:str):
+def cycle(test_path:str, retriever):
     """
     Param: path to folder to be created to store tests
     1) Cycle through every component and generate instructions
@@ -155,9 +183,6 @@ def cycle(test_path:str):
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
     #initialize the client and stuff
-    client=genai.Client()
-    chroma_client= chromadb.PersistentClient(path=os.path.join(current_dir, "Code_database"))
-    collection = chroma_client.get_collection(name="ast")
 
     llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",
                                 google_api_key=gemini_API,
@@ -194,48 +219,31 @@ def cycle(test_path:str):
     """)
 
     CONSOLE.print("[bold yellow] Making message [/bold yellow]")
-    document_chain = create_stuff_documents_chain(llm,prompt)
+    
+    rag_chain = (
+        {"context": retriever, "input": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
+    )
     
     def access_code(instructions):
         """
-        Gets the code and makes instructions
+        Uses chain to retrieve context and generate YAML instructions
         """
-
-        query=instructions
-        result = client.models.embed_content(
-            model="gemini-embedding-001",
-            contents=query,
-            config=types.EmbedContentConfig(
-                task_type="CODE_RETRIEVAL_QUERY",
-                output_dimensionality=3072 # Must match the dimension used for storage
-            )
-        )
-        CONSOLE.print("[bold green] embedding.... [/bold green] ")
-        query_embedding = [e.values for e in result.embeddings]
-
-        results = collection.query( #queries the thing
-            query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
-            n_results=2
-        )
-        
-        docs=[]
-        for i in range(len(results["ids"][0])):
-            doc = Document(
-                page_content=results["documents"][0][i],
-                metadata=results["metadatas"][0][i]
-            )
-            docs.append(doc)
-        CONSOLE.print("[green] making IDs [/green]")
-
-        CONSOLE.print("[yellow]invoke message [/yellow]")
-        response = document_chain.invoke({
-            "input": query,
-            "context": docs
-        })
-        CONSOLE.print(
-            Panel(
-            response,title="response",expand=True))
-        return (yaml.safe_load(response))
+        try:
+            # .invoke() automatically calls the retriever -> gets docs -> fills prompt -> calls LLM
+            response_text = rag_chain.invoke(instructions)
+            
+            # Clean up potential markdown formatting from LLM
+            clean_text = response_text.replace("```yaml", "").replace("```", "").strip()
+            
+            CONSOLE.print(Panel(clean_text, title="Generated YAML", expand=False, style="green"))
+            return yaml.safe_load(clean_text)
+            
+        except Exception as e:
+            CONSOLE.print(f"[bold red] Error generating test: {e} [/bold red]")
+            return None
 
     #helper function for cycle()
     def unique_file(name,existing_files):
@@ -278,6 +286,7 @@ def cycle(test_path:str):
                 with open(final_path,"w") as f:
                     if yaml_data:
                         yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
+                CONSOLE.print(f"[blue] Saved test to {final_path} [/blue]")
 
 async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]:
     """ Runs agent. If input not None, will limit number of tests """
@@ -437,7 +446,7 @@ def graph_creation(file_name:str) -> None:
             f"[bold green] {json.dumps(codebase,indent=2)}[/bold green]"
         )
     )
-    file="App.jsx"
+    file=file_name
     
     #---- Create the file node
     create_file= "MERGE (f:File {name: $filename})"
@@ -920,3 +929,119 @@ def get_imports(node:Node):
                 import_statement["parent"]=child.text.decode("utf8")
                 break
     return import_statement
+
+# ---- GraphRAG ---
+def create_docs(graph: Neo4jGraph) -> list[Document]:
+    """
+    Converts graph into text documents for vector embedding
+    """
+    query = """
+    MATCH (fe:Frontend)
+    
+    // Get the function/file that contains this component
+    OPTIONAL MATCH (parent)-[:CONTAINS]->(fe)
+    
+    // Get functions this component calls (callbacks/hooks)
+    OPTIONAL MATCH (fe)-[:CALLS]->(called_func:Function)
+    
+    RETURN
+        fe.name AS componentName,
+        fe.properties AS properties,
+        head(collect(parent.name)) AS parentName, 
+        collect(called_func.name) AS calls
+    """
+    
+    results = graph.query(query)
+    
+    docs = []
+    for record in results:
+        # Create a descriptive text string from your graph data
+        content = f"Frontend Component `{record['componentName']}` analysis:\n"
+        
+        if record['parentName']:
+            content += f"- Defined inside: {record['parentName']}\n"
+            
+        if record['properties']:
+            # Convert JSON/dict properties to string if necessary
+            props_str = json.dumps(record['properties']) if isinstance(record['properties'], (dict, list)) else str(record['properties'])
+            content += f"- Properties: {props_str}\n"
+            
+        if record['calls']:
+            content += f"- Calls functions: {', '.join(record['calls'])}\n"
+        
+        # Metadata is crucial for linking back to the graph later
+        doc = Document(
+            page_content=content,
+            metadata={
+                "component_name": record['componentName'],
+                "parent_name": record['parentName']
+            }
+        )
+        docs.append(doc)
+        
+    print(f"[bold green]Created {len(docs)} documents from the graph.[/bold green]")
+    return docs
+
+def create_vector_retriever(docs):
+    """
+    1. Uses graph query to pull the contents.
+    2. Uses vector search to find the component.
+    """
+
+    embeddings = OllamaEmbeddings(
+        model="nomic-embed-text:latest",
+        base_url="http://localhost:11434"
+    )
+
+    retrieval_query = """
+    // 1. Find the metadata from the vector search result
+    MATCH (node) 
+    WHERE node.component_name IS NOT NULL
+    
+    // 2. Lock onto the actual node in the graph
+    MATCH (fe:Frontend {name: node.component_name})
+    
+    // 3. Gather Context: What functions does it call?
+    CALL {
+        WITH fe
+        OPTIONAL MATCH (fe)-[:CALLS]->(func:Function)
+        RETURN collect(func.name + ' (Params: ' + apoc.convert.toJson(func.params) + ')') as called_functions
+    }
+
+    // 4. Gather Context: Where is it defined? (Parent Function/File)
+    CALL {
+        WITH fe
+        OPTIONAL MATCH (parent)-[:CONTAINS]->(fe)
+        RETURN head(collect(parent.name)) as parent_context
+    }
+    
+    // 5. Gather Context: Related Variables (if defined in the same parent)
+    CALL {
+        WITH fe, parent_context
+        MATCH (p)-[:CONTAINS]->(v:Variable)
+        WHERE p.name = parent_context
+        RETURN collect(v.name + ': ' + apoc.convert.toJson(v.value)) as sibling_variables
+    }
+
+    // Return the combined context as a single string for the LLM
+    RETURN "Component: " + fe.name + "\n" +
+           "Properties: " + apoc.convert.toJson(fe.properties) + "\n" +
+           "Parent Context: " + coalesce(parent_context, "Root") + "\n" +
+           "Calls Functions: " + apoc.text.join(called_functions, ", ") + "\n" +
+           "Sibling Variables: " + apoc.text.join(sibling_variables, ", ")
+           AS text, 
+           score, 
+           {component_name: fe.name} AS metadata
+    """
+
+    vector_store = Neo4jVector.from_documents(
+        embedding=embeddings,
+        documents=docs,
+        url=NEO4J_URI,
+        username=NEO4J_USERNAME,
+        password=NEO4J_PASSWORD,
+        index_name="frontend_components",
+        retrieval_query=retrieval_query 
+    )
+    
+    return vector_store.as_retriever()

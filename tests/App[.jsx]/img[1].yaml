@@ -8,16 +8,16 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: verify
-  instruction: Verify that the React logo image is visible on the page
-  selector: .logo.react
-  expected: The image element with class 'logo react' should be present and visible
+  instruction: Verify that the React logo image is present on the page.
+  selector: img.logo.react
+  expected: The image with class 'logo react' is displayed.
 - step: 3
   action: verify
-  instruction: Verify the 'alt' attribute of the React logo image
-  selector: .logo.react
-  expected: The 'alt' attribute of the image should be 'React logo'
+  instruction: Verify the 'src' attribute of the React logo image.
+  selector: img.logo.react[src*='react.svg']
+  expected: The image's 'src' attribute points to the React logo asset.
 - step: 4
   action: verify
-  instruction: Verify the 'src' attribute of the React logo image
-  selector: .logo.react
-  expected: The 'src' attribute of the image should contain 'react.svg'
+  instruction: Verify the 'alt' attribute of the React logo image.
+  selector: img.logo.react[alt='React logo']
+  expected: The image's 'alt' attribute is correctly set to 'React logo'.

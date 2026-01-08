@@ -8,16 +8,16 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: verify
-  instruction: Verify the initial count displayed on the button
-  selector: text="count is 0"
-  expected: Button displays "count is 0"
+  instruction: Verify the initial count displayed is 0
+  selector: 'text="Count is: 0"'
+  expected: 'Element displaying ''Count is: 0'' is visible on the page'
 - step: 3
   action: click
-  instruction: Click the count button
-  selector: text="count is 0"
-  expected: The count increments
+  instruction: Click the button to increment the count
+  selector: button
+  expected: The button is clicked and the count increment function is called
 - step: 4
   action: verify
-  instruction: Verify the count displayed on the button has incremented to 1
-  selector: text="count is 1"
-  expected: Button displays "count is 1"
+  instruction: Verify the count has incremented to 1
+  selector: 'text="Count is: 1"'
+  expected: 'Element displaying ''Count is: 1'' is visible on the page'

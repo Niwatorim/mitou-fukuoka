@@ -1,5 +1,9 @@
+"""
+All processes are in the Flask backend
+"""
 import sys
 import os
+import time
 # Add parent directory to path to import functions
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import streamlit as st
@@ -15,8 +19,29 @@ load_dotenv()
 FLASK_NGROK_URL = os.getenv('FLASK_NGROK_URL')
 GITHUB_APP_INSTALLATION_LINK = os.getenv('GITHUB_APP_INSTALLATION_LINK')
 
+repo_name = None
+repo_connected = False
+
 if "codebase" not in st.session_state:
     st.session_state.codebase=False
+
+def load_ast(filepath):
+    try:
+        mtime = os.path.getmtime(filepath)
+
+        if "ast_mtime" not in st.session_state or st.session_state.ast_mtime != mtime:
+            with open(filepath, 'r') as f:
+                data = json.load(f)
+            
+            st.session_state.ast_data = data
+            st.session_state.ast_mtime = mtime
+            st.success(f"Codebase data updated! (Timestamp: {time.ctime(mtime)})")
+            return data
+        
+        return st.session_state.ast_data
+    
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
 
 st.title("Add codebase")
 selected = option_menu(
@@ -32,17 +57,21 @@ if selected== "Run Tests":
 if selected == "Test Results":
     st.switch_page("pages/results.py")
 
-file = st.text_input("upload file") # github URL now
+try:
+    response = requests.get(f"{FLASK_NGROK_URL}/list_repos")
+    available_repos = response.json()
+except:
+    available_repos = []
 
-"""
-add code here to handle github repo URL
-check if there's installation ID
-if yes -> update graph when user push the code
-if no -> shows the github app installation link in the UI
-"""
-
-st.subheader("Github Repository Setup")
-repo_url = st.text_input("Enter Github Repository URL")
+if available_repos:
+    selected_repo = st.radio("Select a repo:", available_repos)
+    if st.checkbox("Add a new Github repo"):
+        repo_url = st.text_input("Enter a new Github repo URL")
+    else:
+        if selected_repo:
+            repo_url = f"https://github.com/{selected_repo}"
+else:
+    repo_url = st.text_input("Enter a Github repo URL")
 
 if repo_url:
     repo_name = parse_repo_url(repo_url)
@@ -55,16 +84,20 @@ if repo_url:
             if response.status_code == 200:
                 result = response.json()
 
-                if response.get("installed"):
+                if result.get("installed"):
                     st.success("Repository is connected!")
                     st.session_state['current_repo'] = repo_name
                     st.session_state['installation_id'] = result['installation_id']
-                    # if already installed, if want to use the program again, no need to paste the github repo link again, the user can just push the code, and the graph shown in streamlit UI is updated
+                    repo_connected = True
                 
                 else:
                     st.warning("Access missing. Please install the Github App.")
+                    
+                    # 2. Show the link
                     st.markdown(f"[**Click here to install the Github App**]({GITHUB_APP_INSTALLATION_LINK})")
-                    st.caption("After installing, come back here and click the URL box again.")
+                    st.caption("After installing, come back here and check the box below.")
+                    if st.button("I have installed the App"):
+                         st.rerun()
             else:
                 st.error("Could not connect to backend server.")
                 
@@ -73,51 +106,17 @@ if repo_url:
     else:
         st.error("Invalid GitHub URL format")
 
-c1,c2=st.columns(2,gap="small")
-with c1:
-    if st.button("Create AST-structure"):
-        try:
-            if file and os.path.exists(file):
-                storage={}
-                data_string = ast_rag(file)
-                data = json.loads(data_string)
-                name=os.path.basename(data["file"])
-                storage[name]=data
-                code_struct_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "code_structure.json")
-                with open(code_struct_path,"w") as f:
-                    json.dump(storage,f,indent=4)
-                st.session_state.codebase=True
-                st.success("Code structure parsed successfully!")
-            else:
-                st.error("Please provide a valid file path")
-        except Exception as e:
-            st.warning(f"Failed upload: {str(e)}")
-
-with c2:
-    if st.button("Start embedding process"):
-        try:
-            if file and os.path.exists(file):
-                embed_ast(file)
-                st.success("Embedding completed successfully!")
-            else:
-                st.error("Please provide a valid file path first")
-        except Exception as e:
-            st.error(f"Embedding failed: {str(e)}")
-
-st.subheader(" Graph ")
 st.divider()
 
-if st.button("Create a Graph"):
-    if not file:
-        st.warning("Please select a file first")
-    else:
-        try:
-            graph_creation(file)
-            st.success("Graph created successfully ")
-        except Exception as e:
-            st.warning(f"Error in creating graph {e}")
+if repo_name and repo_connected:
+    current_embed_path = os.path.join(
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        str(repo_name),
+        "Code_database"
+    )
 
-if st.button("Generate graph"):
+    st.subheader(" Graph Visualizations ")
+
     nodes_data,edges_data,node_types=get_graph()
     if nodes_data:
         nodes=[]
@@ -169,9 +168,11 @@ if st.button("Generate graph"):
             # },
             nodeHighlightBehavior=True,
             collapsible=True,
-            heirarchial=False
+            heirarchial=False,
+            backgroundColor="#9F9FA9"
         )
 
-        return_value=agraph(nodes=nodes,edges=edges,config=config)
+        with st.container(border=True):
+            return_value=agraph(nodes=nodes,edges=edges,config=config)
     else:
         st.warning("No data returned")

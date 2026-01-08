@@ -3,14 +3,28 @@ import sys
 import streamlit as st
 from streamlit_option_menu import option_menu
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from functions import cycle,test_browser_use,results_writer
+from functions import cycle,test_browser_use,results_writer,create_docs,create_vector_retriever
 import json
 import asyncio
+
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
+from dotenv import load_dotenv
+from langchain_neo4j import Neo4jGraph
+
+load_dotenv()
 
 test_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "tests")
 directories=[item for item in os.listdir(test_path)
              if os.path.isdir(os.path.join(test_path,item))
             ]
+
+graph = Neo4jGraph(
+        url=os.getenv("NEO4J_URI"), 
+        username=os.getenv("NEO4J_USERNAME"), 
+        password=os.getenv("NEO4J_PASSWORD")
+    )
 
 selected = option_menu(
         menu_title=None,
@@ -29,7 +43,11 @@ st.title("Run tests")
 
 if st.button("Run test"):
     try:
-        cycle(test_path) #creates directory of test_path and stores test files in there in yaml format
+        with st.spinner("Analyzing graph.."):
+            docs = create_docs(graph)
+            retriever = create_vector_retriever(docs)
+        with st.spinner("Generating tests.."):
+            cycle(test_path, retriever) #creates directory of test_path and stores test files in there in yaml format
         st.success("Tests generated successfully!")
     except Exception as e:
         st.error(f"Test generation failed: {str(e)}")

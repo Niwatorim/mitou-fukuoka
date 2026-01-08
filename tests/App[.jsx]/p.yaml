@@ -8,12 +8,12 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: verify
-  instruction: Verify the 'read-the-docs' paragraph is visible
+  instruction: Verify the paragraph element with class 'read-the-docs' is visible
   selector: .read-the-docs
-  expected: The paragraph with class 'read-the-docs' is visible on the page
+  expected: The paragraph element should be present and visible on the page
 - step: 3
   action: verify
-  instruction: Verify the text content of the 'read-the-docs' paragraph
+  instruction: Verify the text content of the paragraph element
   selector: .read-the-docs
-  expected: The paragraph contains the text 'Click on the Vite and React logos to
-    learn more'
+  expected: The paragraph text should be 'Click on the Vite and React logos to learn
+    more'

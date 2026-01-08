@@ -2,3 +2,7 @@ Code_database/
 __pycache__/
 mitou/
 .env
+venv
+private-key.pem
+neo4j/
+data/

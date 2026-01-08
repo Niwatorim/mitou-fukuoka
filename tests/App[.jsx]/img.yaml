@@ -8,23 +8,18 @@ test_steps:
   expected: Page loads successfully
 - step: 2
   action: verify
-  instruction: Check if the Vite logo image is displayed.
-  selector: .logo
-  expected: The image with class 'logo' and alt text 'Vite logo' should be visible
-    on the page.
+  instruction: Verify the 'img' component with class 'logo' is visible
+  selector: img.logo
+  expected: The image element with class 'logo' should be visible on the page
 - step: 3
   action: verify
-  instruction: Verify the 'src' attribute of the Vite logo image.
-  selector: .logo
-  expected: The 'src' attribute should point to 'vite.svg'.
+  instruction: Verify the 'src' attribute of the 'img' component with class 'logo'
+  selector: img.logo
+  attribute: src
+  expected: The 'src' attribute should contain 'viteLogo' (or its resolved path)
 - step: 4
   action: verify
-  instruction: Verify the 'alt' attribute of the Vite logo image.
-  selector: .logo
-  expected: The 'alt' attribute should be 'Vite logo'.
-- step: 5
-  action: click
-  instruction: Click on the Vite logo image.
-  selector: .logo
-  expected: The application should navigate to a page or display information related
-    to Vite.
+  instruction: Verify the 'alt' attribute of the 'img' component with class 'logo'
+  selector: img.logo
+  attribute: alt
+  expected: The 'alt' attribute should be 'Vite logo'

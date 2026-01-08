@@ -1,5 +1,7 @@
 Code_database/
-__pycache__/
-mitou/
-.env
+cpg/
+cpg_folder/victim_cpg_files
 data/
+mitou/
+__pycache__/
+.env

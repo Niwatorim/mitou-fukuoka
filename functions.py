@@ -59,7 +59,7 @@ def embed_ast_original(file:str) -> None:
 
     client=genai.Client()
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    chroma_client=chromadb.Client(path=os.path.join(current_dir, "Code_database"))
+    chroma_client=chromadb.Client(path=os.path.join(current_dir, "Code_database")) # type: ignore
     collection=chroma_client.get_or_create_collection(name="ast")
     
     loader=TextLoader(file)
@@ -77,7 +77,7 @@ def embed_ast_original(file:str) -> None:
         contents = [e.page_content for e in splits],
         config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT",output_dimensionality=3072)
     )
-    gemini_embeddings= [e.values for e in result.embeddings]
+    gemini_embeddings= [e.values for e in result.embeddings] # type: ignore
 
     collection.add(
         embeddings=gemini_embeddings,
@@ -126,19 +126,19 @@ def embed_ast(file: str) -> None:
 
     result = client.models.embed_content(
         model="gemini-embedding-001",
-        contents=chunks,
+        contents=chunks, #type: ignore
         config=types.EmbedContentConfig(
             task_type="RETRIEVAL_DOCUMENT",
             output_dimensionality=3072
         ),
     )
 
-    gemini_embeddings = [e.values for e in result.embeddings]
+    gemini_embeddings = [e.values for e in result.embeddings] # type: ignore
 
     collection = chroma_client.get_or_create_collection(name="ast")
 
     collection.add(
-        embeddings=gemini_embeddings,
+        embeddings=gemini_embeddings, # type: ignore
         documents=chunks,
         metadatas=[chunk.metadata for chunk in splits],
         ids=[f"code_chunk_{chunk.metadata['chunk_id']}" for chunk in splits],
@@ -160,8 +160,8 @@ def cycle(test_path:str):
     collection = chroma_client.get_collection(name="ast")
 
     llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash",
-                                google_api_key=gemini_API,
-                                model_kwargs={
+                                google_api_key=gemini_API, #type: ignore
+                                model_kwargs={ #type: ignore
                                     "response_mime_type":"application/yaml"
                                 })
     prompt = ChatPromptTemplate.from_template("""
@@ -211,18 +211,18 @@ def cycle(test_path:str):
             )
         )
         CONSOLE.print("[bold green] embedding.... [/bold green] ")
-        query_embedding = [e.values for e in result.embeddings]
+        query_embedding = [e.values for e in result.embeddings] # type: ignore
 
         results = collection.query( #queries the thing
-            query_embeddings=query_embedding, # Use query_embeddings instead of query_texts
+            query_embeddings=query_embedding, # Use query_embeddings instead of query_texts # type: ignore
             n_results=2
         )
         
         docs=[]
         for i in range(len(results["ids"][0])):
             doc = Document(
-                page_content=results["documents"][0][i],
-                metadata=results["metadatas"][0][i]
+                page_content=results["documents"][0][i], # type: ignore
+                metadata=results["metadatas"][0][i] # type: ignore
             )
             docs.append(doc)
         CONSOLE.print("[green] making IDs [/green]")
@@ -279,7 +279,7 @@ def cycle(test_path:str):
                     if yaml_data:
                         yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
 
-async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]:
+async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]: # type: ignore
     """ Runs agent. If input not None, will limit number of tests """
     path=os.path.join("tests",test_path)
     directory= os.listdir(path)
@@ -326,7 +326,7 @@ async def test_browser_use(limit=None,headless:bool = False, test_path:str = Non
             print(i["name"])
     return success_files
 
-async def results_writer(results: list[dict[str:str|bool]])->None:
+async def results_writer(results: list[dict[str:str|bool]])->None: # type: ignore
     """
     Takes list of dictionaries and writes yaml files to new folder called "results"
     dictionary format: path: full path to be saved
@@ -446,10 +446,10 @@ def graph_creation(file_name:str) -> None:
 
     #--- Add top level functions
     for function in codebase["functions"]:
-        name=function["name"]
-        params=function["params"]
-        func_type=function["type"]
-        if function.get("top_level"):
+        name=function["name"] # type: ignore
+        params=function["params"] # type: ignore
+        func_type=function["type"] # type: ignore
+        if function.get("top_level"): # type: ignore
             
             debug_logs.append("#DEBUG displaying top level")
             query="""
@@ -487,18 +487,18 @@ def graph_creation(file_name:str) -> None:
                     nested_func(name,nested["nested"])
 
 
-        if function["nested"]:
-            nested_func(name,function["nested"])
+        if function["nested"]: # type: ignore
+            nested_func(name,function["nested"]) # type: ignore
 
     #--- for variables
     for variable in codebase["variables"]:
         debug_logs.append("#DEBUG Checking variables")
-        names=variable["names"]
-        var_type=variable["type"]
-        value=variable["value"]
-        value_type=variable["value_type"]
+        names=variable["names"] # type: ignore
+        var_type=variable["type"] # type: ignore
+        value=variable["value"] # type: ignore
+        value_type=variable["value_type"] # type: ignore
         for name in names:
-            if variable.get("top_level"):
+            if variable.get("top_level"): # type: ignore
                 query="""
                 MATCH (f:File {name: $filename})
                 MERGE (var: Variable {name: $name, type: $type, value: $value, value_type: $value_t})
@@ -512,7 +512,7 @@ def graph_creation(file_name:str) -> None:
                     "value_type":value_type
                 })
             else:
-                parent = variable["parent"]
+                parent = variable["parent"] # type: ignore
                 
                 if parent:
                     query="""
@@ -541,10 +541,10 @@ def graph_creation(file_name:str) -> None:
     #--- for attributes
     for component in codebase["components"]:
         debug_logs.append("#DEBUG checking components")
-        name=component["name"]
-        properties=component["properties"]
-        callback=component["callbacks"]
-        parent=component["parent"]
+        name=component["name"] # type: ignore
+        properties=component["properties"] # type: ignore
+        callback=component["callbacks"] # type: ignore
+        parent=component["parent"] # type: ignore
         if parent == None:
             debug_logs.append("#DEBUG checking components - no parent")
             query="""
@@ -560,9 +560,9 @@ def graph_creation(file_name:str) -> None:
                     graph.query(extra,{
                         "name":name,
                         "properties":properties,
-                        "funcname":call["name"],
-                        "params":call["params"],
-                        "type":call["type"]
+                        "funcname":call["name"], # type: ignore
+                        "params":call["params"], # type: ignore
+                        "type":call["type"] # type: ignore
                     })
             else:
                 graph.query(
@@ -591,9 +591,9 @@ def graph_creation(file_name:str) -> None:
                         "parentname":parent,
                         "name":name,
                         "properties":properties,
-                        "funcname":call["name"],
-                        "params":call["params"],
-                        "type":call["type"]
+                        "funcname":call["name"], # type: ignore
+                        "params":call["params"], # type: ignore
+                        "type":call["type"] # type: ignore
                     })
             else:
                 graph.query(
@@ -607,10 +607,10 @@ def graph_creation(file_name:str) -> None:
     #--- for imports
     for imports in codebase["imports"]:
         debug_logs.append("#DEBUG checking imports")
-        source=imports["from"]
-        import_items = imports["import_items"] #------------- FOR NOW THIS IS A STRING
-        parent=imports["parent"]
-        if parent == None:
+        source=imports["from"] # type: ignore
+        import_items = imports["import_items"] #------------- FOR NOW THIS IS A STRING # type: ignore
+        parent=imports["parent"] # type: ignore
+        if parent == None: 
                 query="""
                 MATCH (f:File {name: $filename})
                 MERGE (imp: Import {name: $name, source: $source, import_items: $imports })
@@ -722,18 +722,18 @@ def get_function(node:Node):
     """)
     cursor = QueryCursor(query)
     values=cursor.captures(node)
-    if node.parent.type == "program":
+    if node.parent.type == "program": # type: ignore
         function["top_level"]=True
     else:
         parent_node=get_parent_function(node)
-        for child in parent_node.children:
+        for child in parent_node.children: # type: ignore
             if child.type == "identifier":
-                function["parent"]= child.text.decode("utf8")
+                function["parent"]= child.text.decode("utf8") # type: ignore
     # FIX: Take only the FIRST identifier (the function name)
     if values.get("name"):
-        function["name"] = values["name"][0].text.decode("utf8")
+        function["name"] = values["name"][0].text.decode("utf8") # type: ignore
     if values.get("params"):
-        function["params"] = values["params"][0].text.decode("utf8")
+        function["params"] = values["params"][0].text.decode("utf8") # type: ignore
 
     def find_nested_functions(n):
         nested = []
@@ -765,15 +765,15 @@ def get_frontend(node:Node):
     values=cursor.captures(node)
     
     if values.get("name"):
-        attribute["name"] = values["name"][0].text.decode()
+        attribute["name"] = values["name"][0].text.decode() # type: ignore
     
     parent_node=get_parent_function(node)
-    for child in parent_node.children:
+    for child in parent_node.children: # type: ignore
         if child.type == "identifier":
-            attribute["parent"]= child.text.decode("utf8")
+            attribute["parent"]= child.text.decode("utf8") # type: ignore
     
     for property in values.get("properties",[]):
-        attribute["properties"].append(property.text.decode())
+        attribute["properties"].append(property.text.decode()) # type: ignore
         
         for child in property.children:
             if child.type == "jsx_expression":
@@ -813,13 +813,13 @@ def get_variables(node:Node):
         "top_level":False,
         "parent":None
     }
-    if node.parent.type == "program":
+    if node.parent.type == "program": # type: ignore
         variable["top_level"]=True
     else:
         parent_node=get_parent_function(node)
-        for child in parent_node.children:
+        for child in parent_node.children: # type: ignore
             if child.type == "identifier":
-                variable["parent"]= child.text.decode("utf8")
+                variable["parent"]= child.text.decode("utf8") # type: ignore
 
     left_side= None
     right_side = None
@@ -845,24 +845,24 @@ def get_variables(node:Node):
 
     if left_side:
         if variable["type"]=="simple":
-            variable["names"].append(left_side.text.decode("utf8"))
+            variable["names"].append(left_side.text.decode("utf8")) # type: ignore
         elif variable["type"] == "array_destructure":
             for child in left_side.children:
                 if child.type=="identifier":
-                    variable["names"].append(child.text.decode("utf8"))
+                    variable["names"].append(child.text.decode("utf8")) # type: ignore
 
         elif variable["type"] == "object_destructure":
             for child in left_side.children:
                 if child.type == "identifier":
-                    variable["names"].append(child.text.decode("utf8"))
+                    variable["names"].append(child.text.decode("utf8")) # type: ignore
                 elif child.type == "shorthand_property":
                     for sub in child.children:
                         if sub.type == "identifier":
-                            variable["names"].append(sub.text.decode("utf8"))
+                            variable["names"].append(sub.text.decode("utf8")) # type: ignore
 
     if right_side:
-        variable["value"] = right_side.text.decode("utf8")
-    
+        variable["value"] = right_side.text.decode("utf8") # type: ignore
+     
     return variable
 
 def get_call(node:Node):
@@ -877,17 +877,17 @@ def get_call(node:Node):
     # Find the function being called
     for child in node.children:
         if child.type == "identifier":
-            call["function_name"] = child.text.decode("utf8")
+            call["function_name"] = child.text.decode("utf8") # type: ignore
             break
     
     # Find arguments
     for child in node.children:
         if child.type == "arguments":
-            call["arguments"].append(child.text.decode("utf8"))
+            call["arguments"].append(child.text.decode("utf8")) # type: ignore
         if child.type in FUNCTIONS:
-            call["function_type"]=child.text.decode("utf8")
+            call["function_type"]=child.text.decode("utf8") # type: ignore
 
-    call["full_text"] = node.text.decode("utf8")
+    call["full_text"] = node.text.decode("utf8") # type: ignore
     
     return call
 
@@ -907,16 +907,41 @@ def get_imports(node:Node):
     for clause in values.get("clause",[]):
         for child in clause.children:
             if child.type == "identifier":
-                import_statement["import_items"].append(child.text.decode("utf8"))
+                import_statement["import_items"].append(child.text.decode("utf8")) # type: ignore
     
     for child in node.children:
         if child.type == "string": #imports are strings in javascript
-            import_statement["from"]= child.text.decode("utf8")
+            import_statement["from"]= child.text.decode("utf8") # type: ignore
 
     parent=get_parent_function(node)
     if parent:
         for child in parent.children:
             if child.type=="identifier":
-                import_statement["parent"]=child.text.decode("utf8")
+                import_statement["parent"]=child.text.decode("utf8") # type: ignore
                 break
     return import_statement
+
+
+
+#----------- CPG creation -------
+from cpg_folder.joern_cpg_to_neo4j.cpg_to_neo4j import cpgToNeo4j
+
+def cpg_to_neo4j(config:dict) -> None:
+
+    # Pipeline: From CPG to Neo4j
+    pipe = cpgToNeo4j(
+        config.get("neo4j_uri"),
+        config.get("neo4j_user"),
+        config.get("neo4j_password"),
+    )
+
+    pipe.copy_data_to_neo4j_import_folder(
+        config.get("export_path"),
+        config.get("neo4j_import_path")
+    )
+    pipe.upload_nodes(
+        config.get("export_path")
+    )
+    pipe.upload_edges(
+        config.get("export_path")
+    )

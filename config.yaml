@@ -1,0 +1,7 @@
+export_path: /Users/niwatorimostiqo/Desktop/Coding/Mitou-Fukuoka/cpg_folder/victim_cpg_files
+joern_path: C:/Users/niwatorimostiqo/Desktop/Coding/Mitou-Fukuoka
+neo4j_import_path: /Users/niwatorimostiqo/Library/Application Support/neo4j-desktop/Application/Data/dbmss/dbms-17c7f4f2-c539-46ad-a53d-605bbd676ec7/import
+neo4j_password: password
+neo4j_uri: bolt://localhost:7687
+neo4j_user: neo4j
+victim_path: /Users/niwatorimostiqo/Desktop/Coding/Mitou-Fukuoka/victim-site

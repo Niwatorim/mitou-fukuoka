@@ -80,7 +80,7 @@ git-filter-repo==2.47.0
 gitdb==4.0.12
 GitPython==3.1.45
 google==3.0.0
-google-ai-generativelanguage==0.7.0
+google-ai-generativelanguage
 google-api-core==2.25.1
 google-api-python-client==2.181.0
 google-auth==2.40.3
@@ -92,10 +92,10 @@ google-cloud-core==2.4.3
 google-cloud-resource-manager==1.14.2
 google-cloud-storage==2.19.0
 google-crc32c==1.7.1
-google-genai==1.35.0
-google-generativeai==0.8.5
+google-genai
+google-generativeai
 google-resumable-media==2.7.2
-googleapis-common-protos==1.70.0
+googleapis-common-protos
 graphdatascience==1.17
 greenlet==3.2.4
 griffe==1.14.0
@@ -156,7 +156,7 @@ langchain-chroma==0.2.6
 langchain-community==0.3.31
 langchain-core==0.3.78
 langchain-experimental==0.3.4
-langchain-google-genai==2.1.12
+langchain-google-genai
 langchain-neo4j==0.5.0
 langchain-ollama==0.3.10
 langchain-openai==0.3.35
@@ -303,9 +303,9 @@ SQLAlchemy==2.0.43
 sse-starlette==3.0.2
 stack-data==0.6.3
 starlette==0.47.3
-streamlit==1.50.0
-streamlit-agraph==0.0.45
-streamlit-option-menu==0.4.0
+streamlit
+streamlit-agraph
+streamlit-option-menu
 striprtf==0.0.26
 sympy==1.14.0
 tenacity==9.1.2

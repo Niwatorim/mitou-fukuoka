@@ -11,6 +11,7 @@ def new():
         with open("./config.yaml", "r") as f:
             config = yaml.load(f, Loader=yaml.FullLoader)
         config_path=config.get("victim_path")
+        import_path = config.get("neo4j_import_path")
     except FileNotFoundError:
         st.warning("File not found: config.yaml")
 
@@ -24,20 +25,25 @@ def new():
             "Absolute path for the system you want to make a graph for", 
             value=config_path # type: ignore
         )
-        
+        new_import = st.text_input(
+            "Absolute path for the system you want to make a graph for", 
+            value=import_path # type: ignore
+        )        
         submitted = st.form_submit_button("Save and Get Started")
 
         if submitted:
+            if new_import:
+                config["neo4j_import_path"] = new_import
             if new_path:
                 config["victim_path"] = new_path # type: ignore
-                with open("./config.yaml", "w") as f:
-                    yaml.dump(config, f) # type: ignore
-                
-                st.success("Path saved successfully!")
-                
-                st.switch_page("pages/codebase.py")
             else:
-                st.error("Please enter a valid path before proceeding.")
+                st.error("Please enter a valid path/import before proceeding.")
+            
+            if new_import or new_path:
+                with open("./config.yaml", "w") as f:
+                        yaml.dump(config, f) # type: ignore
+                st.success("Path saved successfully!")
+                st.switch_page("pages/cpg.py")
     
     if st.button("Get Started (old)"):
         st.switch_page("pages/codebase.py")

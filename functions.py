@@ -3,10 +3,12 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from tree_sitter import Language, Parser, Query, QueryCursor, Node
 from langchain_community.document_loaders import TextLoader
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import OllamaEmbeddings
 from browser_use import Agent, ChatGoogle,Browser
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
 from langchain_neo4j import Neo4jGraph
+from langchain_neo4j import Neo4jVector
 import tree_sitter_javascript as tsj
 from rich.console import Console
 from google.genai import types
@@ -17,6 +19,7 @@ import streamlit as st
 import os,yaml,json
 import subprocess
 import chromadb
+import re
 
 # Load .env from the current directory where main.py is run
 load_dotenv()
@@ -921,8 +924,6 @@ def get_imports(node:Node):
                 break
     return import_statement
 
-
-
 #----------- CPG creation -------
 from cpg_folder.joern_cpg_to_neo4j.cpg_to_neo4j import cpgToNeo4j
 
@@ -945,3 +946,160 @@ def cpg_to_neo4j(config:dict) -> None:
     pipe.upload_edges(
         config.get("export_path")
     )
+
+"""
+automatic test case generation:
+list all the testable attributes (natural language) -> graphRAG -> take all the attributes from the graph
+
+In UI,
+separate tests between each attribute
+user can choose which test to run
+user can edit the yaml file directly
+
+user prompt:
+prompt -> graphRAG -> take the related attribute from graph
+"""
+# ---- graphRAG to find related components
+# need to create a shared label called "TestableComponent"
+# MATCH (n) WHERE labels(n) IN [['TEMPLATE_DOM'], ['METHOD'], ['CALL'], ['IDENTIFIER']]
+# SET n:TestableComponent
+
+
+def embed_nodes():
+    """
+    Creating embeddings for METHOD, CALL and IDENTIFIER nodes
+    """
+    neo4j_url = "bolt://localhost:7687"
+    neo4j_password = "password"
+
+    embeddings = OllamaEmbeddings(
+        model="nomic-embed-text:latest",
+        base_url="http://localhost:11434"
+    )
+
+    # retrieval_query = """
+    # RETURN 
+    #     node.CODE AS text,
+    #     score,
+    #     {
+    #         id: elementId(node),
+    #         name:coalesce(node.NAME, node.FULL_NAME, 'Unnamed'),
+    #         labels: labels(node)
+    #     } AS metadata
+    # """
+
+    retrieval_query_multiple = """
+    // 1. ZOOM OUT to Component Root
+    OPTIONAL MATCH (node)<-[:AST|CONTAINS*0..20]-(m:METHOD)
+    WITH node, score, collect(DISTINCT m) AS methods
+    WITH coalesce(head(methods), node) AS root, score
+
+    // 2. GATHER ALL UNIQUE CHILDREN FIRST (Including Routes)
+    MATCH (root)-[:CONTAINS|AST*]->(child)
+    WHERE 
+       // HTML Elements
+       (
+            child.NAME IN ['a', 'Link', 'img', 'Image', 'input', 'button'] 
+            OR child.CODE STARTS WITH '<a' 
+            OR child.CODE STARTS WITH '<img' 
+            OR child.CODE STARTS WITH '<button' 
+            OR child.CODE STARTS WITH '<input'
+            OR child.NAME IN ['push', 'navigate', 'redirect', 'go', 'back']
+        )
+        AND NOT child.NAME IN ['JSXOpeningElement', 'JSXClosingElement']
+
+    WITH root, score, child.CODE as code, head(collect(child)) as unique_node
+    
+    // 4. COLLECT THE UNIQUE NODES INTO A LIST
+    WITH root, score, collect(unique_node) as unique_children
+
+    // 4. CATEGORIZE
+    RETURN
+        root.CODE as text,
+        score,
+        {
+            id: elementId(root),
+            name: root.NAME,
+            labels: labels(root),
+            
+            links: [c IN unique_children 
+                    WHERE c.NAME IN ['a', 'Link'] OR c.CODE STARTS WITH '<a' 
+                    | {id: elementId(c), code: c.CODE}],
+
+            images: [c IN unique_children 
+                     WHERE c.NAME IN ['img', 'Image'] OR c.CODE STARTS WITH '<img' 
+                     | {id: elementId(c), code: c.CODE}],
+            
+            inputs: [c IN unique_children 
+                     WHERE c.NAME IN ['input'] OR c.CODE STARTS WITH '<input' 
+                     | {id: elementId(c), code: c.CODE}],
+            
+            buttons: [c IN unique_children 
+                      WHERE c.NAME IN ['button'] OR c.CODE STARTS WITH '<button' 
+                      | {id: elementId(c), code: c.CODE}],
+            
+            routes: [c IN unique_children 
+                     WHERE c.NAME IN ['push', 'navigate', 'redirect', 'go', 'back'] 
+                     | {id: elementId(c), name: c.NAME, code: c.CODE}]
+        } as metadata
+    """
+
+    vector_store = Neo4jVector.from_existing_graph(
+        embedding=embeddings,
+        url=neo4j_url,
+        password=neo4j_password,
+        index_name="testable_components",
+        node_label="TestableComponent",
+        text_node_properties=["NAME", "CODE"],
+        embedding_node_property="embedding",
+        retrieval_query=retrieval_query_multiple
+    )
+
+    return vector_store
+
+# using user prompt
+def retrieve_components(user_prompt, vector_store, threshold):
+    results = vector_store.similarity_search_with_score(user_prompt, k=1)
+
+    if not results:
+        print("Component not found")
+        return
+
+    document, score = results[0]
+
+    if score < threshold:
+        print(f"Match rejected! Score {score:.4f} is below threshold {threshold}.")
+        print(f"Best guess was: {document.metadata.get('name')} (irrelevant)")
+        return
+
+    meta = document.metadata
+
+    print(f"Found: {meta['name']}, ID: {meta['id']}, type: {meta['labels']}, score:{score}")
+
+    def print_elements(title, element_list):
+        print(f"\n--{title}--")
+        if not element_list:
+            print("None found")
+            return
+        
+        for i, item in enumerate(element_list, 1):
+            raw_code = item.get('code', '')
+            
+            # THE FIX: Replace \n, \r, and \t with a single space using Regex
+            clean_code = re.sub(r'\s+', ' ', raw_code).strip()
+            
+            # Truncate for display (first 80 chars)
+            display_code = clean_code[:100] + "..." if len(clean_code) > 100 else clean_code
+            print(f"{i}, ID: {item.get('id')}, code: {display_code}")
+
+    print_elements("links", meta.get('links', []))
+    print_elements("images", meta.get('images', []))
+    print_elements("inputs", meta.get('inputs', []))
+    print_elements("buttons", meta.get('buttons', []))
+    print_elements("routes", meta.get('routes', []))
+
+if __name__ == "__main__":
+    vector_store = embed_nodes()
+    user_prompt = "react logo and react link pls"
+    retrieve_components(user_prompt, vector_store, 0.80)
+# current archi - graphRAG pull out most nodes for context -> agent needs to be smart enough to sort which ones are relevant

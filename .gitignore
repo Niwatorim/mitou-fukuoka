@@ -5,3 +5,5 @@ data/
 mitou/
 __pycache__/
 .env
+venv/
+joern/

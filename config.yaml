@@ -1,7 +1,7 @@
-export_path: /Users/niwatorimostiqo/Desktop/Coding/Mitou-Fukuoka/cpg_folder/victim_cpg_files
-joern_path: C:/Users/niwatorimostiqo/Desktop/Coding/Mitou-Fukuoka
-neo4j_import_path: /Users/niwatorimostiqo/Library/Application Support/neo4j-desktop/Application/Data/dbmss/dbms-17c7f4f2-c539-46ad-a53d-605bbd676ec7/import
+export_path: C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka\cpg_folder\victim_cpg_files
+joern_path: C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka\joern
+neo4j_import_path: C:\Users\ThinkPad\.Neo4jDesktop2\Data\dbmss\dbms-efb71b15-ad2a-419b-b7d9-6a2b1071cb1c\import
 neo4j_password: password
 neo4j_uri: bolt://localhost:7687
 neo4j_user: neo4j
-victim_path: /Users/niwatorimostiqo/Desktop/Coding/Mitou-Fukuoka/victim-site
+victim_path: C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka\victim-site

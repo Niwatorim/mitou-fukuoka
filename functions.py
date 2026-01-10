@@ -1,4 +1,4 @@
-from langchain.chains.combine_documents import create_stuff_documents_chain
+# from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from tree_sitter import Language, Parser, Query, QueryCursor, Node
 from langchain_community.document_loaders import TextLoader
@@ -197,7 +197,8 @@ def cycle(test_path:str):
     """)
 
     CONSOLE.print("[bold yellow] Making message [/bold yellow]")
-    document_chain = create_stuff_documents_chain(llm,prompt)
+    # document_chain = create_stuff_documents_chain(llm,prompt)
+    document_chain = "deleted"
     
     def access_code(instructions):
         """
@@ -977,16 +978,16 @@ def embed_nodes():
         base_url="http://localhost:11434"
     )
 
-    # retrieval_query = """
-    # RETURN 
-    #     node.CODE AS text,
-    #     score,
-    #     {
-    #         id: elementId(node),
-    #         name:coalesce(node.NAME, node.FULL_NAME, 'Unnamed'),
-    #         labels: labels(node)
-    #     } AS metadata
-    # """
+    retrieval_query = """
+    RETURN 
+        node.CODE AS text,
+        score,
+        {
+            id: elementId(node),
+            name:coalesce(node.NAME, node.FULL_NAME, 'Unnamed'),
+            labels: labels(node)
+        } AS metadata
+    """
 
     retrieval_query_multiple = """
     // 1. ZOOM OUT to Component Root

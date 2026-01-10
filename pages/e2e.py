@@ -5,7 +5,6 @@ import sys
 from rich.console import Console
 import traceback
 
-# Add project root to sys.path to allow absolute-style imports
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
 if project_root not in sys.path:
@@ -13,8 +12,7 @@ if project_root not in sys.path:
 
 from functions import MCPGeminiAgent
 
-#TODO: search for node and possible existing paths for the e2e
-#TODO: generate instructions if yes
+#TODO: put mcp.json outside the pages folder
 
 CONSOLE = Console()
 

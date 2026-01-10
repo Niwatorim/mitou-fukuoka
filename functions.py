@@ -1,4 +1,4 @@
-from langchain.chains.combine_documents import create_stuff_documents_chain
+# from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from tree_sitter import Language, Parser, Query, QueryCursor, Node
 from langchain_community.document_loaders import TextLoader
@@ -17,20 +17,17 @@ import streamlit as st
 import os,yaml,json
 import subprocess
 import chromadb
-from typing import Any
+from typing import Any, List, Optional
 import streamlit as st
 import json
 import time
 import os
-from typing import Any, List, Optional
-from dotenv import load_dotenv
-from google import genai
 from google.genai import types
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from contextlib import AsyncExitStack
-from rich.console import Console
-from rich.panel import Panel
+
+
 
 
 # Load .env from the current directory where main.py is run
@@ -209,7 +206,8 @@ def cycle(test_path:str):
     """)
 
     CONSOLE.print("[bold yellow] Making message [/bold yellow]")
-    document_chain = create_stuff_documents_chain(llm,prompt)
+    # document_chain = create_stuff_documents_chain(llm,prompt)
+    document_chain = "deleted"
     
     def access_code(instructions):
         """

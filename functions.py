@@ -292,7 +292,7 @@ def cycle(test_path:str):
                     if yaml_data:
                         yaml.dump(yaml_data,f,default_flow_style=False, sort_keys=False)
 
-async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]: # type: ignore
+async def test_browser_use(limit=None,headless:bool = False, test_path:str = None)->list[dict]:
     """ Runs agent. If input not None, will limit number of tests """
     path=os.path.join("tests",test_path)
     directory= os.listdir(path)

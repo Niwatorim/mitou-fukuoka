@@ -33,33 +33,66 @@ async def main(prompt,sys_prompt):
         await agent.cleanup()
 
 
-st.header("MCP agent -> prompt based graph query")
+st.header("MCP agent -> E2E with pipeline")
 
 choice = st.radio(
-    options=["E2E","regular"]
+    options=["E2E","regular"],
+    index=0
 )
 
-system_prompt = None
-if choice == "E2E":
-    system_prompt = """
-            You are a graph-based testing expert. Your goal is to help the user understand and test their application by querying the Neo4j graph database.
-            1. If you don't know the structure of the graph or cannot answer the user's question, USE THE TOOLS to explore the nodes and relationships.
-            2. For end-to-end testing requests, generate steps to go from node to node in this format:
-               Path_exists: True/False
-               test_steps:
-                   - step: 1
-                     action: navigate
-                     instruction: ...
-                     target: ...
-                     expected: ...
-            Always prioritize using tools when factual information about the graph is needed."""
+st.subheader(" ###Configuration### ")
+
+#TODO: Make this so that every time they write a new one, it saves in the config file, so that it can just reload that and they dont have to repeat
+
+neo4j_url = st.text_input("Neo4j url",value="bolt://localhost:7687")
+neo4j_password= st.text_input("Neo4j password",value="password")
+app_location = st.text_input("Website URL",value="http://localhost:5173/")
+max_AI_steps = st.number_input("Automatic AI tester max steps",step=1)
+
+with st.container():
+    st.write("Automatic mode")
+    st.checkbox("Run in headless?") #give this functionality
+
+
+#TODO: for app location, make it affect the AI general pipeline so it is dynamic, rn hardcoded
+
+#TODO: Make it so the user chooses manual mode, or auto mode. In manual, they review everything and click check
+#in auto mode, state holds "auto" so that it clicks yes to everything or makes a selection to generate or not generate code
+
+
+"""
+selection options:
+Vector Search Node
+neo4j setup: url = bolt://localhost:7687
+             password = "password"
+
+--done
+
+MCPGraph:
+app opening location-> http://localhost:5173/ 
+
+--done
+
+Show the instructions-done
+
+Check if user wants to go ahead with the test, -done
+or edit the instructions
+
+
+MCPTester
+Check if user wants to generate code - done
+Show the code written, ask if they wanna rename the test file name - done
+also number of steps AI can take before calling it ggs-done
+
+and terminate button
+
+and headless mode
+
+"""
 
 user=st.text_input(label="user-query",value="Please tell me how many nodes are in this graph")
-if st.button("Send request"):
-    if user:
-        asyncio.run(main(user,system_prompt))
-    else:
-        st.warning("Please enter a query.")
+
+
 
 
 

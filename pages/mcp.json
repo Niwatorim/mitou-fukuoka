@@ -13,6 +13,12 @@
         "NEO4J_PASSWORD": "password",
         "NEO4J_DATABASE": "neo4j"
       }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
     }
   }
 }

@@ -14,9 +14,6 @@ from mcp.client.stdio import stdio_client
 from contextlib import AsyncExitStack
 from rich.console import Console
 from rich.panel import Panel
-
-#TODO: Make into json format
-
 CONSOLE = Console()
 
 def clean_schema(schema: Any) -> Any:
@@ -57,7 +54,7 @@ class MCPNeo4J: #get the gemini agent ready
     def server_choose(self):
         # Get the path to mcp.json relative to this script
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        mcp_path = os.path.join(script_dir, "pages", "mcp.json")
+        mcp_path = os.path.join(script_dir, "mcp.json")
         
         with open(mcp_path, "r") as f:
             mcp_config = json.load(f)
@@ -205,28 +202,29 @@ class MCPNeo4J: #get the gemini agent ready
     async def cleanup(self):
         await self.exit_stack.aclose()
 
-async def generator(prompt):
+async def generator(prompt,model="gemini-2.5-flash",system_prompt=None):
     if not isinstance(prompt, str):
         prompt = str(prompt)
-    system_prompt="""
-    You are a Senior QA Automation Engineer.
-    Convert the following execution history into a **Pytest-Playwright** test file.
-    
-    RULES:
-    1. **Structure**: Use the standard `def test_scenario(page: Page):` format.
-    2. **Assertions**: A test is meaningless without checks. You MUST include `expect()` assertions.
-       - If the user clicked a button that increments a counter, assert the new text (e.g., `expect(button).to_contain_text(...)`).
-       - If the user navigated, assert the URL or page title.
-    3. **Cleanup**: Remove redundant steps (like repeated navigations).
-    4. **Syntax**: 
-       - `from playwright.sync_api import Page, expect`
-       - Use `page.get_by_role` or `page.locator` with robust regex selectors.
-    5. **Regex**: When using Regex selectors in Python, you MUST import re and use re.compile(r'pattern'). Do NOT pass raw regex strings.
-    
-    Output ONLY the python code block.
-    
-    """
-    model="gemini-2.5-flash"
+    if system_prompt==None:
+        system_prompt="""
+        You are a Senior QA Automation Engineer.
+        Convert the following execution history into a **Pytest-Playwright** test file.
+        
+        RULES:
+        1. **Structure**: Use the standard `def test_scenario(page: Page):` format.
+        2. **Assertions**: A test is meaningless without checks. You MUST include `expect()` assertions.
+        - If the user clicked a button that increments a counter, assert the new text (e.g., `expect(button).to_contain_text(...)`).
+        - If the user navigated, assert the URL or page title.
+        3. **Cleanup**: Remove redundant steps (like repeated navigations).
+        4. **Syntax**: 
+        - `from playwright.sync_api import Page, expect`
+        - Use `page.get_by_role` or `page.locator` with robust regex selectors.
+        5. **Regex**: When using Regex selectors in Python, you MUST import re and use re.compile(r'pattern'). Do NOT pass raw regex strings.
+        
+        Output ONLY the python code block.
+        
+        """
+    model=model
     genai_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     contents = [types.Content(
                 role="user",
@@ -244,7 +242,7 @@ async def generator(prompt):
     return response.candidates[0].content.parts[0].text
 
 class MCPPlaywright: #get the gemini agent ready
-    def __init__(self, model= "gemini-2.5-flash"):
+    def __init__(self, model= "gemini-2.5-flash",max_tool_turns=15,headless=False):
         self.session: Optional[ClientSession] = None
         self.exit_stack: AsyncExitStack = AsyncExitStack()
         self.genai_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -252,11 +250,13 @@ class MCPPlaywright: #get the gemini agent ready
         self.tools= None
         self.server_params= None
         self.server_name= None
+        self.max_tool_turns=max_tool_turns
+        self.headless=headless
 
     def server_choose(self):
         # Get the path to mcp.json relative to this script
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        mcp_path = os.path.join(script_dir, "pages", "mcp.json")
+        mcp_path = os.path.join(script_dir, "mcp.json")
         
         with open(mcp_path, "r") as f:
             mcp_config = json.load(f)
@@ -267,6 +267,8 @@ class MCPPlaywright: #get the gemini agent ready
         server_cfg = servers[self.server_name]
         command = server_cfg["command"]
         args = server_cfg.get("args",[])
+        if not self.headless:
+            args.append("--headless")
         env = server_cfg.get("env",None)
         self.server_params = StdioServerParameters(
             command=command,
@@ -328,7 +330,7 @@ class MCPPlaywright: #get the gemini agent ready
             contents.append(response.candidates[0].content)
             
             turn_count = 0
-            max_tool_turns = 15
+            max_tool_turns = self.max_tool_turns
             
             # Flag to track if we should stop using tools (e.g. after browser_close)
             tools_active = True
@@ -372,7 +374,6 @@ class MCPPlaywright: #get the gemini agent ready
                         )
                     )
 
-                # 2. Add tool outputs to history
                 contents.append(types.Content(
                     role="user",
                     parts=tool_response_parts

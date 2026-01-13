@@ -3,61 +3,170 @@ import asyncio
 import os
 import sys
 from rich.console import Console
-import traceback
-
+import datetime
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
 if project_root not in sys.path:
     sys.path.append(project_root)
+from AI_pipeline_general import Langgraph
+import yaml
 
-from functions import MCPGeminiAgent
-
-#TODO: put mcp.json outside the pages folder
+config_path = os.path.join(project_root, "config.yaml")
 
 CONSOLE = Console()
 
-async def main(prompt,sys_prompt):
-    agent = MCPGeminiAgent()
-    try:
-        await agent.connect()
-        data = await agent.chat(prompt,sys_prompt)
-        with st.expander("AI response"):
-            st.write(data)
-    
-    
-    except Exception as e:
-        st.warning(f"Fatal error during execution: {e}")
-        traceback.print_exc()
-    
-    finally:
-        await agent.cleanup()
-
-
 st.header("MCP agent -> E2E with pipeline")
-
-choice = st.radio(
-    options=["E2E","regular"],
-    index=0
-)
-
 st.subheader(" ###Configuration### ")
 
-#TODO: Make this so that every time they write a new one, it saves in the config file, so that it can just reload that and they dont have to repeat
+#load the yaml file
+try:
+    with open(config_path, "r") as f:
+        config = yaml.load(f, Loader=yaml.FullLoader) or {}
+except FileNotFoundError:
+    config = {}
 
-neo4j_url = st.text_input("Neo4j url",value="bolt://localhost:7687")
-neo4j_password= st.text_input("Neo4j password",value="password")
-app_location = st.text_input("Website URL",value="http://localhost:5173/")
-max_AI_steps = st.number_input("Automatic AI tester max steps",step=1)
+neo4j_url = st.text_input("Neo4j url", value=config.get("neo4j_uri", "bolt://localhost:7687"))
+neo4j_password = st.text_input("Neo4j password", value=config.get("neo4j_password", "password"))
+app_location = st.text_input("Website URL", value=config.get("app_location", "http://localhost:5173/"))
 
-with st.container():
-    st.write("Automatic mode")
-    st.checkbox("Run in headless?") #give this functionality
+if st.button("Save content for later"):
+    config["neo4j_uri"]=neo4j_url
+    config["neo4j_password"] = neo4j_password
+    config["app_location"]= app_location
+
+    with open(config_path, "w") as file:
+        yaml.dump(config, file)
+    st.success("Configuration saved!")
+
+test_type= st.radio("Test Type",["E2E","Unit"])
+
+#---- sidebar ---- This is for setting all the functions that need to be set into the graph
+with st.sidebar:
+    st.header("Settings")
+    headless= st.checkbox("Run in headless?") #give this functionality
+    generate_code = st.checkbox("Generate code as well?")
+    max_AI_steps= st.number_input("max AI steps",step=1,min_value=0,value=15)
+    similarity_k = st.number_input("Number of k nearest nodes for graphRAG",value=20)
+    st.caption("AI models. Only write AI models that are known or there will be errors")
+    neo4j_ai_model= st.text_input(" AI model to choose that searches database.",value="gemini-2.0-flash")
+    tester_ai = st.text_input("AI model for doing the browser usage",value="gemini-2.5-flash")
+    code_generator_ai=st.text_input("AI model for generating script code",value="gemini-2.5-flash")
+    auto_mode= st.checkbox(" Run in auto - mode")
+    st.caption("Automode means there will be no human interaction, thus everything will run in one go. Only use when you trust the AI")
 
 
-#TODO: for app location, make it affect the AI general pipeline so it is dynamic, rn hardcoded
+# --- session state ----
+if "agent" not in st.session_state:
+    st.session_state.agent=Langgraph(
+        test_type=test_type,
+        neo4j_url=neo4j_url,
+        neo4j_pwd=neo4j_password,
+        app_address=app_location,
+        max_AI_steps=max_AI_steps,
+        headless=headless,
+        similarity_k=similarity_k,
+        neo4j_ai_model=neo4j_ai_model,
+        tester_ai=tester_ai,
+        code_generator_ai=code_generator_ai
+    )
+    st.session_state.thread_id = "run_1"
 
-#TODO: Make it so the user chooses manual mode, or auto mode. In manual, they review everything and click check
-#in auto mode, state holds "auto" so that it clicks yes to everything or makes a selection to generate or not generate code
+#--- chat---
+if "messages" not in st.session_state:
+    st.session_state.messages=[]
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.write(msg["content"])
+user_input = st.chat_input("What should I test")
+
+#--- execution loop -----
+async def run_interaction(input_text = None, resume_data = None):
+    agent= st.session_state.agent
+    config ={
+        "configurable":{
+            "thread_id":st.session_state.thread_id
+        }}
+    initial_state=None
+    if input_text:
+        initial_state={
+            "messages":[("user",input_text)],
+            "filename":"default.py"
+        }
+    if resume_data:
+        agent.graph.update_state(config, resume_data)
+    breakpoints = ["Tester","generate"]
+
+    status_text = st.empty()
+    
+    with status_text.status("Agent Running....", expanded=True) as s:
+        async for event in agent.graph.astream(
+            initial_state,
+            config=config,
+            interrupt_before=breakpoints
+        ):
+            for node,output in event.items():
+                s.write(f"Completed: **{node}**")
+                if "messages" in output:
+                    msg = output["messages"][-1]
+                    content = msg.content if hasattr(msg,"content") else msg[1]
+                    st.session_state.messages.append({
+                        "role":"assistant",
+                        "content":content
+                    })
+                    with st.chat_message("assistant"):
+                        st.write(content)
+
+    status_text.empty()
+    st.rerun()
+
+if user_input:
+    st.session_state.messages.append({
+        "role":"user",
+        "content":user_input
+    })
+    asyncio.run(run_interaction(input_text=user_input))
+# --- handle pauses ---
+snapshot = st.session_state.agent.graph.get_state(
+    {"configurable":{
+        "thread_id":st.session_state.thread_id
+    }})
+if snapshot.next:
+    next_step = snapshot.next[0]
+    if next_step == "Tester":
+        if auto_mode:
+            asyncio.run(run_interaction(resume_data={}))
+        else:
+            st.info("Plan created, Review above")
+            st.warning("Ready to launch browser test?")
+
+            instructions= snapshot.values["instructions"]
+            st.info("Here is the instructions, you can change the instructions before sent to the automatic AI tester")
+            new_instructions= st.text_input("Write here",value=instructions)
+            col1,col2 = st.columns(2)
+            if col1.button("Run test"):
+                asyncio.run(run_interaction(resume_data={"new_instructions":new_instructions})) #set new instructions
+            if col2.button("Abort"):
+                st.stop()
+
+    elif next_step == "generate":
+        st.success("Test execution finished")
+        timestamp = datetime.datetime.now()
+        unique_filename = timestamp.strftime("%Y-%m-%d_%H-%M-%S")
+        if auto_mode:
+            new_filename=f"{test_type}_{unique_filename}.py"
+            asyncio.run(run_interaction(resume_data={"filename":new_filename}))
+        else:
+            if generate_code:
+                new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
+                col3,col4 = st.columns(2)
+                if col3.button("Generate Code"):
+                    asyncio.run(run_interaction(resume_data={"filename":new_filename}))
+            if col4.button("Abort") or not generate_code:
+                st.stop()
+
+
+
+
 
 
 """
@@ -89,9 +198,6 @@ and terminate button
 and headless mode
 
 """
-
-user=st.text_input(label="user-query",value="Please tell me how many nodes are in this graph")
-
 
 
 

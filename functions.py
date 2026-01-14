@@ -30,8 +30,8 @@ from contextlib import AsyncExitStack
 
 
 
-# Load .env from the current directory where main.py is run
-load_dotenv()
+# Load .env from the directory containing this script
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
 FILE_NAME="../test-project/src/App.jsx"
 JSLANGUAGE = Language(tsj.language()) #creates language

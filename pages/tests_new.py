@@ -3,6 +3,8 @@ import asyncio
 import os
 import sys
 from rich.console import Console
+from rich.panel import Panel
+from rich.pretty import Pretty
 import datetime
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
@@ -10,7 +12,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 from AI_pipeline_general import Langgraph
 import yaml
-
+from streamlit_float import *
 config_path = os.path.join(project_root, "config.yaml")
 
 CONSOLE = Console()
@@ -18,15 +20,29 @@ CONSOLE = Console()
 st.header("MCP agent -> E2E with pipeline")
 st.subheader(" ###Configuration### ")
 
+#TODO: add neo4j database name
+#TODO: add error handling
+
 #load the yaml file
 try:
     with open(config_path, "r") as f:
         config = yaml.load(f, Loader=yaml.FullLoader) or {}
+        CONSOLE.print("[green] read file [/green]")
 except FileNotFoundError:
     config = {}
 
+
+#floating button if crash
+float_init()
+button_container = st.container()
+with button_container:
+    if st.button("Refresh (if error)"):
+        st.rerun()    
+    float_parent(css="position: fixed; bottom: 10px; right: 100px; z-index: 99999;")
+
 neo4j_url = st.text_input("Neo4j url", value=config.get("neo4j_uri", "bolt://localhost:7687"))
 neo4j_password = st.text_input("Neo4j password", value=config.get("neo4j_password", "password"))
+neo4j_databse_name = st.text_input("Neo4j databse name",value=config.get("neo4j_database","neo4j"))
 app_location = st.text_input("Website URL", value=config.get("app_location", "http://localhost:5173/"))
 
 if st.button("Save content for later"):
@@ -44,16 +60,32 @@ test_type= st.radio("Test Type",["E2E","Unit"])
 with st.sidebar:
     st.header("Settings")
     headless= st.checkbox("Run in headless?") #give this functionality
+    if headless:
+        st.success(f"Headless on")
+    else:
+        st.warning("Headless off")
     generate_code = st.checkbox("Generate code as well?")
+    if generate_code:
+        st.info("Generate code on")
+    else:
+        st.warning("Generate code off")
+
     max_AI_steps= st.number_input("max AI steps",step=1,min_value=0,value=15)
     similarity_k = st.number_input("Number of k nearest nodes for graphRAG",value=20)
-    st.caption("AI models. Only write AI models that are known or there will be errors")
+    st.subheader("AI models")
     neo4j_ai_model= st.text_input(" AI model to choose that searches database.",value="gemini-2.0-flash")
     tester_ai = st.text_input("AI model for doing the browser usage",value="gemini-2.5-flash")
     code_generator_ai=st.text_input("AI model for generating script code",value="gemini-2.5-flash")
+    st.caption("Only write AI models that are known or there will be errors")
     auto_mode= st.checkbox(" Run in auto - mode")
     st.caption("Automode means there will be no human interaction, thus everything will run in one go. Only use when you trust the AI")
 
+#TODO: Rerun might cause problems
+
+if st.sidebar.button("Update / Reset Agent"):
+    if "agent" in st.session_state:
+        del st.session_state.agent
+    st.success("Agent settings updated!")
 
 # --- session state ----
 if "agent" not in st.session_state:
@@ -61,6 +93,7 @@ if "agent" not in st.session_state:
         test_type=test_type,
         neo4j_url=neo4j_url,
         neo4j_pwd=neo4j_password,
+        neo4j_database=neo4j_databse_name,
         app_address=app_location,
         max_AI_steps=max_AI_steps,
         headless=headless,
@@ -68,8 +101,29 @@ if "agent" not in st.session_state:
         neo4j_ai_model=neo4j_ai_model,
         tester_ai=tester_ai,
         code_generator_ai=code_generator_ai
+
     )
     st.session_state.thread_id = "run_1"
+
+#debugging
+params = {
+    "Test Type": test_type,
+    "Noe4j database": neo4j_databse_name,
+    "Neo4j URL": neo4j_url,
+    "Neo4j Pwd": "*****" if neo4j_password else "None", 
+    "App Address": app_location,
+    "Max AI Steps": max_AI_steps,
+    "Headless": headless,
+    "Similarity K": similarity_k,
+    "Neo4j AI Model": neo4j_ai_model,
+    "Tester AI": tester_ai,
+    "Code Gen AI": code_generator_ai
+}
+
+param_str = "\n".join([f"[b]{k}:[/b] {v}" for k, v in params.items()])
+
+CONSOLE.print(Panel(param_str, title="Langgraph Params", expand=False))
+
 
 #--- chat---
 if "messages" not in st.session_state:
@@ -86,6 +140,7 @@ async def run_interaction(input_text = None, resume_data = None):
         "configurable":{
             "thread_id":st.session_state.thread_id
         }}
+    CONSOLE.print(Panel(Pretty(config),title="config"))
     initial_state=None
     if input_text:
         initial_state={
@@ -125,82 +180,72 @@ if user_input:
         "content":user_input
     })
     asyncio.run(run_interaction(input_text=user_input))
+
 # --- handle pauses ---
+
 snapshot = st.session_state.agent.graph.get_state(
     {"configurable":{
         "thread_id":st.session_state.thread_id
     }})
+CONSOLE.print("[yellow] Snapshot taken [/yellow]")
 if snapshot.next:
+    CONSOLE.print(f"[yellow] Snapshot next:/[yellow] {snapshot.next[0]}")
     next_step = snapshot.next[0]
     if next_step == "Tester":
+        
+
+        CONSOLE.print("[bold green] Tester mode on [/bold green]")
+        timestamp = datetime.datetime.now()
+        unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
         if auto_mode:
-            asyncio.run(run_interaction(resume_data={}))
+            CONSOLE.print("[magenta] auto mode ON [/magenta]")
+            new_filename=f"{test_type}_{unique_filename}.py"
+            asyncio.run(run_interaction(resume_data={"filename":new_filename}))
         else:
+            CONSOLE.print("[magenta] auto mode OFF [/magenta]")
             st.info("Plan created, Review above")
             st.warning("Ready to launch browser test?")
 
             instructions= snapshot.values["instructions"]
-            st.info("Here is the instructions, you can change the instructions before sent to the automatic AI tester")
-            new_instructions= st.text_input("Write here",value=instructions)
+            st.info("Here are the instructions, you can change the instructions before sent to the automatic AI tester")
+            new_instructions= st.text_area("Write here",value=instructions,height="content")
+
+            new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
             col1,col2 = st.columns(2)
             if col1.button("Run test"):
-                asyncio.run(run_interaction(resume_data={"new_instructions":new_instructions})) #set new instructions
+                CONSOLE.print(Panel(new_instructions,title="instructions"))
+                
+                asyncio.run(run_interaction(resume_data={"new_instructions":new_instructions,
+                                                         "filename":new_filename})) #set new instructions and filename
             if col2.button("Abort"):
                 st.stop()
+                st.rerun()
 
+
+    
     elif next_step == "generate":
+        CONSOLE.print("[bold green] Generate mode on [/bold green]")
         st.success("Test execution finished")
         timestamp = datetime.datetime.now()
-        unique_filename = timestamp.strftime("%Y-%m-%d_%H-%M-%S")
+        unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
         if auto_mode:
             new_filename=f"{test_type}_{unique_filename}.py"
             asyncio.run(run_interaction(resume_data={"filename":new_filename}))
         else:
+            col3,col4 = st.columns(2)
             if generate_code:
                 new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
-                col3,col4 = st.columns(2)
                 if col3.button("Generate Code"):
                     asyncio.run(run_interaction(resume_data={"filename":new_filename}))
             if col4.button("Abort") or not generate_code:
                 st.stop()
+                st.rerun()
 
+            #TODO: Only write the AIs newest point
+            #TODO: add gemini thinking streaming
+            #TODO: how to fix if nothing found then repeat in vector search
 
-
-
-
-
-"""
-selection options:
-Vector Search Node
-neo4j setup: url = bolt://localhost:7687
-             password = "password"
-
---done
-
-MCPGraph:
-app opening location-> http://localhost:5173/ 
-
---done
-
-Show the instructions-done
-
-Check if user wants to go ahead with the test, -done
-or edit the instructions
-
-
-MCPTester
-Check if user wants to generate code - done
-Show the code written, ask if they wanna rename the test file name - done
-also number of steps AI can take before calling it ggs-done
-
-and terminate button
-
-and headless mode
-
-"""
-
-
-
+        
 
     
 

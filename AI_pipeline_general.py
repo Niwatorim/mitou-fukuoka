@@ -5,7 +5,9 @@ from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import MemorySaver
 import os,sys,traceback
 from dotenv import load_dotenv
-load_dotenv()
+# Explicitly load .env from the script's directory
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+load_dotenv(env_path)
 import json
 import asyncio
 from neo4j import GraphDatabase
@@ -38,20 +40,20 @@ def location(results:bool,test_type:str)->str:
     if results: #if its a test file
         path="./results"
     else: #if its a code block
-        path="./tests/codeblock"
+        path="./tests/"
     new_path=os.path.join(path,test_type)
     return new_path
 
 class State(TypedDict): #create message history
     messages: Annotated[list,add_messages]
-    vector_store: Any
+    vector_store: Neo4jVector
     tool_history: list[dict]
     filename:str
     instructions:str|None
     new_instructions:str|None
 
 class Langgraph:
-    def __init__(self,test_type:str,neo4j_url:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str,similarity_k:int=20):
+    def __init__(self,test_type:str,neo4j_url:str,neo4j_database:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str,similarity_k:int=20):
         """
         Docstring for __init__
         :param test_type: Type of test you are running (e.g. E2E etc, will change the retrieval query)
@@ -62,6 +64,9 @@ class Langgraph:
 
         :param neo4j_pwd: Password for your neo4j database
         :type neo4j_pwd: str
+
+        :param neo4j_database: database name for your neo4j database
+        :type neo4j_database: str
 
         :param neo4j_ai_model: AI model if you wanna set for your neo4j AI model
         :type neo4j_ai_model: str
@@ -90,6 +95,7 @@ class Langgraph:
         self.neo4j_url= neo4j_url
         self.test_type=test_type
         self.neo4j_pwd= neo4j_pwd
+        self.neo4j_database = neo4j_database
         self.app_address=app_address
         self.max_AI_steps = max_AI_steps
         self.headless = headless
@@ -100,7 +106,7 @@ class Langgraph:
         #this is general in case we have others
         self.retrieval_query = """
                 RETURN 
-                    node.CODE AS text,
+                    coalesce(node.CODE, '') AS text,
                     score,
                     {
                         id: elementId(node),
@@ -123,8 +129,10 @@ class Langgraph:
                 8. Once the browser is closed, simply output the final report.
 
                 Give a response in the following format:
+                Test title:
                 Test success: True/False
-                Python code: (generate the equivalent python playwright code for the steps you took)
+                Test explanation:
+                Steps taken and following results:
                 """
         self.graph_sys_prompt=f"""
             You are a graph-based testing expert.
@@ -168,7 +176,7 @@ class Langgraph:
         if test_type == "E2E":
             self.retrieval_query = """
                     RETURN 
-                        node.CODE AS text,
+                        coalesce(node.CODE, '') AS text,
                         score,
                         {
                             id: elementId(node),
@@ -192,8 +200,10 @@ class Langgraph:
                 8. Once the browser is closed, simply output the final report.
 
                 Give a response in the following format:
+                Test title:
                 Test success: True/False
-                Python code: (generate the equivalent python playwright code for the steps you took)
+                Test explanation:
+                Steps taken and following results:
                 """
 
             self.graph_sys_prompt=f"""
@@ -325,13 +335,15 @@ class Langgraph:
                     retrieval_query=self.retrieval_query
                 )
                 
-                return {"vector_store": vector_store}
+                # return {"vector_store": vector_store
+                return state
 
         def VectorSearchNode(state:State):
             print("Doing vector search..")
-            store = state.get('vector_store')
+            # store = state.get('vector_store')
+            store=None
             if not store:
-                print("    (Re-connecting to existing Neo4j index...)")
+                print("    (Re-connecting to existing Neo4j index...) ")
                 neo4j_url = self.neo4j_url
                 neo4j_password = self.neo4j_pwd
                 embeddings = OllamaEmbeddings(model="nomic-embed-text:latest", base_url="http://localhost:11434")
@@ -418,8 +430,8 @@ class Langgraph:
                 content = data.text if data and hasattr(data, "text") else str(data)
                 
                 console_cont = Console()
-                console_cont.print("[magenta]-----------------------------[/magenta]")
-                console_cont.print(Panel(f"[bold green] {content} [/bold green]", title="Final response"))
+                print("[magenta]-----------------------------[/magenta]")
+                print(Panel(f"[bold green] {content} [/bold green]", title="Final response"))
 
                 test_type = self.test_type
                 base_path = location(results=True, test_type=test_type)

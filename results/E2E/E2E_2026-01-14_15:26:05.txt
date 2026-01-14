@@ -1,0 +1,6 @@
+Test title: Check if counter increments on button click
+Test success: True
+Test explanation: The test successfully navigated to the application, clicked the button, and observed that the counter displayed on the button incremented from "count is 0" to "count is 1", confirming the expected behavior.
+Steps taken and following results:
+1. **Navigate to the app:** The browser navigated to `http://localhost:5173/`. The app loaded successfully, and a button with the text "count is 0" was visible.
+2. **Click the button:** The button with the text "count is 0" was clicked. After the click, the button's text updated to "count is 1", indicating that the counter incremented by 1 as expected.

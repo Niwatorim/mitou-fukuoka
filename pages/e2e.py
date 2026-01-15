@@ -12,8 +12,6 @@ if project_root not in sys.path:
 
 from functions import MCPGeminiAgent
 
-#TODO: put mcp.json outside the pages folder
-
 CONSOLE = Console()
 
 async def main(prompt,sys_prompt):

@@ -2,12 +2,12 @@ from .neo4j_connection import Neo4jConnection
 import shutil
 import os
 
-
+# changed to import to 2nd DB
 class cpgToNeo4j(Neo4jConnection):
     """Children class of Neo4jConnection for create a CPG to Neo4j pipeline
     """
 
-    def __init__(self, uri, user, pwd):
+    def __init__(self, uri, user, pwd, db=None):
         """Constructor of the class.
 
         Args:
@@ -16,6 +16,7 @@ class cpgToNeo4j(Neo4jConnection):
             pwd (str): Password of the neo4j database.
         """
         super().__init__(uri, user, pwd)
+        self.db = db
 
     def upload_nodes(self, folder_path):
         """Execute neo4j query contained in each file with 'node' in their name
@@ -35,7 +36,7 @@ class cpgToNeo4j(Neo4jConnection):
             print(f"Executing query from file {file}")
             with open(file, 'r') as f:
                 query = f.read()
-            self.query(query)
+            self.query(query, db=self.db)
             print(f"Query from file {file} executed")
 
     def upload_edges(self, folder_path):
@@ -56,7 +57,7 @@ class cpgToNeo4j(Neo4jConnection):
             print(f"Executing query from file {file}")
             with open(file, 'r') as f:
                 query = f.read()
-            self.query(query)
+            self.query(query, db=self.db)
             print(f"Query from file {file} executed")
 
     def copy_data_to_neo4j_import_folder(self, data_folder, neo4j_import_folder):

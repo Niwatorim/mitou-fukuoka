@@ -4,6 +4,8 @@ from tree_sitter import Language, Parser, Query, QueryCursor, Node
 from langchain_community.document_loaders import TextLoader
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import OllamaEmbeddings
+from langchain_ollama import ChatOllama
+from langchain_core.output_parsers import StrOutputParser
 from browser_use import Agent, ChatGoogle,Browser
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.documents import Document
@@ -20,9 +22,13 @@ import os,yaml,json
 import subprocess
 import chromadb
 import re
+import shutil
+import subprocess
 
 # Load .env from the current directory where main.py is run
 load_dotenv()
+
+#TODO: Delete all imports, functions and variables that are not needed in the newest archi
 
 FILE_NAME="../test-project/src/App.jsx"
 JSLANGUAGE = Language(tsj.language()) #creates language
@@ -928,13 +934,15 @@ def get_imports(node:Node):
 #----------- CPG creation -------
 from cpg_folder.joern_cpg_to_neo4j.cpg_to_neo4j import cpgToNeo4j
 
+# from cpg to neo4j only, we're running to WEBHOOK DATABASE
 def cpg_to_neo4j(config:dict) -> None:
-
     # Pipeline: From CPG to Neo4j
     pipe = cpgToNeo4j(
         config.get("neo4j_uri"),
         config.get("neo4j_user"),
         config.get("neo4j_password"),
+        config.get("target_database")
+
     )
 
     pipe.copy_data_to_neo4j_import_folder(
@@ -948,17 +956,104 @@ def cpg_to_neo4j(config:dict) -> None:
         config.get("export_path")
     )
 
+def joern_pipeline(input_path:str, config:dict):
+    """
+    run all the commands to use joern to parse codebase into cpg. Original commands can be found in cpg.py
+    """
+    # Define paths (Use absolute paths to avoid confusion)
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Root of project
+    cpg_file_path = os.path.join(base_dir, "cpg_folder", "cpg_creations")
+    output_folder = config.get("export_path")
+    joern_base_path = config.get("joern_path")
+
+    # Clean up old folders
+    if os.path.exists(cpg_file_path):
+        os.remove(cpg_file_path)
+    if os.path.exists(output_folder):
+        shutil.rmtree(output_folder)
+
+    os.makedirs(os.path.dirname(cpg_file_path), exist_ok=True)
+    os.makedirs(output_folder, exist_ok=True)
+
+    # set up Java 21 environment
+    my_env = os.environ.copy()
+    my_env["JAVA_HOME"] = r"C:\Program Files\Java\jdk-21" 
+    my_env["PATH"] = my_env["JAVA_HOME"] + r"\bin;" + my_env.get("PATH", "")
+
+    # Prepare Joern executables
+    exec_parse = "joern-parse.bat" if os.name == 'nt' else "joern-parse"
+    exec_export = "joern-export.bat" if os.name == 'nt' else "joern-export"
+
+    path_to_parse = os.path.join(joern_base_path, exec_parse)
+    path_to_export = os.path.join(joern_base_path, exec_export)
+
+    # execute: joern parse (code -> binary)
+    command1 = [path_to_parse, input_path, "--output", cpg_file_path]
+    print(f"Running Joern parse on {input_path}")
+    result1 = subprocess.run(
+        command1, 
+        capture_output=True, 
+        text=True, 
+        env=my_env, 
+        cwd=joern_base_path 
+    )
+
+    if result1.returncode != 0:
+        print(f"joern-parse failed: {result1.stderr}")
+        # Add a hint about Java if it fails here
+
+    # execute: joern export (binary -> neo4jcsv)
+    command2 = [path_to_export, cpg_file_path, "--out", output_folder, "--repr", "all", "--format", "neo4jcsv"]
+    print(f"Running joern export on {input_path}")
+    result2 = subprocess.run(
+        command2, 
+        capture_output=True, 
+        text=True, 
+        env=my_env,
+        cwd=joern_base_path  
+    )
+    
+    if result2.returncode != 0:
+        print(f"joern-export failed: {result2.stderr}")
+
+    print("Pushing to neo4j..")
+    try:
+        cpg_to_neo4j(config=config)
+    except Exception as e:
+        st.error(f"Failed to push to Neo4j: {e}")
+
+# for initial load
+def create_cpg_repo(repo_path:str, config:dict):
+    """
+    create cpg for the entire repo, then convert cpg into neo4j
+    """
+    print(f"Running Joern pipeline for entire {repo_path}..")
+    try:
+        joern_pipeline(repo_path, config)
+    except Exception as e:
+        print(f"Error in create_cpg_repo: {e}")
+        raise e
+
+
+# for updating the nodes
+def create_cpg_files(changed_files:list, config:dict):
+    """
+    create sub cpg graph for changed nodes, then convert cpg into neo4j, merge it into the main graph
+    """
+    print(f"Running joern pipeline only for changed files: {changed_files}")
+    success_files = 0
+    for file_path in changed_files:
+        try:
+            print(f"Running joern pipeline on file {file_path}")
+            joern_pipeline(file_path, config)
+            success_files += 1
+        except Exception as e:
+            print(f"Error in processing file {file_path}: {e}")
+            continue
+    print(f"Finished Joern pipeline for changed files: {changed_files}")
+
 """
-automatic test case generation:
-list all the testable attributes (natural language) -> graphRAG -> take all the attributes from the graph
-
-In UI,
-separate tests between each attribute
-user can choose which test to run
-user can edit the yaml file directly
-
-user prompt:
-prompt -> graphRAG -> take the related attribute from graph
+----- graphrag
 """
 # ---- graphRAG to find related components
 # need to create a shared label called "TestableComponent"
@@ -1053,7 +1148,7 @@ def embed_nodes():
         node_label="TestableComponent",
         text_node_properties=["NAME", "CODE"],
         embedding_node_property="embedding",
-        retrieval_query=retrieval_query_multiple
+        retrieval_query=retrieval_query
     )
 
     return vector_store
@@ -1099,8 +1194,96 @@ def retrieve_components(user_prompt, vector_store, threshold):
     print_elements("buttons", meta.get('buttons', []))
     print_elements("routes", meta.get('routes', []))
 
+def retrieve_components2(user_prompt, vector_store):
+    seen_ids = set()
+    unique_components = []
+
+    print(f"--- Searching for {len(prompt_array)} items: {prompt_array} ---")
+
+    # 2. Iterate through each extracted phrase (e.g., "react logo", "react link")
+    for search_term in prompt_array:
+        print(f"Searching for: '{search_term}'")
+        
+        # Search specifically for this term
+        results = vector_store.similarity_search_with_score(search_term, k=3) # Lower k (e.g., 3) per term to keep it focused
+
+        for document, score in results:
+            # 3. Apply threshold
+            if score < 0.70: 
+                continue
+            
+            # 4. Deduplication logic: Check if we've already added this node ID
+            node_id = document.metadata.get('id')
+            if node_id in seen_ids:
+                continue
+            
+            seen_ids.add(node_id)
+            
+            meta = document.metadata
+            item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {node_id} | Code: {meta.get('code')} | Score: {score:.4f}"
+            unique_components.append(item_str)
+
+    # 5. Final Output
+    if not unique_components:
+        print("No components found matching the criteria.")
+        return
+
+    final_response = "\n".join(unique_components)
+    print("--- Final Aggregated Results ---")
+    print(final_response)
+
+def parse_repo_url(url):
+    """
+    Helper functionn to extract "owner/repo" from URL
+    """
+    match = re.search(r'github\.com/([^/]+)/([^/]+)', url)
+    if match:
+        return f"{match.group(1)}/{match.group(2)}"
+    return None
+
 if __name__ == "__main__":
-    vector_store = embed_nodes()
-    user_prompt = "react logo and react link pls"
-    retrieve_components(user_prompt, vector_store, 0.80)
-# current archi - graphRAG pull out most nodes for context -> agent needs to be smart enough to sort which ones are relevant
+    RETRIEVAL_QUERY_GENERAL = """
+    RETURN 
+        node.CODE AS text,
+        score,
+        {
+            id: elementId(node),
+            name:coalesce(node.NAME, node.FULL_NAME, 'Unnamed'),
+            labels: labels(node),
+            code: node.CODE
+        } AS metadata
+"""
+
+    neo4j_url = "bolt://localhost:7687"
+    neo4j_password = "password"
+    embeddings = OllamaEmbeddings(model="nomic-embed-text:latest", base_url="http://localhost:11434")
+    
+    # connects to the DB.
+    store = Neo4jVector.from_existing_index(
+        embedding=embeddings,
+        url=neo4j_url,
+        password=neo4j_password,
+        index_name="general_components",
+        retrieval_query=RETRIEVAL_QUERY_GENERAL
+    )
+
+    llm = ChatOllama(
+    model="qwen2.5:1.5b",
+    temperature=0 
+    )
+
+    prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a web QA tester. Extract the UI components and actions from the prompt, and put them as a list. For example, Prompt: Check whether the home button has the home logo, and directs to the shop link, and whether the cat image is present. Response you should give: home button, home logo, shop link, cat image. Don't forget the quotation mark for each phrase in the list"),
+    ("user", "{question}")
+    ])
+
+    chain = prompt | llm | StrOutputParser()
+
+    user_prompt = "check whether the react logo has the react link, and clicking the button will increment the number by 1"
+    response = chain.invoke({"question": user_prompt})
+    prompt_array = [item.strip() for item in response.split(',')]
+    print(prompt_array)
+
+    retrieve_components2(prompt_array, store) 
+    # TODO: add UI elemnts extractor llm to the pipeline, and update code of retriever, then test.
+    # TODO: pull/copy paste boss's newest code 

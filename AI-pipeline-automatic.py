@@ -20,6 +20,7 @@ if project_root not in sys.path:
 
 from mcp_server import MCPGeminiAgent
 
+# extracting all testable compoenents
 RETRIEVAL_QUERY_E2E = """
 // 1. ZOOM OUT to Component Root
         OPTIONAL MATCH (node)<-[:AST|CONTAINS*0..20]-(m:METHOD)

@@ -1,0 +1,9 @@
+email,password,expected_response_email,expected_response_password
+admin@test.com,admin123,success,success
+test@example.com,test123,success,success
+invalid@test,short,error,error
+user@test.com,wrongpass123,error,error
+,password123,error,success
+test@example.com,,success,error
+notanemail,testpass,error,success
+valid@email.com,validpass123,error,error

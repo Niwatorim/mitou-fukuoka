@@ -1,0 +1,6 @@
+username,password,expected_response_username,expected_response_password
+admin,admin123,success,success
+user1,wrongpass,success,error
+testuser,testpass123,success,success
+,emptyuser,error,success
+invaliduser,,success,error

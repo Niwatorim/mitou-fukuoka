@@ -1,0 +1,13 @@
+[server]
+fileWatcherType = "poll"
+
+[runner]
+magicEnabled = true
+
+[client]
+showErrorDetails = true
+
+# Don't watch these directories for changes
+[server.folderBlacklist]
+# Add folders that should not trigger Streamlit refreshes
+watchBlacklist = ["cpg_folder", "tests", "node_modules", "test-app"]

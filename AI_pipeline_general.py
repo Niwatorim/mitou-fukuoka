@@ -40,8 +40,16 @@ def location(results:bool,test_type:str)->str:
     if results: #if its a test file
         path="./results"
     else: #if its a code block
-        path="./tests/"
-    new_path=os.path.join(path,test_type)
+        if test_type == "Parameter":
+            path = "./tests/codeblock/param"
+        else:
+            path = f"./tests/{test_type}"
+    
+    if results:
+        new_path = os.path.join(path, test_type)
+    else:
+        new_path = path
+    
     return new_path
 
 class State(TypedDict): #create message history
@@ -53,7 +61,7 @@ class State(TypedDict): #create message history
     new_instructions:str|None
 
 class Langgraph:
-    def __init__(self,test_type:str,neo4j_url:str,neo4j_database:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str,similarity_k:int=20):
+    def __init__(self,test_type:str,neo4j_url:str,neo4j_database:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str,similarity_k:int=20,columns:list[str]=[],csv_path:str=None):
         """
         Docstring for __init__
         :param test_type: Type of test you are running (e.g. E2E etc, will change the retrieval query)
@@ -88,6 +96,12 @@ class Langgraph:
         
         :param similarity_k: The number of nodes that you wanna retrieve during graphRAG. MIGHT NEED TO CHANGE TO DEPEND ON test_type
         :type similarity_k: int
+
+        :param columns: The columns of the dataframe being passed in
+        :type columns: list[str]
+        
+        :param csv_path: Path to the CSV file for parameter testing
+        :type csv_path: str
         """
 
 
@@ -102,6 +116,14 @@ class Langgraph:
         self.neo4j_ai=neo4j_ai_model
         self.tester_ai=tester_ai
         self.code_generator_ai = code_generator_ai
+        self.csv_path = csv_path
+        self.column_names = columns
+        self.expected_results = [f"expected_response_{col}" for col in columns]
+        
+        # Performance optimization: cache connections and checks
+        self.vector_store_cache = None
+        self.neo4j_driver = None
+        self._embeddings_checked = False
 
         #this is general in case we have others
         self.retrieval_query = """
@@ -246,8 +268,132 @@ class Langgraph:
                 
                 """
 
+    #TODO: Force to return in json later
 
-        self.similarty_k = similarity_k
+        if test_type == "Parameter": #find all the forms
+            column_display = ", ".join(columns) if columns else "(no columns loaded yet)"
+            expected_display = ", ".join([f"expected_response_{col}" for col in columns]) if columns else "(no columns loaded yet)"
+            
+        #     self.retrieval_query = """
+        #     // 1. ZOOM OUT to Component Root
+        # OPTIONAL MATCH (node)<-[:AST|CONTAINS*0..20]-(m:METHOD)
+        # WITH node, score, collect(DISTINCT m) AS methods
+        # WITH coalesce(head(methods), node) AS root, score
+
+        # // 2. GATHER ALL UNIQUE CHILDREN FIRST (Including Routes)
+        # MATCH (root)-[:CONTAINS|AST*]->(child)
+        # WHERE 
+        # // HTML Elements
+        #     (
+        #         child.NAME IN ['a', 'Link', 'img', 'Image', 'input', 'button'] 
+        #         OR child.CODE STARTS WITH '<a' 
+        #         OR child.CODE STARTS WITH '<img' 
+        #         OR child.CODE STARTS WITH '<button' 
+        #         OR child.CODE STARTS WITH '<input'
+        #         OR child.NAME IN ['push', 'navigate', 'redirect', 'go', 'back']
+        #     )
+        #     AND NOT child.NAME IN ['JSXOpeningElement', 'JSXClosingElement']
+
+        # WITH root, score, child.CODE as code, head(collect(child)) as unique_node
+        
+        # // 4. COLLECT THE UNIQUE NODES INTO A LIST
+        # WITH root, score, collect(unique_node) as unique_children
+
+        # // 4. CATEGORIZE
+        # RETURN
+        #     root.CODE as text,
+        #     score,
+        #     {
+        #         id: elementId(root),
+        #         name: root.NAME,
+        #         labels: labels(root),
+                
+        #         links: [c IN unique_children 
+        #                 WHERE c.NAME IN ['a', 'Link'] OR c.CODE STARTS WITH '<a' 
+        #                 | {id: elementId(c), code: c.CODE}],
+
+        #         images: [c IN unique_children 
+        #                 WHERE c.NAME IN ['img', 'Image'] OR c.CODE STARTS WITH '<img' 
+        #                 | {id: elementId(c), code: c.CODE}],
+                
+        #         inputs: [c IN unique_children 
+        #                 WHERE c.NAME IN ['input'] OR c.CODE STARTS WITH '<input' 
+        #                 | {id: elementId(c), code: c.CODE}],
+                
+        #         buttons: [c IN unique_children 
+        #                 WHERE c.NAME IN ['button'] OR c.CODE STARTS WITH '<button' 
+        #                 | {id: elementId(c), code: c.CODE}],
+                
+        #         routes: [c IN unique_children 
+        #                 WHERE c.NAME IN ['push', 'navigate', 'redirect', 'go', 'back'] 
+        #                 | {id: elementId(c), name: c.NAME, code: c.CODE}]
+        #     } as metadata"""
+            #TODO: AI confused here, it doesnt know what type of test we are talking about
+            self.tester_sys_prompt="""
+                You are a useful parameter tester. You will be tasked with finding WHERE the location is for testing the functionality of certain components in the website
+
+                RULES:
+                1. Read the instructions provided in the input.
+                2. Execute the steps sequentially using the browser tools.
+                3. Do NOT answer from memory; use the tools.
+                4. If the instruction is to click, use `browser_click`.
+                5. CRITICAL: Once you have performed the requested actions, call `browser_close`.
+                6. AFTER calling `browser_close`, DO NOT ATTEMPT TO RE-OPEN THE BROWSER.
+                7. DO NOT try one pass is enough.
+                8. Once the browser is closed, simply output the final report.
+
+                Give a response in the following format:
+                Names of fields to be filled or tested:
+                """
+            self.graph_sys_prompt=f"""
+            You are a graph-based testing expert.
+            The test to be done is to input values into the values specified and simply seeing what the results would be. IN other words, Parameter testing
+
+            IMPORTANT RULES:
+            - You MUST use tools to inspect the graph before answering.
+            - Do NOT answer from memory.
+            - If information is missing, explore the graph using tools.
+            - Only produce a final answer AFTER tool usage.
+
+            MENTION THE APP WILL BE OPENED ON {self.app_address}
+
+            Output format:
+            Path_exists: True/False
+            test_steps:
+            - step: 1
+            action: navigate
+            instruction: ...
+            target: ...
+            expected: ...
+            """
+            self.generate_code_system_prompt=f"""
+            You are a Senior QA Automation Engineer.
+            Convert the following execution history into a **Pytest-Playwright** test logic.
+            
+            CRITICAL RULES:
+            1. The code will be wrapped in a CSV reader loop - DO NOT create the loop yourself
+            2. Access CSV values using: row["column_name"]
+            3. Input columns available: {column_display}
+            4. Expected result columns: {expected_display}
+            5. Use assertions to compare actual results vs expected: row["expected_response_X"]
+            6. Output ONLY the test logic that will run INSIDE a loop
+            7. Do NOT include: imports, CSV reading, or for loops
+            
+            Example variable access:
+                email_value = row["email"]
+                expected_result = row["expected_response_email"]
+                # ... perform action with email_value ...
+                # ... assert actual_result == expected_result ...
+            
+            Output ONLY the indented test logic (no loop structure).
+            """
+
+
+        # Performance optimization: reduce k for parameter testing
+        if test_type == "Parameter":
+            self.similarty_k = similarity_k if similarity_k != 20 else 5  # Use 5 instead of 20 for param tests
+        else:
+            self.similarty_k = similarity_k
         self.embedding_uri="bolt://localhost:7687"
         self.embedding_auth=("neo4j", "password")
         self.memory=MemorySaver()
@@ -255,6 +401,11 @@ class Langgraph:
 
     def _build_graph(self):
         def check_embeddings() -> bool:
+            # Performance optimization: use cached result if already checked
+            if self._embeddings_checked:
+                print("DEBUG: Using cached embedding validation result.")
+                return True
+            
             #TODO: Check if the uri and inputs here need to be changed, ask boss
             """ Check if embeddings are there or not"""
             driver = GraphDatabase.driver(self.embedding_uri, auth=self.embedding_auth)
@@ -284,6 +435,9 @@ class Langgraph:
                         return False
                         
                     print("DEBUG: Embeddings verified (Index + Data found).")
+                    
+                    # Cache the successful result
+                    self._embeddings_checked = True
                     return True
 
             except Exception as e:
@@ -340,13 +494,18 @@ class Langgraph:
 
         def VectorSearchNode(state:State):
             print("Doing vector search..")
-            # store = state.get('vector_store')
-            store=None
+            
+            # Performance optimization: reuse cached vector store
+            store = self.vector_store_cache
+            
             if not store:
-                print("    (Re-connecting to existing Neo4j index...) ")
+                print("    (Connecting to Neo4j index for first time...) ")
                 neo4j_url = self.neo4j_url
                 neo4j_password = self.neo4j_pwd
-                embeddings = OllamaEmbeddings(model="nomic-embed-text:latest", base_url="http://localhost:11434")
+                embeddings = OllamaEmbeddings(
+                    model="nomic-embed-text:latest", 
+                    base_url="http://localhost:11434"
+                )
                 
                 # connects to the DB.
                 store = Neo4jVector.from_existing_index(
@@ -356,6 +515,11 @@ class Langgraph:
                     index_name="general_components",
                     retrieval_query=self.retrieval_query
                 )
+                
+                # Cache for future queries - critical performance optimization!
+                self.vector_store_cache = store
+            else:
+                print("    (Reusing cached vector store connection)")
             
             last_message = state["messages"][-1]
             if hasattr(last_message, 'content'):
@@ -375,8 +539,11 @@ class Langgraph:
                 return {"messages": [("assistant", text)]}
 
             components = []
+            # Performance optimization: use higher threshold for parameter testing
+            threshold = 0.80 if self.test_type == "Parameter" else 0.70
+            
             for document, score in results:
-                if score < 0.70: # can change threshold if want more general or more strict
+                if score < threshold: # stricter filtering for parameter tests
                     continue
                 meta = document.metadata
                 item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {meta.get('id')} | Code: {meta.get('code')} | Score: {score:.4f}"
@@ -397,15 +564,26 @@ class Langgraph:
             try:
                 await agent.connect()
                 data = await agent.chat(messages,e2e_Graph)
-                content = data.text if data and hasattr(data, "text") else str(data)
+                # Ensure content is never None
+                if data and hasattr(data, "text") and data.text is not None:
+                    content = data.text
+                elif data:
+                    content = str(data)
+                else:
+                    content = "No response received from AI"
+                
                 return {"messages":[("assistant",content)],
                         "instructions":content,
                         "new_instructions":None #Basically setting it up so that this will be sent to the user, and if there is new instructions from the user in Tester it will be those new instructions, else there will be nothing
                         }
             
             except Exception as e:
+                error_msg = f"Error in MCPGraph: {str(e)}"
                 print(f"Fatal error during execution: {e}")
                 traceback.print_exc()
+                return {"messages": [("assistant", error_msg)],
+                        "instructions": error_msg,
+                        "new_instructions": None}
             
             finally:
                 await llm.cleanup()
@@ -427,25 +605,37 @@ class Langgraph:
                     data, tool_history = await agent.chat(new_instruct,e2e_Tester)
                 else:
                     data, tool_history = await agent.chat(messages,e2e_Tester)
-                content = data.text if data and hasattr(data, "text") else str(data)
+                
+                # Ensure content is never None
+                if data and hasattr(data, "text") and data.text is not None:
+                    content = data.text
+                elif data:
+                    content = str(data)
+                else:
+                    content = "No response received from AI"
                 
                 console_cont = Console()
                 print("[magenta]-----------------------------[/magenta]")
                 print(Panel(f"[bold green] {content} [/bold green]", title="Final response"))
 
                 test_type = self.test_type
-                base_path = location(results=True, test_type=test_type)
-                os.makedirs(base_path, exist_ok=True)
-                filename = state.get("filename", "test_report.txt") 
-                full_path = os.path.join(base_path, filename)
-                with open(full_path, "w") as f:
-                    f.write(content)
+                
+
+                if test_type != "Parameter":
+                    base_path = location(results=True, test_type=test_type)
+                    os.makedirs(base_path, exist_ok=True)
+                    filename = state.get("filename", "test_report.txt") 
+                    full_path = os.path.join(base_path, filename)
+                    with open(full_path, "w") as f:
+                        f.write(content)
 
                 return {"messages": [("assistant", content)], "tool_history": tool_history}
             
             except Exception as e:
+                error_msg = f"Error in MCPTester: {str(e)}"
                 print(f"Fatal error during execution: {e}")
                 traceback.print_exc()
+                return {"messages": [("assistant", error_msg)], "tool_history": []}
             
             finally:
                 await llm.cleanup()
@@ -456,10 +646,48 @@ class Langgraph:
             response_text = await generator(tools_str,self.code_generator_ai,self.generate_code_system_prompt)
             response = clean_code_block(response_text)
             
+            if self.test_type == "Parameter" and self.csv_path:
+                # Create the CSV reader wrapper
+                csv_wrapper = f'''import pandas as pd
+import os
+from playwright.sync_api import sync_playwright, Page, expect
+
+csv_path = r"{self.csv_path}"
+df = pd.read_csv(csv_path)
+
+print(f"Running {{len(df)}} test cases from CSV")
+
+with sync_playwright() as playwright:
+    browser = playwright.chromium.launch(headless={str(self.headless)})
+    context = browser.new_context()
+    page = context.new_page()
+    
+    for index, row in df.iterrows():
+        print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
+        print(f"Input values: {{dict(row)}}")
+        
+        try:
+'''
+                # Indent the AI-generated code (8 spaces for inside try block)
+                indented_response = "\n".join("            " + line if line.strip() else "" for line in response.split("\n"))
+                
+                csv_footer = '''
+        except Exception as e:
+            print(f"Test case {{index + 1}} FAILED: {{e}}")
+        else:
+            print(f"Test case {{index + 1}} PASSED")
+    
+    context.close()
+    browser.close()
+
+print("\\\\nAll tests completed!")
+'''
+                response = csv_wrapper + indented_response + csv_footer
+            
             timestamp = datetime.datetime.now()
             unique_filename = timestamp.strftime("%Y-%m-%d_%H-%M-%S")
             
-            default=f"{self.test_type}_{unique_filename}"
+            default=f"{self.test_type}_{unique_filename}.py"
             
             filename=state.get("filename",default)
 
@@ -468,7 +696,7 @@ class Langgraph:
             full_path=os.path.join(base_path,filename)
             with open(full_path,"w") as f:
                 f.write(response)
-            return {"messages": [("assistant", response)]}
+            return {"messages": [("assistant", f"Code generated and saved to {full_path}")]}
 
         graph = StateGraph(State)
         graph.add_node("Label_setup", LabelSetupNode)
@@ -527,448 +755,3 @@ if False:
                         print("No output") # to handle NoneType
 
     asyncio.run(run())
-
-"""
-from typing import Annotated,Any
-from typing_extensions import TypedDict
-from langgraph.graph import StateGraph,END
-from langgraph.graph.message import add_messages
-import os,sys,traceback
-from dotenv import load_dotenv
-load_dotenv()
-import json
-import asyncio
-from neo4j import GraphDatabase
-from langchain_ollama import OllamaEmbeddings
-from langchain_neo4j import Neo4jVector
-import re
-from rich.console import Console
-from rich.panel import Panel
-import datetime
-import time
-import streamlit as st
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.dirname(script_dir)
-if project_root not in sys.path:
-    sys.path.append(project_root)
-
-from mcp_server import MCPPlaywright,MCPNeo4J,generator
-
-
-""
-choice = st.radio(
-    options=["E2E","regular"],
-    index=0
-)
-
-neo4j_url = st.text_input("Neo4j url",value="bolt://localhost:7687")
-neo4j_password= st.text_input("Neo4j password",value="password")
-app_location = st.text_input("Website URL",value="http://localhost:5173/")
-max_AI_steps = st.number_input("Automatic AI tester max steps",step=1)
-
-with st.container():
-    st.write("Automatic mode")
-    st.checkbox("Run in headless?") #give this functionality
-
-""
-def clean_code_block(text: str) -> str: #gets only the acc code inside the block
-    pattern = r"```(?:python)?\n(.*?)```"
-    
-    match = re.search(pattern, text, re.DOTALL)
-    
-    if match:
-        return match.group(1).strip()
-    return text.strip()
-
-def user_filename(filename:str):
-    new_file_name = st.text_input("Filename to store the content",value=filename)
-    #wait for user input
-    if st.button("Set filename"):
-        return new_file_name
-
-def location(results:bool,test_type:str)->str:
-    if results: #if its a test file
-        path="./results"
-    else: #if its a code block
-        path="./tests/codeblock"
-
-    timestamp = datetime.datetime.now()
-    filename = timestamp.strftime(f"{test_type}_%Y/%m/%d_%H:%M:%S.py")
-    final_file_name=user_filename(filename)
-    new_path=os.path.join(path,test_type)
-    final_path = os.path.join(new_path,final_file_name)
-
-    return final_path
-
-
-class State(TypedDict): #create message history
-    messages: Annotated[list,add_messages]
-    vector_store: Any
-    tool_history: list[dict]
-
-class Langgraph:
-    def __init__(self,test_type:str,neo4j_url:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str):
-        self.messages=[]
-        self.neo4j_url= neo4j_url
-        self.neo4j_pwd= neo4j_pwd
-        self.app_address=app_address
-        self.max_AI_steps = max_AI_steps
-        self.headless = headless
-        self.neo4j_ai=neo4j_ai_model
-        self.tester_ai=tester_ai
-        self.code_generator = code_generator_ai
-        if test_type == "E2E":
-            self.retrieval_query = ""
-                    RETURN 
-                        node.CODE AS text,
-                        score,
-                        {
-                            id: elementId(node),
-                            name:coalesce(node.NAME, node.FULL_NAME, 'Unnamed'),
-                            labels: labels(node),
-                            code: node.CODE
-                        } AS metadata
-                    ""
-
-    def _build_graph(self):
-        def check_embeddings(uri="bolt://localhost:7687", auth=("neo4j", "password")) -> bool:
-            "" Check if embeddings are there or not""
-            driver = GraphDatabase.driver(uri, auth=auth)
-            
-            try:
-                with driver.session() as session:
-                    index_exists_query = ""
-                    SHOW INDEXES YIELD name, type
-                    WHERE name = 'general_components' AND type = 'VECTOR'
-                    RETURN count(*) > 0 AS exists
-                    ""
-                    index_result = session.run(index_exists_query).single()
-                    
-                    if not index_result or not index_result["exists"]:
-                        print("DEBUG: Vector index 'general_components' missing.")
-                        return False
-
-                    data_exists_query = ""
-                    MATCH (n:GeneralComponent)
-                    WHERE n.embedding_general IS NOT NULL 
-                    RETURN count(n) > 0 AS has_data LIMIT 1
-                    ""
-                    data_result = session.run(data_exists_query).single()
-                    
-                    if not data_result or not data_result["has_data"]:
-                        print("DEBUG: Index exists, but no nodes have 'embedding_general' property.")
-                        return False
-                        
-                    print("DEBUG: Embeddings verified (Index + Data found).")
-                    return True
-
-            except Exception as e:
-                print(f"DEBUG: Error checking embeddings: {e}")
-                return False
-            finally:
-                driver.close()
-
-        class LabelSetupNode:
-            def __init__(self, uri, auth):
-                self.driver = GraphDatabase.driver(uri, auth=auth)
-
-            def __call__(self, state:State):
-                print("Creating GeneralComponent label to certain nodes..")
-                query = ""
-                MATCH (n) 
-                WHERE any(l IN labels(n) WHERE l IN [
-                    'TEMPLATE_DOM', 'METHOD', 'CALL', 'IDENTIFIER', 
-                    'LITERAL', 'TYPE_DECL', 'METHOD_PARAMETER_IN', 'METHOD_PARAMETER_OUT'
-                ])
-                SET n:GeneralComponent
-                ""
-                # If need to be more general, just add the labels here 
-
-                with self.driver.session() as session:
-                    session.run(query)
-                    print("Verified GeneralComponent labels")
-                
-                return state
-
-        class EmbeddingNode: #embeds the entire graph if the thing dont exist
-            def __call__(self,state:State):
-                ""
-                Takes the entire graph and embed it
-                ""
-                neo4j_url = "bolt://localhost:7687"
-                neo4j_password = "password"
-
-                embeddings = OllamaEmbeddings(
-                model="nomic-embed-text:latest",
-                base_url="http://localhost:11434"
-                )
-
-                # creating the embeddings
-                vector_store = Neo4jVector.from_existing_graph(
-                    embedding=embeddings,
-                    url=neo4j_url,
-                    password=neo4j_password,
-                    index_name="general_components",
-                    node_label="GeneralComponent",
-                    text_node_properties=["NAME", "CODE"],
-                    embedding_node_property="embedding_general",
-                    retrieval_query=RETRIEVAL_QUERY_GENERAL
-                )
-                
-                return {"vector_store": vector_store}
-
-        class VectorSearchNode:
-            def __call__(self,state:State):
-                print("Doing vector search..")
-
-                store = state.get('vector_store')
-
-                if not store:
-                    print("    (Re-connecting to existing Neo4j index...)")
-                    neo4j_url = "bolt://localhost:7687"
-                    neo4j_password = "password"
-                    embeddings = OllamaEmbeddings(model="nomic-embed-text:latest", base_url="http://localhost:11434")
-                    
-                    # connects to the DB.
-                    store = Neo4jVector.from_existing_index(
-                        embedding=embeddings,
-                        url=neo4j_url,
-                        password=neo4j_password,
-                        index_name="general_components",
-                        retrieval_query=RETRIEVAL_QUERY_GENERAL
-                    )
-                last_message = state["messages"][-1]
-                if hasattr(last_message, 'content'):
-                    # if an object
-                    user_query = last_message.content
-                else:
-                    # a tuple ("user", "query")
-                    user_query = last_message[1]
-
-                print(f"Querying for {user_query}..")
-
-                results = store.similarity_search_with_score(user_query, k=20) # change k depending on how many nodes you want to return
-
-                if not results:
-                    text = "Component not found"
-                    print(text)
-                    return {"messages": [("assistant", text)]}
-
-                components = []
-                for document, score in results:
-                    if score < 0.70: # can change threshold if want more general or more strict
-                        continue
-                    meta = document.metadata
-                    item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {meta.get('id')} | Code: {meta.get('code')} | Score: {score:.4f}"
-                    components.append(item_str)
-
-                final_response = "\n".join(components)
-                if not components:
-                    final_response = "No components found with high enough confidence."
-                return {"messages": [("assistant",final_response)]}
-
-        class MCPGraph:
-            def __init__(self):
-                self.messages=[]
-                self.llm = MCPNeo4J()
-                self.e2e = ""
-                You are a graph-based testing expert.
-
-                IMPORTANT RULES:
-                - You MUST use tools to inspect the graph before answering.
-                - Do NOT answer from memory.
-                - If information is missing, explore the graph using tools.
-                - Only produce a final answer AFTER tool usage.
-
-                MENTION THE APP WILL BE OPENED ON http://localhost:5173/
-
-                Output format:
-                Path_exists: True/False
-                test_steps:
-                - step: 1
-                action: navigate
-                instruction: ...
-                target: ...
-                expected: ...
-                ""
-
-            async def __call__(self, state:State):
-                messages = state["messages"]
-                agent = self.llm
-                try:
-                    await agent.connect()
-                    data = await agent.chat(messages,self.e2e)
-                    content = data.text if data and hasattr(data, "text") else str(data)
-                    return {"messages":[("assistant",content)]}
-                
-                except Exception as e:
-                    print(f"Fatal error during execution: {e}")
-                    traceback.print_exc()
-                
-                finally:
-                    await self.llm.cleanup()
-
-        class MCPTester:
-            def __init__(self):
-                self.messages=[]
-                self.llm = MCPPlaywright()
-                self.e2e = ""
-                You are a useful agent who can use the browser using your tools in order to carry out instructions.
-                
-                RULES:
-                1. Read the instructions provided in the input.
-                2. Execute the steps sequentially using the browser tools.
-                3. Do NOT answer from memory; use the tools.
-                4. If the instruction is to click, use `browser_click`.
-                5. CRITICAL: Once you have performed the requested actions and verified the result visually in the DOM, call `browser_close`.
-                6. AFTER calling `browser_close`, DO NOT ATTEMPT TO RE-OPEN THE BROWSER.
-                7. DO NOT try to verify the test again using `browser_run_code` or JavaScript injection. One pass is enough.
-                8. Once the browser is closed, simply output the final report.
-
-                Give a response in the following format:
-                Test success: True/False
-                Python code: (generate the equivalent python playwright code for the steps you took)
-                ""
-
-            async def __call__(self, state:State):
-                messages = state["messages"]
-                agent = self.llm
-                try:
-                    await agent.connect()
-                    data, tool_history = await agent.chat(messages,self.e2e)
-                    content = data.text if data and hasattr(data, "text") else str(data)
-                    console_cont = Console()
-                    console_cont.print("[magenta]-----------------------------[/magenta]")
-                    console_cont.print(Panel(f"[bold green] {content} [/bold green]",title="Final response"))
-                    #save to file
-                    path=location(results=True,test_type="E2E")
-                    with open(path,"w") as f:
-                        f.write(content)
-
-
-                    return {"messages":[("assistant",content)],
-                            "tool_history":tool_history}
-                
-                
-                except Exception as e:
-                    print(f"Fatal error during execution: {e}")
-                    traceback.print_exc()
-                
-                finally:
-                    await self.llm.cleanup()
-
-        def user_check(state:State):
-            logger=Console()
-            logger.print("[bold green] Continue with the following instructions? [/bold green]")
-            last_msg = state["messages"][-1]
-            plan = last_msg[1] if isinstance(last_msg,tuple) else last_msg.content
-
-            logger.print(
-                Panel(f"[yellow]{plan}[/yellow]",title="plan")
-            )
-            
-            st.write("Here is the current plan:")
-            st.write(plan)
-            user_ans = False
-            #make langgraph wait here
-            if st.button("Continue to Test?"):
-                user_ans = True
-
-            if user_ans == True:
-                return "Tester"
-            return END
-
-        def generate_user_check(state:State):
-            logger=Console()
-            logger.print("[bold green] Generate code? [/bold green]")
-            tools = state["tool_history"]
-            logger.print(Panel(f"[magenta]{tools}[/magenta]"))
-            
-            st.success("Test complete")
-            user_ans = False
-            #make langgraph wait here
-            if st.button("Generate code?"):
-                user_ans = True
-            if user_ans == True:
-                return "generate"
-            return END
-
-        async def generate_code(state: State): #generates the actual code from tool history
-            tools = state.get("tool_history", [])
-            tools_str = json.dumps(tools, indent=2)
-            response_text = await generator(tools_str)
-            response = clean_code_block(response_text)
-            path = location(results=False,test_type="E2E")
-            with open(path,"w") as f:
-                f.write(response)
-            return {"messages": [("assistant", response)]}
-
-        graph = StateGraph(State)
-        graph.add_node("Label_setup", LabelSetupNode("bolt://localhost:7687", ("neo4j", "password")))
-        graph.add_node("Vector_search",VectorSearchNode())
-        graph.add_node("MCPGraph", MCPGraph())
-        graph.add_node("Embedding",EmbeddingNode())
-        graph.add_node("Tester",MCPTester())
-        graph.add_edge("Label_setup", "Embedding")
-        graph.add_edge("Vector_search","MCPGraph")
-        graph.add_edge("Embedding","Vector_search")
-        graph.add_node("generate",generate_code)
-        graph.add_conditional_edges(
-            "MCPGraph",
-            user_check,
-            {
-                "Tester": "Tester",
-                END:END
-            }
-        )
-        graph.add_conditional_edges(
-            "Tester",
-            generate_user_check,
-            {
-                "generate":"generate",
-                END:END
-            }
-        )
-        graph.set_finish_point("generate")
-
-        embeddings_exist=check_embeddings("bolt://localhost:7687", ("neo4j", "password"))
-        if embeddings_exist:
-            graph.set_entry_point("Vector_search")
-        if not embeddings_exist:
-            graph.set_entry_point("Label_setup")
-
-        graph_final = graph.compile()
-        try:
-            png_data = graph_final.get_graph().draw_mermaid_png()
-            with open("graph.png", "wb") as f:
-                f.write(png_data)
-            print("Graph saved to graph.png")
-
-        except Exception as e:
-            print(f"Error generating graph: {e}")
-
-if False:
-    user_input = input("User: ")
-    if user_input.lower() in ["quit", "exit", "q"]:
-        print("Goodbye!")
-    async def run():
-        async for event in graph_final.astream(
-            {"messages": [("user", user_input)]}
-            ):
-                for value in event.values():
-                    if value is not None and "messages" in value:
-                        last_message = value["messages"][-1] 
-                        if hasattr(last_message, 'content'):
-                            # if an object
-                            response = last_message.content
-                        else:
-                            #  a tuple ("user", "query")
-                            response = last_message[1]
-                        print("Assistant:", response)
-                    else:
-                        print("No output") # to handle NoneType
-
-    asyncio.run(run())
-
-"""

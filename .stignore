@@ -1,0 +1,7 @@
+cpg_folder/
+tests/
+node_modules/
+test-app/
+__pycache__/
+*.pyc
+.DS_Store

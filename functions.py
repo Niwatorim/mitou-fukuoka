@@ -939,8 +939,83 @@ def get_imports(node:Node):
 #----------- CPG creation -------
 from cpg_folder.joern_cpg_to_neo4j.cpg_to_neo4j import cpgToNeo4j
 
-def cpg_to_neo4j(config:dict) -> None:
+def delete_neo4j_embeddings(config: dict) -> None:
+    """
+    Deletes all Neo4j vector indexes and embedding properties.
+    This ensures fresh embeddings when uploading new CPG data.
+    """
+    from neo4j import GraphDatabase
+    
+    neo4j_uri = config.get("neo4j_uri", "bolt://localhost:7687")
+    neo4j_user = config.get("neo4j_user", "neo4j")
+    neo4j_password = config.get("neo4j_password", "password")
+    
+    driver = GraphDatabase.driver(neo4j_uri, auth=(neo4j_user, neo4j_password))
+    
+    try:
+        with driver.session() as session:
+            # Drop all vector indexes
+            print("Checking for vector indexes...")
+            indexes_query = """
+            SHOW INDEXES YIELD name, type
+            WHERE type = 'VECTOR'
+            RETURN name
+            """
+            result = session.run(indexes_query)
+            indexes = [record["name"] for record in result]
+            
+            for index_name in indexes:
+                print(f"Dropping vector index: {index_name}")
+                session.run(f"DROP INDEX {index_name} IF EXISTS")
+            
+            # Remove all embedding properties from nodes
+            print("Removing embedding properties from nodes...")
+            remove_embeddings_query = """
+            MATCH (n)
+            WHERE n.embedding_general IS NOT NULL
+            REMOVE n.embedding_general
+            RETURN count(n) as removed_count
+            """
+            result = session.run(remove_embeddings_query)
+            removed = result.single()["removed_count"]
+            print(f"Removed embeddings from {removed} nodes")
+            
+            # Remove GeneralComponent labels (they'll be recreated during embedding)
+            print("Removing GeneralComponent labels...")
+            remove_label_query = """
+            MATCH (n:GeneralComponent)
+            REMOVE n:GeneralComponent
+            RETURN count(n) as label_removed_count
+            """
+            result = session.run(remove_label_query)
+            label_removed = result.single()["label_removed_count"]
+            print(f"Removed GeneralComponent label from {label_removed} nodes")
+            
+            print("✅ All embeddings cleaned successfully!")
+            
+    except Exception as e:
+        print(f"Error cleaning embeddings: {e}")
+        raise
+    finally:
+        driver.close()
 
+def cpg_to_neo4j(config:dict) -> None:
+    """
+    Uploads CPG data to Neo4j.
+    Automatically deletes old embeddings before upload.
+    """
+    
+    # Step 1: Delete old embeddings to ensure fresh start
+    print("\n🗑️  Deleting old embeddings...")
+    try:
+        delete_neo4j_embeddings(config)
+    except Exception as e:
+        print(f"Warning: Could not delete embeddings: {e}")
+        print("Continuing with upload...")
+    
+    # Step 2: Upload CPG data
+    print("\n Uploading CPG data to Neo4j...")
+    
     # Pipeline: From CPG to Neo4j
     pipe = cpgToNeo4j(
         config.get("neo4j_uri"),
@@ -958,7 +1033,7 @@ def cpg_to_neo4j(config:dict) -> None:
     pipe.upload_edges(
         config.get("export_path")
     )
-
+    CONSOLE.print("[bold green] CPG upload complete. Embeddings will be regenerated on next test run. [/bold green]")
 
 
 #------------ MCP ---------------

@@ -29,7 +29,18 @@ class cpgToNeo4j(Neo4jConnection):
         # keep only the files with 'node' and 'cypher' in their name
         files = [f for f in files if 'node' in f and 'cypher' in f]
         # change working directory to the folder
-        os.chdir(folder_path)
+        os.chdir(folder_path) #TODO: THIS MIGHT BE THE PROBLEM FOR THE STREAMLIT ERROR, SHOULD CHANGE IT BACK
+
+
+        #delete everything
+        self.query("""MATCH (n)
+                    CALL {
+                    WITH n
+                    DETACH DELETE n
+                    } IN TRANSACTIONS OF 10000 ROWS;
+                    """)
+        print("Nuked everything")
+        
         # execute query for each file
         for file in files:
             print(f"Executing query from file {file}")

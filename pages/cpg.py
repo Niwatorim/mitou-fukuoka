@@ -7,6 +7,9 @@ import yaml
 import shutil
 from functions import cpg_to_neo4j
 
+#TODO: Add warning if ollama and neo4j not connected
+#FIXME: When u run the cpg file, it just nukes the thing and causes problems, so idk what to do but u have to restart the whole thing
+
 # Updated to use absolute path or relative to root
 CONFIG_PATH = "config.yaml"
 

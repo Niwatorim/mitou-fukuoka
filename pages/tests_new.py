@@ -13,7 +13,14 @@ if project_root not in sys.path:
 from AI_pipeline_general import Langgraph
 import yaml
 from streamlit_float import *
+import pandas as pd
+import re
+
+
 config_path = os.path.join(project_root, "config.yaml")
+csvs_path= os.path.join(project_root,"tests","csv_s")
+
+
 
 CONSOLE = Console()
 
@@ -30,7 +37,6 @@ try:
         CONSOLE.print("[green] read file [/green]")
 except FileNotFoundError:
     config = {}
-
 
 #floating button if crash
 float_init()
@@ -54,7 +60,80 @@ if st.button("Save content for later"):
         yaml.dump(config, file)
     st.success("Configuration saved!")
 
-test_type= st.radio("Test Type",["E2E","Unit"])
+test_type= st.radio("Test Type",["E2E","Parameter"])
+
+if test_type == "Parameter":
+    """
+    the column names are sent to the database or the acc database sent there and all expected values are there
+
+    """
+    st.info("CSV format should be as follows: parameter, expected_response_(paramater_name)")
+    
+    csvfile=st.file_uploader("Upload csv values for parameter testing",type="csv")
+    file_name=st.text_input("File name to be saved as?")
+    if st.button("Save File"):
+        if csvfile is not None and file_name:
+            if not os.path.exists(csvs_path):
+                os.makedirs(csvs_path)
+            
+            path = os.path.join(csvs_path, file_name + ".csv")
+            
+            if not os.path.exists(path):
+                with open(path, "wb") as f:
+                    f.write(csvfile.getvalue())
+                st.success(f"Saved successfully to {path}")
+                
+                # Extract column metadata
+                df = pd.read_csv(path)
+                column_names = df.columns.tolist()
+                input_columns = [col for col in column_names if not re.match(r"^expected_response", col)]
+                expected_columns = [col for col in column_names if re.match(r"^expected_response", col)]
+                
+                # Store in session state
+                st.session_state.csv_file_name = file_name
+                st.session_state.csv_path = path
+                st.session_state.input_columns = input_columns
+                st.session_state.expected_columns = expected_columns
+                
+                st.info(f"Input columns: {', '.join(input_columns)}")
+                st.info(f"Expected result columns: {', '.join(expected_columns)}")
+                
+                # Force agent recreation with new metadata
+                if "agent" in st.session_state:
+                    del st.session_state.agent
+                    st.warning("Agent will be recreated with CSV metadata on next run")
+            else:
+                st.warning("A file already has the same name")
+
+        elif csvfile is None:
+            st.error("Please upload a CSV file first.")
+        else:
+            st.error("Please enter a file name.")
+
+    file=st.selectbox("Select file",os.listdir(csvs_path))  
+            
+    if file and st.button("Choose file"):
+        path=os.path.join(csvs_path, file)
+
+        # Extract column metadata
+        df = pd.read_csv(path)
+        column_names = df.columns.tolist()
+        input_columns = [col for col in column_names if not re.match(r"^expected_response", col)]
+        expected_columns = [col for col in column_names if re.match(r"^expected_response", col)]
+        
+        # Store in session state - remove .csv extension from filename
+        st.session_state.csv_file_name = os.path.splitext(file)[0]
+        st.session_state.csv_path = path
+        st.session_state.input_columns = input_columns
+        st.session_state.expected_columns = expected_columns
+        
+        st.info(f"Input columns: {', '.join(input_columns)}")
+        st.info(f"Expected result columns: {', '.join(expected_columns)}")
+        
+        # Force agent recreation with new metadata
+        if "agent" in st.session_state:
+            del st.session_state.agent
+            st.warning("Agent will be recreated with CSV metadata on next run")
 
 #---- sidebar ---- This is for setting all the functions that need to be set into the graph
 with st.sidebar:
@@ -79,16 +158,18 @@ with st.sidebar:
     st.caption("Only write AI models that are known or there will be errors")
     auto_mode= st.checkbox(" Run in auto - mode")
     st.caption("Automode means there will be no human interaction, thus everything will run in one go. Only use when you trust the AI")
-
-#TODO: Rerun might cause problems
-
 if st.sidebar.button("Update / Reset Agent"):
     if "agent" in st.session_state:
         del st.session_state.agent
     st.success("Agent settings updated!")
+#TODO: Rerun might cause problems
 
 # --- session state ----
 if "agent" not in st.session_state:
+    # Get CSV metadata if available (for Parameter testing)
+    csv_columns = st.session_state.get("input_columns", [])
+    csv_path = st.session_state.get("csv_path", None)
+    
     st.session_state.agent=Langgraph(
         test_type=test_type,
         neo4j_url=neo4j_url,
@@ -100,7 +181,9 @@ if "agent" not in st.session_state:
         similarity_k=similarity_k,
         neo4j_ai_model=neo4j_ai_model,
         tester_ai=tester_ai,
-        code_generator_ai=code_generator_ai
+        code_generator_ai=code_generator_ai,
+        columns=csv_columns,
+        csv_path=csv_path
 
     )
     st.session_state.thread_id = "run_1"
@@ -119,9 +202,7 @@ params = {
     "Tester AI": tester_ai,
     "Code Gen AI": code_generator_ai
 }
-
 param_str = "\n".join([f"[b]{k}:[/b] {v}" for k, v in params.items()])
-
 CONSOLE.print(Panel(param_str, title="Langgraph Params", expand=False))
 
 
@@ -131,7 +212,11 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
-user_input = st.chat_input("What should I test")
+
+if test_type == "Parameter":
+    user_input = st.chat_input("Describe your test")
+else:
+    user_input = st.chat_input("What should I test")
 
 #--- execution loop -----
 async def run_interaction(input_text = None, resume_data = None):
@@ -182,7 +267,6 @@ if user_input:
     asyncio.run(run_interaction(input_text=user_input))
 
 # --- handle pauses ---
-
 snapshot = st.session_state.agent.graph.get_state(
     {"configurable":{
         "thread_id":st.session_state.thread_id
@@ -197,9 +281,9 @@ if snapshot.next:
         CONSOLE.print("[bold green] Tester mode on [/bold green]")
         timestamp = datetime.datetime.now()
         unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+        new_filename=f"{test_type}_{unique_filename}.py"
         if auto_mode:
             CONSOLE.print("[magenta] auto mode ON [/magenta]")
-            new_filename=f"{test_type}_{unique_filename}.py"
             asyncio.run(run_interaction(resume_data={"filename":new_filename}))
         else:
             CONSOLE.print("[magenta] auto mode OFF [/magenta]")
@@ -210,7 +294,8 @@ if snapshot.next:
             st.info("Here are the instructions, you can change the instructions before sent to the automatic AI tester")
             new_instructions= st.text_area("Write here",value=instructions,height="content")
 
-            new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
+            if test_type != "Parameter":
+                new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
             col1,col2 = st.columns(2)
             if col1.button("Run test"):
                 CONSOLE.print(Panel(new_instructions,title="instructions"))
@@ -224,19 +309,41 @@ if snapshot.next:
 
     
     elif next_step == "generate":
+        
         CONSOLE.print("[bold green] Generate mode on [/bold green]")
         st.success("Test execution finished")
         timestamp = datetime.datetime.now()
         unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+        new_filename=f"{test_type}_{unique_filename}.py"
+
+        if test_type == "Parameter":
+            csv_filename = st.session_state.get("csv_file_name", None)
+            generate_code=True
+
+            if csv_filename:
+                new_filename = csv_filename + ".py"
+
+            else:
+                st.error("No CSV file loaded. Please upload a CSV file or select one from the dropdown, then click the 'Choose file' button before running the test.")
+                st.stop()
+
         if auto_mode:
-            new_filename=f"{test_type}_{unique_filename}.py"
+        
             asyncio.run(run_interaction(resume_data={"filename":new_filename}))
+        
         else:
+        
             col3,col4 = st.columns(2)
             if generate_code:
-                new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
+        
+                if test_type != "Parameter":
+        
+                    new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
+        
                 if col3.button("Generate Code"):
+        
                     asyncio.run(run_interaction(resume_data={"filename":new_filename}))
+        
             if col4.button("Abort") or not generate_code:
                 st.stop()
                 st.rerun()

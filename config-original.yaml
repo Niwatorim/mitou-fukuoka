@@ -1,7 +1,8 @@
 export_path: C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka\cpg_folder\victim_cpg_files
 joern_path: C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka\joern
-neo4j_import_path: C:\Users\ThinkPad\.Neo4jDesktop2\Data\dbmss\dbms-e6a73cc3-4321-4c1c-a7b7-f1b2e99b6d58\import
+neo4j_import_path: C:\Users\ThinkPad\.Neo4jDesktop2\Data\dbmss\dbms-efb71b15-ad2a-419b-b7d9-6a2b1071cb1c\import
 neo4j_password: password
 neo4j_uri: bolt://localhost:7687 
 neo4j_user: neo4j
 victim_path: C:\Users\ThinkPad\Documents\Mitou_Fukuoka_25\saim-code\mitou-fukuoka\victim-site
+# iriginal import path (Mitou Fukuoka instance)

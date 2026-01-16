@@ -1,6 +1,7 @@
 # from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from tree_sitter import Language, Parser, Query, QueryCursor, Node
+from tree_sitter import Language, Parser, Query, QueryCursor, Node # as TSNode, but planning to delete functions anyway
+from streamlit_agraph import agraph, Edge, Config, Node as ANode
 from langchain_community.document_loaders import TextLoader
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import OllamaEmbeddings
@@ -24,6 +25,8 @@ import chromadb
 import re
 import shutil
 import subprocess
+import uuid
+import csv
 
 # Load .env from the current directory where main.py is run
 load_dotenv()
@@ -373,59 +376,84 @@ def get_graph():
     }
     """
     graph=Neo4jGraph()
-    nodes={} #dict to remove duplicates
-    edges=[]
-    node_types={}
+    nodes = {} 
+    edges = []
+    node_types = {}
     colors = ["#FFC0CB", "#ADD8E6", "#90EE90", "#FFD700", "#F08080", "#B0E0E6", "#DDA0DD"]
-    def process(record):
-        n=record["n"]
-        m=record["m"]
-        r=record["r"]
 
-        def colors_assign(node_data):
-            node_type=node_data.get("type")
-            if node_type and node_type not in node_types:
-                color=colors[len(node_types) % len(colors)]
-                node_types[node_type]=color
-
-        colors_assign(r[0])
-        colors_assign(r[2])
-
-        #need to created ids
-        source_id=json.dumps(r[0],sort_keys=True)
-        target_id=json.dumps(r[2],sort_keys=True)
-        relation_type=r[1]
-
-        if source_id not in nodes:
-            nodes[source_id]={
-                "id":source_id, 
-                "properties":r[0]
-            }
-        if target_id not in nodes:
-            nodes[target_id]={
-                "id":target_id,
-                "properties":r[2]
-            }
-        edges.append({
-            "source":source_id,
-            "target":target_id,
-            "type":relation_type
-        })
-        
-
+    # 2. Updated Query: explicitly return n (start), type(r) (rel), m (end)
+    # This prevents ambiguity about what r[0] or r[2] is.
     result = graph.query("""
-            MATCH (n)-[r]->(m)
-            RETURN n, r, m
-            LIMIT 25
-        """)
+        MATCH (n)-[r]->(m)
+        RETURN n, type(r) as rel_type, m
+        LIMIT 25
+    """)
 
-    
     for record in result:
-        process(record)
-    
-    final_nodes=list(nodes.values())
+        source_data = record['n'] # This is a dictionary of properties
+        target_data = record['m']
+        rel_type = record['rel_type']
 
-    return final_nodes,edges,node_types
+        # --- HELPER: Safe ID and Label Extraction ---
+        def get_node_info(node_dict):
+            # Use the internal ID if available, otherwise hash the content
+            # Most Neo4j dicts from LangChain include an 'id' key
+            node_id = str(node_dict.get('id', hash(json.dumps(node_dict, sort_keys=True))))
+            
+            # Smart Labeling: Try specific fields first, fall back to ID
+            # We explicitly AVOID using 'CODE' as the label to prevent the image error
+            label = node_dict.get('NAME') or \
+                    node_dict.get('FULL_NAME') or \
+                    node_dict.get('TYPE_FULL_NAME') or \
+                    node_dict.get('label') or \
+                    f"Node {node_id}"
+            
+            # Truncate label if it's too long (e.g. for Java signatures)
+            if len(label) > 20:
+                label = label[:20] + "..."
+                
+            return node_id, label, node_dict.get('type', 'Unknown')
+
+        # Process Source Node
+        s_id, s_label, s_type = get_node_info(source_data)
+        if s_type not in node_types:
+            node_types[s_type] = colors[len(node_types) % len(colors)]
+
+        if s_id not in nodes:
+            nodes[s_id] = ANode(
+                id=s_id,
+                label=s_label, # CLEAN LABEL
+                size=25,
+                shape="dot",
+                color=node_types[s_type],
+                # Store full data in title for hover effect, NOT in label
+                title=json.dumps(source_data, indent=2) 
+            )
+
+        # Process Target Node
+        t_id, t_label, t_type = get_node_info(target_data)
+        if t_type not in node_types:
+            node_types[t_type] = colors[len(node_types) % len(colors)]
+
+        if t_id not in nodes:
+            nodes[t_id] = ANode(
+                id=t_id,
+                label=t_label, # CLEAN LABEL
+                size=25,
+                shape="dot",
+                color=node_types[t_type],
+                title=json.dumps(target_data, indent=2)
+            )
+
+        # Add Edge
+        edges.append(Edge(
+            source=s_id,
+            target=t_id,
+            label=rel_type,
+            type="CURVE_SMOOTH"
+        ))
+
+    return list(nodes.values()), edges, node_types
 
 #------ Graph Creation ---
 def graph_creation(file_name:str) -> None:
@@ -936,13 +964,25 @@ from cpg_folder.joern_cpg_to_neo4j.cpg_to_neo4j import cpgToNeo4j
 
 # from cpg to neo4j only, we're running to WEBHOOK DATABASE
 def cpg_to_neo4j(config:dict) -> None:
+    export_path = config.get("export_path")     # Source (UUID folder)
+    import_path = config.get("neo4j_import_path") # Dest (Neo4j Import)
+
+    # --- FIX: FORCE CLEANUP DESTINATION ---
+    # Delete old CSVs in the Neo4j import folder to prevent "Files already up to date" error
+    # and ensure we aren't loading stale data.
+    if os.path.exists(import_path):
+        for file in os.listdir(import_path):
+            if file.endswith(".csv") or file == "import_header.csv":
+                try:
+                    os.remove(os.path.join(import_path, file))
+                except Exception as e:
+                    print(f"Warning: Could not clear old file {file}: {e}")
+
     # Pipeline: From CPG to Neo4j
     pipe = cpgToNeo4j(
         config.get("neo4j_uri"),
         config.get("neo4j_user"),
         config.get("neo4j_password"),
-        config.get("target_database")
-
     )
 
     pipe.copy_data_to_neo4j_import_folder(
@@ -973,7 +1013,6 @@ def joern_pipeline(input_path:str, config:dict):
         shutil.rmtree(output_folder)
 
     os.makedirs(os.path.dirname(cpg_file_path), exist_ok=True)
-    os.makedirs(output_folder, exist_ok=True)
 
     # set up Java 21 environment
     my_env = os.environ.copy()
@@ -1028,12 +1067,20 @@ def create_cpg_repo(repo_path:str, config:dict):
     create cpg for the entire repo, then convert cpg into neo4j
     """
     print(f"Running Joern pipeline for entire {repo_path}..")
+    base_export_dir = config.get("export_path")
+    unique_id = str(uuid.uuid4())
+    unique_export_path = os.path.join(base_export_dir, unique_id)
+
+    run_config = config.copy()
+    run_config["export_path"] = unique_export_path
+
     try:
         joern_pipeline(repo_path, config)
     except Exception as e:
         print(f"Error in create_cpg_repo: {e}")
         raise e
 
+# TODO: Move delete_file_nodes here and refactor the code in main_server.py 
 
 # for updating the nodes
 def create_cpg_files(changed_files:list, config:dict):
@@ -1042,15 +1089,78 @@ def create_cpg_files(changed_files:list, config:dict):
     """
     print(f"Running joern pipeline only for changed files: {changed_files}")
     success_files = 0
+    base_export_dir = config.get("export_path")
     for file_path in changed_files:
+        unique_id = str(uuid.uuid4())
+        unique_export_path = os.path.join(base_export_dir, unique_id)
+
+        run_config = config.copy()
+        run_config["export_path"] = unique_export_path
+
         try:
-            print(f"Running joern pipeline on file {file_path}")
-            joern_pipeline(file_path, config)
+            print(f"Processing {os.path.basename(file_path)} in temp dir: {unique_id}")
+            joern_pipeline(file_path, run_config)
+            sanitize_cpg_export(unique_export_path, file_path)
             success_files += 1
         except Exception as e:
             print(f"Error in processing file {file_path}: {e}")
+            import traceback
+            traceback.print_exc()
             continue
+        finally:
+            try:
+                if os.path.exists(unique_export_path):
+                    shutil.rmtree(unique_export_path)
+            except OSError:
+                print(f"Warning: Could not immediately delete temp folder {unique_id}. Windows might clean it up later.")
     print(f"Finished Joern pipeline for changed files: {changed_files}")
+
+def sanitize_cpg_export(export_path, original_filename):
+    """
+    Reads the Joern CSVs and replaces the absolute temp path with the clean relative filename.
+    Example: Replaces "C:/.../uuid-123/App.jsx" with just "App.jsx"
+    """
+    print(f"Sanitizing CSVs in {export_path}...")
+    
+    # We primarily care about the FILE nodes and any source file references
+    for root, dirs, files in os.walk(export_path):
+        for file in files:
+            if file.endswith(".csv"):
+                file_path = os.path.join(root, file)
+                
+                # Read the CSV data
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read()
+                
+                # Perform the replacement
+                # We assume the absolute path contains the UUID folder structure.
+                # A simple heuristic is to replace the full path with the simple filename
+                # wherever the full path appears.
+                
+                # NOTE: We need to be careful. The easiest way is to match 
+                # any path ending in the filename separator.
+                
+                # Simpler approach: normalize slashes and replace
+                clean_name = os.path.basename(original_filename) # e.g., "App.jsx"
+                
+                # This logic assumes Joern outputted the full path. 
+                # We simply want the DB to store "App.jsx".
+                # We can't regex easily without knowing the exact random path, 
+                # but we know the current run's path!
+                
+                # We passed the full path to Joern, so Joern put that full path in the CSV.
+                # We just find that string and replace it.
+                current_full_path_win = original_filename.replace("/", "\\")
+                current_full_path_unix = original_filename.replace("\\", "/")
+                
+                if current_full_path_win in content:
+                    content = content.replace(current_full_path_win, clean_name)
+                if current_full_path_unix in content:
+                    content = content.replace(current_full_path_unix, clean_name)
+                
+                # Write back
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(content)
 
 """
 ----- graphrag

@@ -12,10 +12,11 @@ import time
 import sys
 import requests
 import yaml
+import threading
 from neo4j import GraphDatabase
 from flask import Flask, request, jsonify
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from functions import create_cpg_repo, create_cpg_files, joern_pipeline #TODO: TESTING
+from functions import create_cpg_repo
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,9 +26,9 @@ WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(current_dir)
-PRIVATE_KEY_PATH = os.path.join(root_dir, "private-key.pem")
 
-DB_FILE = "installations.json"
+PRIVATE_KEY_PATH = os.path.join(root_dir, "private-key.pem")
+DB_FILE = os.path.join(root_dir, "installations.json")
 
 app = Flask(__name__)
 
@@ -119,7 +120,13 @@ def handle_webhook():
         before_sha = data.get('before')
         after_sha = data.get('after')
 
-        process_repo(repo_full_name, repo_name, installation_id, before_sha, after_sha)
+        thread = threading.Thread(
+            target=process_repo, 
+            args=(repo_full_name, repo_name, installation_id),
+            kwargs={'before_sha': before_sha, 'after_sha': after_sha}
+        )
+        thread.start()
+        print(f"Started background processing for {repo_name}")
     
     return jsonify({"status": "received"}), 200
 
@@ -147,31 +154,15 @@ def process_repo(full_name, repo_name, installation_id, initial_load=False, befo
             print(f"Initial processing of {repo_name}..")
             create_cpg_repo(temp_dir, config)
         
-        # user did github push, only process the changed code files
+        # user did github push - delete entire graph and rebuild
         elif before_sha and after_sha:
-            print(f"Updating CPG for {repo_name}..")
-            # get the changed files
-            diff_output = repo.git.diff(before_sha, after_sha, name_only=True)
-            changed_files = diff_output.splitlines()
-
-            files_to_process = []
-
-            for file_rel_path in changed_files: # relative paths (paths that are constant). ex: src/App.jsx instead of temp/temp_clones/src/App.jsx, cuz temp/temp_clones might change
-                if file_rel_path.endswith(".jsx"):
-                    full_path = os.path.join(temp_dir, file_rel_path)
-                    if os.path.exists(full_path):
-                        files_to_process.append(full_path)
-                    else:
-                        delete_file_nodes(file_rel_path)
-        
-        if files_to_process:
-            for file in files_to_process:
-                rel_path = os.path.join(file, temp_dir)
-                delete_file_nodes(rel_path)
-            create_cpg_files(files_to_process, config)
-            print(f"Updating nodes for {len(files_to_process)} files")
-        else:
-            print("No files to process")
+            print(f"Rebuilding entire CPG for {repo_name} after push..")
+            
+            # Clear the entire Neo4j graph first
+            clear_graph()
+            
+            # Rebuild CPG for the entire repo
+            create_cpg_repo(temp_dir, config)
 
         print(f"Pipeline process finished for {repo_name}")
     
@@ -182,19 +173,19 @@ def process_repo(full_name, repo_name, installation_id, initial_load=False, befo
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir, onerror=on_rm_error)
 
-def delete_file_nodes(rel_file_path): # need to use relative paths
+def clear_graph():
     """
-    Simply delete the file nodes if the files are deleted from the repo
+    Delete all nodes and relationships from the Neo4j graph.
+    Called before rebuilding the entire CPG.
     """
     driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"))
-    with driver.session() as session:
-        query = """
-        MATCH (n)
-        WHERE n.file_path = $path
-        DETACH DELETE n
-        """
-        session.run(query, path=rel_file_path)
-        print(f"Deleted nodes for {rel_file_path}")
+    try:
+        with driver.session() as session:
+            result = session.run("MATCH (n) DETACH DELETE n")
+            summary = result.consume()
+            print(f"Cleared graph: deleted {summary.counters.nodes_deleted} nodes")
+    finally:
+        driver.close()
 
 @app.route('/check_installation', methods=['GET'])
 def check_installation():
@@ -210,7 +201,6 @@ def check_installation():
 def list_repos():
     db = load_db()
     return jsonify(list(db.keys())), 200
-
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

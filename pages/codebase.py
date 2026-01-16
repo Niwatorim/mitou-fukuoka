@@ -43,70 +43,6 @@ def load_ast(filepath):
     except (FileNotFoundError, json.JSONDecodeError):
         return None
 
-@st.fragment(run_every="5s")
-def display_graph_auto():
-    nodes_data,edges_data,node_types=get_graph()
-    if nodes_data:
-        nodes=[]
-        edges=[]
-
-        for i in nodes_data:
-            display=i["properties"].get("name",i["id"])
-
-            node_type=i["properties"].get("type")
-            n_color=node_types.get(node_type,"#42D4F5")
-
-            nodes.append(Node(
-                id=i["id"],
-                label=display,
-                size=25,
-                shape="dot",
-                font={
-                    "color":"#FFFFFF",
-                    "size":18,
-                },
-                color=n_color
-            ))
-
-        for i in edges_data:
-            edges.append(Edge(
-                source=i["source"],
-                label=i["type"],
-                target=i["target"],
-                type="CURVE_SMOOTH"
-            ))
-
-        config=Config(
-            width=750,
-            height=950,
-            directed=True,
-            physics=True,
-            # physics={
-            #     "enabled": True,
-            #      "barnesHut": {
-            #          "gravitationalConstant": -20000,
-            #          "centralGravity": 0.1,
-            #          "springLength": 150,
-                    
-            #          "damping": 0.09
-            #      },
-            #     "stabilization": {
-            #         "iterations": 1000
-            #     }
-            # },
-            nodeHighlightBehavior=True,
-            collapsible=True,
-            heirarchial=False,
-            backgroundColor="#9F9FA9"
-        )
-
-        with st.container(border=True):
-            return_value=agraph(nodes=nodes,edges=edges,config=config)
-    else:
-        st.warning("No data returned")
-
-    st.write(f"Last updated: {time.strftime('%H:%M:%S')}")
-
 st.title("Add codebase")
 selected = option_menu(
         menu_title=None,  # required
@@ -172,14 +108,6 @@ if repo_url:
 
 st.divider()
 
-if repo_name and repo_connected:
-    current_embed_path = os.path.join(
-        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-        str(repo_name),
-        "Code_database"
-    )
 
-    st.subheader(" Graph Visualizations ")
-    display_graph_auto()
 
     

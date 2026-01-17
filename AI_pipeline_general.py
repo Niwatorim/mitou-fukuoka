@@ -162,7 +162,6 @@ class Langgraph:
                 Test explanation:
                 Steps taken and following results:
                 """
-        #TODO: ADD THE SUBMIT THE FORM THINGY SO IT SUBMITS FORMS OR SUBMITS
         self.graph_sys_prompt=f"""
             You are a graph-based testing expert.
 
@@ -277,7 +276,6 @@ class Langgraph:
                 
                 """
 
-    #TODO: Force to return in json later
 
         if test_type == "Parameter": #find all the forms
             column_display = ", ".join(columns) if columns else "(no columns loaded yet)"
@@ -352,6 +350,7 @@ class Langgraph:
                 - Locate the corresponding input field on the page
                 - Note its ID, name, and unique selector
                 - Fill it with the test value from that column: {test_data}
+                - Once filled any data, if it is part of a form, submit the form if requested by user
                 5. If the instruction is to click, use `browser_click`.
                 6. Once all instructions are done, check for a response if response is expected, and note down the ID of what displays a response from the website
                 7. CRITICAL: Once you have performed the requested actions, call `browser_close`.
@@ -387,7 +386,8 @@ class Langgraph:
                 APP URL: {self.app_address}
 
                 SELECTOR DISAMBIGUATION:
-                - If multiple fields share the same label/name, find their unique IDs from the graph
+                - Use ID for almost everything, or anything that can help a playwright locator. Try not to use just the text thats seen but the html ids etc. 
+                - The more specific to that specific field the better
                 - Prioritize form-specific context (e.g., registration form vs login form)
                 - Include the full unique selector (ID, data-testid, or unique ancestor path) in your output
 
@@ -462,14 +462,26 @@ class Langgraph:
             8. Use proper async/await syntax
             9. Add meaningful wait statements after actions that trigger loading
 
-            TEMPLATE STRUCTURE YOUR CODE WILL FIT INTO:
+            GENERATE EXACTLY THIS CODE, BUT THE ONLY CODE YOU WILL ADD IS BETWEEN THE TRY BLOCK
             ```python
+            import pandas as pd
+            import os
+            import asyncio
+            from playwright.async_api import async_playwright, Page, expect
+
+            csv_path = r"{self.csv_path}"
+            df = pd.read_csv(csv_path)
+
+            print(f"Running {{len(df)}} test cases from CSV")
+
             async def main():
                 async with async_playwright() as playwright:
                     browser = await playwright.chromium.launch(headless={str(self.headless)})
                     for index, row in df.iterrows():
+                        print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
+                        print(f"Input values: {{dict(row)}}")
                         context = await browser.new_context()
-                        page = await context.new_page()
+                        page = await context.new_page()        
                         try:
                             # >>> YOUR CODE GOES HERE <
                         except Exception as e:
@@ -478,18 +490,27 @@ class Langgraph:
                             print(f"Test case {{index + 1}} PASSED")
                         finally:
                             await context.close()
+                        except Exception as e:
+                            print(f"Test case {{index + 1}} FAILED: {{e}}")
+                        else:
+                            print(f"Test case {{index + 1}} PASSED")
+                        finally:
+                            context.close()
                     await browser.close()
+        if __name__ == "__main__":
+            asyncio.run(main())
+            print("\\\\nAll tests completed!")
             ```
 
             OUTPUT REQUIREMENTS:
-            - Must be valid Python with proper indentation (3 tabs)
+            - Must be valid Python with proper indentation
             - Must use async/await for all Playwright calls
             - Must include assertions for every expected result column
             - Must handle waits properly
             """
 
         
-        self.similarty_k = similarity_k #TODO: Give them a warning that using k smaller values for parameter better
+        self.similarty_k = similarity_k
         self.embedding_uri="bolt://localhost:7687"
         self.embedding_auth=("neo4j", "password")
         self.memory=MemorySaver()
@@ -502,7 +523,6 @@ class Langgraph:
                 print("DEBUG: Using cached embedding validation result.")
                 return True
             
-            #TODO: Check if the uri and inputs here need to be changed, ask boss
             """ Check if embeddings are there or not"""
             driver = GraphDatabase.driver(self.embedding_uri, auth=self.embedding_auth)
             
@@ -741,47 +761,47 @@ class Langgraph:
             response_text = await generator(tools_str,self.code_generator_ai,self.generate_code_system_prompt)
             response = clean_code_block(response_text)
             
-            if self.test_type == "Parameter" and self.csv_path: #TODO: ADD slowmo if u wanna see it happening
+            if self.test_type == "Parameter" and self.csv_path:
                 # Create the CSV reader wrapper
-                csv_wrapper = f'''import pandas as pd
-import os
-import asyncio
-from playwright.async_api import async_playwright, Page, expect
+#                 csv_wrapper = f'''import pandas as pd
+# import os
+# import asyncio
+# from playwright.async_api import async_playwright, Page, expect
 
-csv_path = r"{self.csv_path}"
-df = pd.read_csv(csv_path)
+# csv_path = r"{self.csv_path}"
+# df = pd.read_csv(csv_path)
 
-print(f"Running {{len(df)}} test cases from CSV")
+# print(f"Running {{len(df)}} test cases from CSV")
 
-async def main():
-    async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(headless={str(self.headless)})
+# async def main():
+#     async with async_playwright() as playwright:
+#         browser = await playwright.chromium.launch(headless={str(self.headless)})
 
-        for index, row in df.iterrows():
-            print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
-            print(f"Input values: {{dict(row)}}")
-            context = await browser.new_context()
-            page = await context.new_page()        
-            try:
-'''
+#         for index, row in df.iterrows():
+#             print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
+#             print(f"Input values: {{dict(row)}}")
+#             context = await browser.new_context()
+#             page = await context.new_page()        
+#             try:
+# '''
                 # Indent the AI-generated code (8 spaces for inside try block)
-                indented_response = "\n".join("            " + line if line.strip() else "" for line in response.split("\n"))
-                
-                csv_footer = f'''
-                except Exception as e:
-                    print(f"Test case {{index + 1}} FAILED: {{e}}")
-                else:
-                    print(f"Test case {{index + 1}} PASSED")
-                finally:
-                    context.close()
-        browser.close()
+                # indented_response = "\n".join("            " + line if line.strip() else "" for line in response.split("\n"))
+                indented_response = "\n".join(line if line.strip() else "" for line in response.split("\n"))
+#         #         csv_footer = f'''
+#         #         except Exception as e:
+#         #             print(f"Test case {{index + 1}} FAILED: {{e}}")
+#         #         else:
+#         #             print(f"Test case {{index + 1}} PASSED")
+#         #         finally:
+#         #             context.close()
+#         # browser.close()
 
-if __name__ == "__main__":
-    asyncio.run(main())
-    print("\\\\nAll tests completed!")
-'''
-            response = csv_wrapper + indented_response + csv_footer
-            
+# if __name__ == "__main__":
+#     asyncio.run(main())
+#     print("\\\\nAll tests completed!")
+# '''
+            # response = csv_wrapper + indented_response + csv_footer
+            response = indented_response
             timestamp = datetime.datetime.now()
             unique_filename = timestamp.strftime("%Y-%m-%d_%H-%M-%S")
             
@@ -818,16 +838,15 @@ if __name__ == "__main__":
         if not embeddings_exist:
             graph.set_entry_point("Label_setup")
 
-        #TODO: Remove this when time to remove it
         graph_final = graph.compile(checkpointer=self.memory)
-        try:
-            png_data = graph_final.get_graph().draw_mermaid_png()
-            with open("graph.png", "wb") as f:
-                f.write(png_data)
-            print("Graph saved to graph.png")
+        # try:
+        #     png_data = graph_final.get_graph().draw_mermaid_png()
+        #     with open("graph.png", "wb") as f:
+        #         f.write(png_data)
+        #     print("Graph saved to graph.png")
 
-        except Exception as e:
-            print(f"Error generating graph: {e}")
+        # except Exception as e:
+        #     print(f"Error generating graph: {e}")
         return graph_final
 
 

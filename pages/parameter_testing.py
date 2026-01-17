@@ -4,36 +4,33 @@ import subprocess
 import sys
 
 st.header("Parameter Testing")
-
-# Get correct paths
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 csvs_path = os.path.join(project_root, "tests", "csv_s")
 codes_path = os.path.join(project_root, "tests", "codeblock","param")
 
-# Check if directories exist
+
 if not os.path.exists(csvs_path):
     st.error(f"CSV directory not found: {csvs_path}")
     st.info("Please upload a CSV file first in the main test page.")
     st.stop()
 
-# List available CSV files
+
 csv_files = [f for f in os.listdir(csvs_path) if f.endswith('.csv')]
 if not csv_files:
     st.warning("No CSV files found. Please upload a CSV first in the main test page.")
     st.stop()
 
-# Select CSV file
+
 choice = st.selectbox("Choose your parameter testing CSV file", csv_files)
 
-# Find corresponding Python file
+
 py_filename = choice.replace(".csv", ".py")
 final_code = os.path.join(codes_path, py_filename)
 
-# Display info
+
 st.info(f"CSV file: `{choice}`")
 st.info(f"Expected test script: `{py_filename}`")
 
-# Run test button
 if st.button("Run Parameter Tests"):
     if not os.path.exists(codes_path):
         st.error(f"Test code directory not found: {codes_path}")
@@ -68,15 +65,15 @@ if st.button("Run Parameter Tests"):
             st.code(result.stdout, language="text")
         
         if result.returncode != 0:
-            st.error("❌ Test execution failed!")
+            st.error("Test execution failed!")
             if result.stderr:
                 st.subheader("Error Details:")
                 st.code(result.stderr, language="text")
         else:
-            st.success("✅ Test execution completed!")
+            st.success("Test execution completed!")
 
 # Additional info section
-with st.expander("ℹ️ How to use Parameter Testing"):
+with st.expander("How to use Parameter Testing"):
     st.markdown("""
     ### Parameter Testing Workflow
     

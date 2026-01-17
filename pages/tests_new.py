@@ -28,7 +28,6 @@ st.header("MCP agent -> E2E with pipeline")
 st.subheader(" ###Configuration### ")
 
 #TODO: add neo4j database name
-#TODO: add error handling
 
 #load the yaml file
 try:
@@ -121,7 +120,6 @@ if test_type == "Parameter":
         input_columns = [col for col in column_names if not re.match(r"^expected_response", col)]
         expected_columns = [col for col in column_names if re.match(r"^expected_response", col)]
         
-        # Store in session state - remove .csv extension from filename
         st.session_state.csv_file_name = os.path.splitext(file)[0]
         st.session_state.csv_path = path
         st.session_state.input_columns = input_columns
@@ -130,7 +128,6 @@ if test_type == "Parameter":
         st.info(f"Input columns: {', '.join(input_columns)}")
         st.info(f"Expected result columns: {', '.join(expected_columns)}")
         
-        # Force agent recreation with new metadata
         if "agent" in st.session_state:
             del st.session_state.agent
             st.warning("Agent will be recreated with CSV metadata on next run")
@@ -162,7 +159,6 @@ if st.sidebar.button("Update / Reset Agent"):
     if "agent" in st.session_state:
         del st.session_state.agent
     st.success("Agent settings updated!")
-#TODO: Rerun might cause problems
 
 # --- session state ----
 if "agent" not in st.session_state:
@@ -170,23 +166,27 @@ if "agent" not in st.session_state:
     csv_columns = st.session_state.get("input_columns", [])
     csv_path = st.session_state.get("csv_path", None)
     
-    st.session_state.agent=Langgraph(
-        test_type=test_type,
-        neo4j_url=neo4j_url,
-        neo4j_pwd=neo4j_password,
-        neo4j_database=neo4j_databse_name,
-        app_address=app_location,
-        max_AI_steps=max_AI_steps,
-        headless=headless,
-        similarity_k=similarity_k,
-        neo4j_ai_model=neo4j_ai_model,
-        tester_ai=tester_ai,
-        code_generator_ai=code_generator_ai,
-        columns=csv_columns,
-        csv_path=csv_path
+    # For Parameter mode, require CSV to be loaded before creating agent
+    if test_type == "Parameter" and not csv_path:
+        st.warning("Please upload or select a CSV file for Parameter testing before proceeding.")
+    else:
+        st.session_state.agent=Langgraph(
+            test_type=test_type,
+            neo4j_url=neo4j_url,
+            neo4j_pwd=neo4j_password,
+            neo4j_database=neo4j_databse_name,
+            app_address=app_location,
+            max_AI_steps=max_AI_steps,
+            headless=headless,
+            similarity_k=similarity_k,
+            neo4j_ai_model=neo4j_ai_model,
+            tester_ai=tester_ai,
+            code_generator_ai=code_generator_ai,
+            columns=csv_columns,
+            csv_path=csv_path
 
-    )
-    st.session_state.thread_id = "run_1"
+        )
+        st.session_state.thread_id = "run_1"
 
 #debugging
 params = {
@@ -260,6 +260,23 @@ async def run_interaction(input_text = None, resume_data = None):
     st.rerun()
 
 if user_input:
+    # Validate CSV is loaded for Parameter tests
+    if test_type == "Parameter":
+        csv_path = st.session_state.get("csv_path", None)
+        if not csv_path:
+            st.error("No CSV file loaded. Please upload a CSV file or select one from the dropdown, then click the 'Choose file' button before running the test.")
+            st.stop()
+        
+        # Force agent recreation if it doesn't have the csv_path
+        if "agent" in st.session_state and st.session_state.agent.csv_path != csv_path:
+            del st.session_state.agent
+            st.rerun()
+    
+    # Ensure agent exists before running
+    if "agent" not in st.session_state:
+        st.error("Agent not initialized. Please check your configuration and try again.")
+        st.stop()
+    
     st.session_state.messages.append({
         "role":"user",
         "content":user_input
@@ -267,92 +284,91 @@ if user_input:
     asyncio.run(run_interaction(input_text=user_input))
 
 # --- handle pauses ---
-snapshot = st.session_state.agent.graph.get_state(
-    {"configurable":{
-        "thread_id":st.session_state.thread_id
-    }})
-CONSOLE.print("[yellow] Snapshot taken [/yellow]")
-if snapshot.next:
-    CONSOLE.print(f"[yellow] Snapshot next:/[yellow] {snapshot.next[0]}")
-    next_step = snapshot.next[0]
-    if next_step == "Tester":
-        
+if "agent" in st.session_state:
+    snapshot = st.session_state.agent.graph.get_state(
+        {"configurable":{
+            "thread_id":st.session_state.thread_id
+        }})
+    CONSOLE.print("[yellow] Snapshot taken [/yellow]")
+    if snapshot.next:
+        CONSOLE.print(f"[yellow] Snapshot next:/[yellow] {snapshot.next[0]}")
+        next_step = snapshot.next[0]
+        if next_step == "Tester":
+            
 
-        CONSOLE.print("[bold green] Tester mode on [/bold green]")
-        timestamp = datetime.datetime.now()
-        unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
-        new_filename=f"{test_type}_{unique_filename}.py"
-        if auto_mode:
-            CONSOLE.print("[magenta] auto mode ON [/magenta]")
-            asyncio.run(run_interaction(resume_data={"filename":new_filename}))
-        else:
-            CONSOLE.print("[magenta] auto mode OFF [/magenta]")
-            st.info("Plan created, Review above")
-            st.warning("Ready to launch browser test?")
-
-            instructions= snapshot.values["instructions"]
-            st.info("Here are the instructions, you can change the instructions before sent to the automatic AI tester")
-            new_instructions= st.text_area("Write here",value=instructions,height="content")
-
-            if test_type != "Parameter":
-                new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
-            col1,col2 = st.columns(2)
-            if col1.button("Run test"):
-                CONSOLE.print(Panel(new_instructions,title="instructions"))
-                
-                asyncio.run(run_interaction(resume_data={"new_instructions":new_instructions,
-                                                         "filename":new_filename})) #set new instructions and filename
-            if col2.button("Abort"):
-                st.stop()
-                st.rerun()
-
-
-    
-    elif next_step == "generate":
-        
-        CONSOLE.print("[bold green] Generate mode on [/bold green]")
-        st.success("Test execution finished")
-        timestamp = datetime.datetime.now()
-        unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
-        new_filename=f"{test_type}_{unique_filename}.py"
-
-        if test_type == "Parameter":
-            csv_filename = st.session_state.get("csv_file_name", None)
-            generate_code=True
-
-            if csv_filename:
-                new_filename = csv_filename + ".py"
-
+            CONSOLE.print("[bold green] Tester mode on [/bold green]")
+            timestamp = datetime.datetime.now()
+            unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+            # Use agent's test_type for consistency with where file will be saved
+            agent_test_type = st.session_state.agent.test_type
+            new_filename=f"{agent_test_type}_{unique_filename}.py"
+            if auto_mode:
+                CONSOLE.print("[magenta] auto mode ON [/magenta]")
+                asyncio.run(run_interaction(resume_data={"filename":new_filename}))
             else:
-                st.error("No CSV file loaded. Please upload a CSV file or select one from the dropdown, then click the 'Choose file' button before running the test.")
-                st.stop()
+                CONSOLE.print("[magenta] auto mode OFF [/magenta]")
+                st.info("Plan created, Review above")
+                st.warning("Ready to launch browser test?")
 
-        if auto_mode:
-        
-            asyncio.run(run_interaction(resume_data={"filename":new_filename}))
-        
-        else:
-        
-            col3,col4 = st.columns(2)
-            if generate_code:
-        
-                if test_type != "Parameter":
-        
-                    new_filename= st.text_input("Save python code as:", value=f"{test_type}_{unique_filename}.py")
-        
-                if col3.button("Generate Code"):
-        
-                    asyncio.run(run_interaction(resume_data={"filename":new_filename}))
-        
-            if col4.button("Abort") or not generate_code:
-                st.stop()
-                st.rerun()
+                instructions= snapshot.values["instructions"]
+                st.info("Here are the instructions, you can change the instructions before sent to the automatic AI tester")
+                new_instructions= st.text_area("Write here",value=instructions,height="content")
 
-            #TODO: Only write the AIs newest point
-            #TODO: add gemini thinking streaming
-            #TODO: how to fix if nothing found then repeat in vector search
+                if agent_test_type != "Parameter":
+                    new_filename= st.text_input("Save python code as:", value=f"{agent_test_type}_{unique_filename}.py")
+                col1,col2 = st.columns(2)
+                if col1.button("Run test"):
+                    CONSOLE.print(Panel(new_instructions,title="instructions"))
+                    
+                    asyncio.run(run_interaction(resume_data={"new_instructions":new_instructions,
+                                                             "filename":new_filename})) #set new instructions and filename
+                if col2.button("Abort"):
+                    st.stop()
+                    st.rerun()
+
 
         
+        elif next_step == "generate":
+            
+            CONSOLE.print("[bold green] Generate mode on [/bold green]")
+            st.success("Test execution finished")
+            timestamp = datetime.datetime.now()
+            unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+            # Use agent's test_type for consistency
+            agent_test_type = st.session_state.agent.test_type
+            new_filename=f"{agent_test_type}_{unique_filename}.py"
+            if agent_test_type == "Parameter":
+                csv_filename = st.session_state.get("csv_file_name", None)
+                generate_code=True
 
-    
+                if csv_filename:
+                    new_filename = csv_filename + ".py"
 
+                else:
+                    st.error("No CSV file loaded. Please upload a CSV file or select one from the dropdown, then click the 'Choose file' button before running the test.")
+                    st.stop()
+
+            if auto_mode:
+            
+                asyncio.run(run_interaction(resume_data={"filename":new_filename}))
+            
+            else:
+            
+                col3,col4 = st.columns(2)
+                if generate_code:
+            
+                    if agent_test_type != "Parameter":
+            
+                        new_filename= st.text_input("Save python code as:", value=f"{agent_test_type}_{unique_filename}.py")
+            
+                    if col3.button("Generate Code"):
+            
+                        asyncio.run(run_interaction(resume_data={"filename":new_filename}))
+            
+                if col4.button("Abort") or not generate_code:
+                    st.stop()
+                    st.rerun()
+
+                #TODO: Only write the AIs newest point
+                #TODO: add gemini thinking streaming
+                #TODO: how to fix if nothing found then repeat in vector search

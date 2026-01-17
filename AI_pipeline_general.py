@@ -17,8 +17,7 @@ import re
 from rich.console import Console
 from rich.panel import Panel
 import datetime
-import time
-
+import pandas as pd
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
@@ -119,7 +118,13 @@ class Langgraph:
         self.csv_path = csv_path
         self.column_names = columns
         self.expected_results = [f"expected_response_{col}" for col in columns]
-        
+        if csv_path:
+            df= pd.read_csv(csv_path)
+            try:
+                self.first_col=df.iloc[0]
+            except:
+                self.first_col="User didnt provide data"
+
         # Performance optimization: cache connections and checks
         self.vector_store_cache = None
         self.neo4j_driver = None
@@ -137,9 +142,10 @@ class Langgraph:
                         code: node.CODE
                     } AS metadata
                 """
-        self.tester_sys_prompt="""
+        self.tester_sys_prompt=f"""
                 You are a useful agent who can use the browser using your tools in order to carry out instructions.
-                
+                The data you will be testing are {[col for col in columns] if columns else "None"}
+                You must input each of those data into their respective fields
                 RULES:
                 1. Read the instructions provided in the input.
                 2. Execute the steps sequentially using the browser tools.
@@ -156,6 +162,7 @@ class Langgraph:
                 Test explanation:
                 Steps taken and following results:
                 """
+        #TODO: ADD THE SUBMIT THE FORM THINGY SO IT SUBMITS FORMS OR SUBMITS
         self.graph_sys_prompt=f"""
             You are a graph-based testing expert.
 
@@ -183,14 +190,18 @@ class Langgraph:
         RULES:
         1. **Structure**: Use the standard `def test_scenario(page: Page):` format.
         2. **Assertions**: A test is meaningless without checks. You MUST include `expect()` assertions.
-        - If the user clicked a button that increments a counter, assert the new text (e.g., `expect(button).to_contain_text(...)`).
+        - If there is a clicked a button that increments a counter, assert the new text (e.g., `expect(button).to_contain_text(...)`).
         - If the user navigated, assert the URL or page title.
+        - Whatever the user does, convert it into a test file
         3. **Cleanup**: Remove redundant steps (like repeated navigations).
         4. **Syntax**: 
         - `from playwright.sync_api import Page, expect`
         - Use `page.get_by_role` or `page.locator` with robust regex selectors.
         5. **Regex**: When using Regex selectors in Python, you MUST import re and use re.compile(r'pattern'). Do NOT pass raw regex strings.
-        
+        6. **Waiting**: When working with browser functions, make sure to wait for anything that causes loading, such as opening links or causing page switches
+
+
+        Use AI
         Output ONLY the python code block.
         
         """
@@ -206,8 +217,7 @@ class Langgraph:
                             labels: labels(node),
                             code: node.CODE
                         } AS metadata
-                    """            
-            
+                    """                
             self.tester_sys_prompt="""
                 You are a useful agent who can use the browser using your tools in order to carry out instructions.
                 
@@ -227,7 +237,6 @@ class Langgraph:
                 Test explanation:
                 Steps taken and following results:
                 """
-
             self.graph_sys_prompt=f"""
             You are a graph-based testing expert.
 
@@ -248,7 +257,6 @@ class Langgraph:
             target: ...
             expected: ...
             """
-
             self.generate_code_system_prompt="""
                 You are a Senior QA Automation Engineer.
                 Convert the following execution history into a **Pytest-Playwright** test file.
@@ -263,7 +271,8 @@ class Langgraph:
                 - `from playwright.sync_api import Page, expect`
                 - Use `page.get_by_role` or `page.locator` with robust regex selectors.
                 5. **Regex**: When using Regex selectors in Python, you MUST import re and use re.compile(r'pattern'). Do NOT pass raw regex strings.
-                
+                6. **Waiting**: When working with browser functions, make sure to wait for anything that causes loading, such as opening links or causing page switches
+
                 Output ONLY the python code block.
                 
                 """
@@ -273,127 +282,214 @@ class Langgraph:
         if test_type == "Parameter": #find all the forms
             column_display = ", ".join(columns) if columns else "(no columns loaded yet)"
             expected_display = ", ".join([f"expected_response_{col}" for col in columns]) if columns else "(no columns loaded yet)"
-            
-        #     self.retrieval_query = """
-        #     // 1. ZOOM OUT to Component Root
-        # OPTIONAL MATCH (node)<-[:AST|CONTAINS*0..20]-(m:METHOD)
-        # WITH node, score, collect(DISTINCT m) AS methods
-        # WITH coalesce(head(methods), node) AS root, score
+            if hasattr(self,"first_col") and hasattr(self.first_col, "get"):
+                test_data = " , ".join(f"{col}:{self.first_col.get(col,"N/A")}" for col in columns)
+            else:
+                test_data = "No test data available (CSV load failed or empty)"
+            self.retrieval_query = """
+            // 1. ZOOM OUT to Component Root
+        OPTIONAL MATCH (node)<-[:AST|CONTAINS*0..20]-(m:METHOD)
+        WITH node, score, collect(DISTINCT m) AS methods
+        WITH coalesce(head(methods), node) AS root, score
 
-        # // 2. GATHER ALL UNIQUE CHILDREN FIRST (Including Routes)
-        # MATCH (root)-[:CONTAINS|AST*]->(child)
-        # WHERE 
-        # // HTML Elements
-        #     (
-        #         child.NAME IN ['a', 'Link', 'img', 'Image', 'input', 'button'] 
-        #         OR child.CODE STARTS WITH '<a' 
-        #         OR child.CODE STARTS WITH '<img' 
-        #         OR child.CODE STARTS WITH '<button' 
-        #         OR child.CODE STARTS WITH '<input'
-        #         OR child.NAME IN ['push', 'navigate', 'redirect', 'go', 'back']
-        #     )
-        #     AND NOT child.NAME IN ['JSXOpeningElement', 'JSXClosingElement']
+        // 2. GATHER ALL UNIQUE CHILDREN FIRST (Including Routes)
+        MATCH (root)-[:CONTAINS|AST*]->(child)
+        WHERE 
+        // HTML Elements
+            (
+                child.NAME IN ['a', 'Link', 'img', 'Image', 'input', 'button'] 
+                OR child.CODE STARTS WITH '<a' 
+                OR child.CODE STARTS WITH '<img' 
+                OR child.CODE STARTS WITH '<button' 
+                OR child.CODE STARTS WITH '<input'
+                OR child.NAME IN ['push', 'navigate', 'redirect', 'go', 'back']
+            )
+            AND NOT child.NAME IN ['JSXOpeningElement', 'JSXClosingElement']
 
-        # WITH root, score, child.CODE as code, head(collect(child)) as unique_node
+        WITH root, score, child.CODE as code, head(collect(child)) as unique_node
         
-        # // 4. COLLECT THE UNIQUE NODES INTO A LIST
-        # WITH root, score, collect(unique_node) as unique_children
+        // 4. COLLECT THE UNIQUE NODES INTO A LIST
+        WITH root, score, collect(unique_node) as unique_children
 
-        # // 4. CATEGORIZE
-        # RETURN
-        #     root.CODE as text,
-        #     score,
-        #     {
-        #         id: elementId(root),
-        #         name: root.NAME,
-        #         labels: labels(root),
+        // 4. CATEGORIZE
+        RETURN
+            root.CODE as text,
+            score,
+            {
+                id: elementId(root),
+                name: root.NAME,
+                labels: labels(root),
                 
-        #         links: [c IN unique_children 
-        #                 WHERE c.NAME IN ['a', 'Link'] OR c.CODE STARTS WITH '<a' 
-        #                 | {id: elementId(c), code: c.CODE}],
+                links: [c IN unique_children 
+                        WHERE c.NAME IN ['a', 'Link'] OR c.CODE STARTS WITH '<a' 
+                        | {id: elementId(c), code: c.CODE}],
 
-        #         images: [c IN unique_children 
-        #                 WHERE c.NAME IN ['img', 'Image'] OR c.CODE STARTS WITH '<img' 
-        #                 | {id: elementId(c), code: c.CODE}],
+                images: [c IN unique_children 
+                        WHERE c.NAME IN ['img', 'Image'] OR c.CODE STARTS WITH '<img' 
+                        | {id: elementId(c), code: c.CODE}],
                 
-        #         inputs: [c IN unique_children 
-        #                 WHERE c.NAME IN ['input'] OR c.CODE STARTS WITH '<input' 
-        #                 | {id: elementId(c), code: c.CODE}],
+                inputs: [c IN unique_children 
+                        WHERE c.NAME IN ['input'] OR c.CODE STARTS WITH '<input' 
+                        | {id: elementId(c), code: c.CODE}],
                 
-        #         buttons: [c IN unique_children 
-        #                 WHERE c.NAME IN ['button'] OR c.CODE STARTS WITH '<button' 
-        #                 | {id: elementId(c), code: c.CODE}],
+                buttons: [c IN unique_children 
+                        WHERE c.NAME IN ['button'] OR c.CODE STARTS WITH '<button' 
+                        | {id: elementId(c), code: c.CODE}],
                 
-        #         routes: [c IN unique_children 
-        #                 WHERE c.NAME IN ['push', 'navigate', 'redirect', 'go', 'back'] 
-        #                 | {id: elementId(c), name: c.NAME, code: c.CODE}]
-        #     } as metadata"""
-            #TODO: AI confused here, it doesnt know what type of test we are talking about
-            self.tester_sys_prompt="""
-                You are a useful parameter tester. You will be tasked with finding WHERE the location is for testing the functionality of certain components in the website
+                routes: [c IN unique_children 
+                        WHERE c.NAME IN ['push', 'navigate', 'redirect', 'go', 'back'] 
+                        | {id: elementId(c), name: c.NAME, code: c.CODE}]
+            } as metadata"""       
+            self.tester_sys_prompt=f"""
+            You are a useful parameter tester. You will be tasked with finding WHERE the location is for testing the functionality of certain components in the website
+            DATA TO TEST: {", ".join(columns) if columns else "None"}
 
                 RULES:
                 1. Read the instructions provided in the input.
                 2. Execute the steps sequentially using the browser tools.
                 3. Do NOT answer from memory; use the tools.
-                4. If the instruction is to click, use `browser_click`.
-                5. CRITICAL: Once you have performed the requested actions, call `browser_close`.
-                6. AFTER calling `browser_close`, DO NOT ATTEMPT TO RE-OPEN THE BROWSER.
-                7. DO NOT try one pass is enough.
-                8. Once the browser is closed, simply output the final report.
+                4. When using tools
+                - Locate the corresponding input field on the page
+                - Note its ID, name, and unique selector
+                - Fill it with the test value from that column: {test_data}
+                5. If the instruction is to click, use `browser_click`.
+                6. Once all instructions are done, check for a response if response is expected, and note down the ID of what displays a response from the website
+                7. CRITICAL: Once you have performed the requested actions, call `browser_close`.
+                8. AFTER calling `browser_close`, DO NOT ATTEMPT TO RE-OPEN THE BROWSER.
+                9. DO NOT try one pass is enough.
+                10. Once the browser is closed, simply output the final report.
 
-                Give a response in the following format:
-                Names of fields to be filled or tested:
-                """
+                Give a response in the following format: (STRICT)
+                CRITICAL SELECTOR RULES:
+                - When multiple elements match a label (like "Email Address"), you MUST use the most specific selector
+                - Prefer ID selectors: Use page.locator("#specific-id") instead of get_by_label() when ambiguous
+                - For forms, identify what form and use the correct ID
+                - Example: If there are #login-email and #reg-email, determine which form you're testing and use that specific ID
+                - ALWAYS record the EXACT selector (with ID) you used in your output, not just the label
+    
+                OUTPUT FORMAT (STRICT):
+                Field Mappings (use EXACT selectors like page.locator("#reg-email") or page.locator("#field-id")):
+                {chr(10).join(f"- {col}: <exact_selector_with_id>" for col in columns) if columns else "- field1: <exact_selector_with_id>"}
+            
+            """ 
             self.graph_sys_prompt=f"""
-            You are a graph-based testing expert.
-            The test to be done is to input values into the values specified and simply seeing what the results would be. IN other words, Parameter testing
+                You are a graph-based form testing expert specializing in parameter validation.
 
-            IMPORTANT RULES:
-            - You MUST use tools to inspect the graph before answering.
-            - Do NOT answer from memory.
-            - If information is missing, explore the graph using tools.
-            - Only produce a final answer AFTER tool usage.
+                TASK: Find the form/component that accepts these inputs: {", ".join(columns) if columns else "None"}
 
-            MENTION THE APP WILL BE OPENED ON {self.app_address}
+                RULES:
+                - Use tools to inspect the Neo4j graph
+                - Find form components, input fields, and submit buttons
+                - Match field names/IDs to the input columns: {", ".join(columns) if columns else "None"}
+                - Identify where results/responses appear after submission
+                - Be as specific as possible and give the exact IDs or unique selectors for each field
+                - For the test instructions, use this dummy data: {test_data}
+                APP URL: {self.app_address}
 
-            Output format:
-            Path_exists: True/False
-            test_steps:
-            - step: 1
-            action: navigate
-            instruction: ...
-            target: ...
-            expected: ...
-            """
+                SELECTOR DISAMBIGUATION:
+                - If multiple fields share the same label/name, find their unique IDs from the graph
+                - Prioritize form-specific context (e.g., registration form vs login form)
+                - Include the full unique selector (ID, data-testid, or unique ancestor path) in your output
+
+                OUTPUT FORMAT:
+                Path_exists: True/False
+
+                Form_location: <component_name or route>
+
+                Field_mappings:
+                - {columns[0] if columns else 'field1'}: <field_selector>
+                - {columns[1] if columns and len(columns) > 1 else 'field2'}: <field_selector>
+
+                Result_location: <where_response_appears>
+
+                INSTRUCTIONS: (example)
+                Test_steps:
+                - step: 1
+                action: navigate
+                instructions: ...
+                target: {self.app_address}
+                expect: .....
+                
+                - step: 2
+                action: fill_form
+                instructions: ...
+                target: .... MAKE SURE TO USE THE IDs IF POSSIBLE OR MOST UNIQUE DATA
+                expect:....
+
+                - step: 3
+                action: submit
+                instructions:...
+                target: ...
+                expect:....
+
+                """
             self.generate_code_system_prompt=f"""
-            You are a Senior QA Automation Engineer.
-            Convert the following execution history into a **Pytest-Playwright** test logic.
-            
-            CRITICAL RULES:
-            1. The code will be wrapped in a CSV reader loop - DO NOT create the loop yourself
-            2. Access CSV values using: row["column_name"]
-            3. Input columns available: {column_display}
-            4. Expected result columns: {expected_display}
-            5. Use assertions to compare actual results vs expected: row["expected_response_X"]
-            6. Output ONLY the test logic that will run INSIDE a loop
-            7. Do NOT include: imports, CSV reading, or for loops
-            
-            Example variable access:
-                email_value = row["email"]
-                expected_result = row["expected_response_email"]
-                # ... perform action with email_value ...
-                # ... assert actual_result == expected_result ...
-            
-            Output ONLY the indented test logic (no loop structure).
+            You are a Senior QA Automation Engineer generating PARAMETERIZED test code.
+
+            CONTEXT:
+            - CSV Path: {self.csv_path}
+            - Input Columns: {column_display}
+            - Expected Columns: {expected_display}
+
+            SELECTOR BEST PRACTICES:
+            - NEVER use ambiguous selectors like get_by_label() if multiple elements match
+            - ALWAYS use specific IDs: page.locator("#reg-email") not page.get_by_label("Email Address")
+            - From the execution history, extract the EXACT selectors that worked during testing
+            - If a field has an ID attribute, try locating through ID
+            - Chain locators when needed: page.locator("#registration-form").get_by_label("Email")
+            - Look at the tool_history for browser_click, browser_type, and browser_fill_form calls - these contain the actual selectors used
+            - Extract selectors from successful interactions in the execution history
+
+            CRITICAL REQUIREMENTS:
+            1. Access CSV data using: row["column_name"]
+            2. Access expected results using: row["expected_response_column_name"]
+            3. For EACH input column, you must:
+            - Get the value: value = row["column_name"]
+            - Fill the corresponding field using the selector from execution history
+            - Example: await page.fill("#email-input", row["email"])
+
+            4. After filling all fields:
+            - Click the submit button
+            - Wait for response/navigation: await page.wait_for_load_state("networkidle")
+            - Extract the actual result from the page
+
+            5. Compare actual vs expected for EACH column:
+            - expected = row["expected_response_column_name"]
+            - assert actual == expected, f"Expected {{expected}}, got {{actual}}"
+
+            6. DO NOT include: imports, CSV reading loop, or main function
+            7. Output ONLY the indented test logic (inside the try block)
+            8. Use proper async/await syntax
+            9. Add meaningful wait statements after actions that trigger loading
+
+            TEMPLATE STRUCTURE YOUR CODE WILL FIT INTO:
+            ```python
+            async def main():
+                async with async_playwright() as playwright:
+                    browser = await playwright.chromium.launch(headless={str(self.headless)})
+                    for index, row in df.iterrows():
+                        context = await browser.new_context()
+                        page = await context.new_page()
+                        try:
+                            # >>> YOUR CODE GOES HERE <
+                        except Exception as e:
+                            print(f"Test case {{index + 1}} FAILED: {{e}}")
+                        else:
+                            print(f"Test case {{index + 1}} PASSED")
+                        finally:
+                            await context.close()
+                    await browser.close()
+            ```
+
+            OUTPUT REQUIREMENTS:
+            - Must be valid Python with proper indentation (3 tabs)
+            - Must use async/await for all Playwright calls
+            - Must include assertions for every expected result column
+            - Must handle waits properly
             """
 
-
-        # Performance optimization: reduce k for parameter testing
-        if test_type == "Parameter":
-            self.similarty_k = similarity_k if similarity_k != 20 else 5  # Use 5 instead of 20 for param tests
-        else:
-            self.similarty_k = similarity_k
+        
+        self.similarty_k = similarity_k #TODO: Give them a warning that using k smaller values for parameter better
         self.embedding_uri="bolt://localhost:7687"
         self.embedding_auth=("neo4j", "password")
         self.memory=MemorySaver()
@@ -615,11 +711,10 @@ class Langgraph:
                     content = "No response received from AI"
                 
                 console_cont = Console()
-                print("[magenta]-----------------------------[/magenta]")
-                print(Panel(f"[bold green] {content} [/bold green]", title="Final response"))
+                console_cont.print("[magenta]-----------------------------[/magenta]")
+                console_cont.print(Panel(f"[bold green] {content} [/bold green]", title="Final response"))
 
                 test_type = self.test_type
-                
 
                 if test_type != "Parameter":
                     base_path = location(results=True, test_type=test_type)
@@ -646,43 +741,46 @@ class Langgraph:
             response_text = await generator(tools_str,self.code_generator_ai,self.generate_code_system_prompt)
             response = clean_code_block(response_text)
             
-            if self.test_type == "Parameter" and self.csv_path:
+            if self.test_type == "Parameter" and self.csv_path: #TODO: ADD slowmo if u wanna see it happening
                 # Create the CSV reader wrapper
                 csv_wrapper = f'''import pandas as pd
 import os
-from playwright.sync_api import sync_playwright, Page, expect
+import asyncio
+from playwright.async_api import async_playwright, Page, expect
 
 csv_path = r"{self.csv_path}"
 df = pd.read_csv(csv_path)
 
 print(f"Running {{len(df)}} test cases from CSV")
 
-with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(headless={str(self.headless)})
-    context = browser.new_context()
-    page = context.new_page()
-    
-    for index, row in df.iterrows():
-        print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
-        print(f"Input values: {{dict(row)}}")
-        
-        try:
+async def main():
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless={str(self.headless)})
+
+        for index, row in df.iterrows():
+            print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
+            print(f"Input values: {{dict(row)}}")
+            context = await browser.new_context()
+            page = await context.new_page()        
+            try:
 '''
                 # Indent the AI-generated code (8 spaces for inside try block)
                 indented_response = "\n".join("            " + line if line.strip() else "" for line in response.split("\n"))
                 
-                csv_footer = '''
-        except Exception as e:
-            print(f"Test case {{index + 1}} FAILED: {{e}}")
-        else:
-            print(f"Test case {{index + 1}} PASSED")
-    
-    context.close()
-    browser.close()
+                csv_footer = f'''
+                except Exception as e:
+                    print(f"Test case {{index + 1}} FAILED: {{e}}")
+                else:
+                    print(f"Test case {{index + 1}} PASSED")
+                finally:
+                    context.close()
+        browser.close()
 
-print("\\\\nAll tests completed!")
+if __name__ == "__main__":
+    asyncio.run(main())
+    print("\\\\nAll tests completed!")
 '''
-                response = csv_wrapper + indented_response + csv_footer
+            response = csv_wrapper + indented_response + csv_footer
             
             timestamp = datetime.datetime.now()
             unique_filename = timestamp.strftime("%Y-%m-%d_%H-%M-%S")

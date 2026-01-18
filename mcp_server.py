@@ -202,9 +202,11 @@ class MCPNeo4J: #get the gemini agent ready
     async def cleanup(self):
         await self.exit_stack.aclose()
 
-async def generator(prompt,model="gemini-2.5-flash",system_prompt=None):
+async def generator(prompt,extra_info=None,model="gemini-2.5-flash",system_prompt=None):
     if not isinstance(prompt, str):
         prompt = str(prompt)
+    if extra_info is not None:
+        prompt+=f" Extra information: {extra_info}"
     if system_prompt==None:
         system_prompt="""
         You are a Senior QA Automation Engineer.

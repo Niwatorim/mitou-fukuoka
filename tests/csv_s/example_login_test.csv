@@ -1,6 +1,9 @@
-username,password,expected_response_username,expected_response_password
-admin,admin123,success,success
-user1,wrongpass,success,error
-testuser,testpass123,success,success
-,emptyuser,error,success
-invaliduser,,success,error
+email,password,expected_result
+admin@test.com,admin123,Welcome back
+test@example.com,test123,Welcome back
+invalid@test,short,Invalid
+user@test.com,wrongpass123,Invalid credentials
+,password123,Invalid email
+test@example.com,,at least 6 characters
+notanemail,testpass,Invalid email
+valid@email.com,validpass123,Invalid credentials

@@ -66,7 +66,12 @@ if test_type == "Parameter":
     the column names are sent to the database or the acc database sent there and all expected values are there
 
     """
-    st.info("CSV format should be as follows: parameter, expected_response_(paramater_name)")
+    st.info("""**CSV format**: `field1, field2, ..., expected_result`
+    
+The `expected_result` column should contain a **substring** that will appear in the result message.""")
+
+
+
     
     csvfile=st.file_uploader("Upload csv values for parameter testing",type="csv")
     file_name=st.text_input("File name to be saved as?")
@@ -85,8 +90,8 @@ if test_type == "Parameter":
                 # Extract column metadata
                 df = pd.read_csv(path)
                 column_names = df.columns.tolist()
-                input_columns = [col for col in column_names if not re.match(r"^expected_response", col)]
-                expected_columns = [col for col in column_names if re.match(r"^expected_response", col)]
+                input_columns = [col for col in column_names if not re.match(r"^expected_", col)]
+                expected_columns = [col for col in column_names if re.match(r"^expected_", col)]
                 
                 # Store in session state
                 st.session_state.csv_file_name = file_name
@@ -117,8 +122,8 @@ if test_type == "Parameter":
         # Extract column metadata
         df = pd.read_csv(path)
         column_names = df.columns.tolist()
-        input_columns = [col for col in column_names if not re.match(r"^expected_response", col)]
-        expected_columns = [col for col in column_names if re.match(r"^expected_response", col)]
+        input_columns = [col for col in column_names if not re.match(r"^expected_", col)]
+        expected_columns = [col for col in column_names if re.match(r"^expected_", col)]
         
         st.session_state.csv_file_name = os.path.splitext(file)[0]
         st.session_state.csv_path = path
@@ -131,6 +136,9 @@ if test_type == "Parameter":
         if "agent" in st.session_state:
             del st.session_state.agent
             st.warning("Agent will be recreated with CSV metadata on next run")
+else:
+    expected_columns=None
+
 
 #---- sidebar ---- This is for setting all the functions that need to be set into the graph
 with st.sidebar:
@@ -183,6 +191,7 @@ if "agent" not in st.session_state:
             tester_ai=tester_ai,
             code_generator_ai=code_generator_ai,
             columns=csv_columns,
+            expected_columns=expected_columns,
             csv_path=csv_path
 
         )
@@ -369,6 +378,4 @@ if "agent" in st.session_state:
                     st.stop()
                     st.rerun()
 
-                #TODO: Only write the AIs newest point
-                #TODO: add gemini thinking streaming
                 #TODO: how to fix if nothing found then repeat in vector search

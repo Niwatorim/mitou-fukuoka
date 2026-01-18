@@ -3,6 +3,9 @@ from typing_extensions import TypedDict
 from langgraph.graph import StateGraph,END
 from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import MemorySaver
+from langchain_ollama import ChatOllama
+from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import ChatPromptTemplate
 import os,sys,traceback
 from dotenv import load_dotenv
 # Explicitly load .env from the script's directory
@@ -18,6 +21,7 @@ from rich.console import Console
 from rich.panel import Panel
 import datetime
 import pandas as pd
+import textwrap
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
@@ -60,7 +64,7 @@ class State(TypedDict): #create message history
     new_instructions:str|None
 
 class Langgraph:
-    def __init__(self,test_type:str,neo4j_url:str,neo4j_database:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str,similarity_k:int=20,columns:list[str]=[],csv_path:str=None):
+    def __init__(self,test_type:str,neo4j_url:str,neo4j_database:str,neo4j_pwd:str,neo4j_ai_model:str,app_address:str,max_AI_steps:int,headless:bool,tester_ai:str,code_generator_ai:str,similarity_k:int=20,columns:list[str]=[],expected_columns:list[str]=[],csv_path:str=None):
         """
         Docstring for __init__
         :param test_type: Type of test you are running (e.g. E2E etc, will change the retrieval query)
@@ -98,6 +102,9 @@ class Langgraph:
 
         :param columns: The columns of the dataframe being passed in
         :type columns: list[str]
+
+        :param expected_columns: The columns of the dataframe being passed in
+        :type expected_columns: list[str]
         
         :param csv_path: Path to the CSV file for parameter testing
         :type csv_path: str
@@ -117,7 +124,7 @@ class Langgraph:
         self.code_generator_ai = code_generator_ai
         self.csv_path = csv_path
         self.column_names = columns
-        self.expected_results = [f"expected_response_{col}" for col in columns]
+        self.expected_results = expected_columns
         if csv_path:
             df= pd.read_csv(csv_path)
             try:
@@ -279,7 +286,7 @@ class Langgraph:
 
         if test_type == "Parameter": #find all the forms
             column_display = ", ".join(columns) if columns else "(no columns loaded yet)"
-            expected_display = ", ".join([f"expected_response_{col}" for col in columns]) if columns else "(no columns loaded yet)"
+            expected_display = self.expected_results
             if hasattr(self,"first_col") and hasattr(self.first_col, "get"):
                 test_data = " , ".join(f"{col}:{self.first_col.get(col,"N/A")}" for col in columns)
             else:
@@ -338,6 +345,7 @@ class Langgraph:
                         WHERE c.NAME IN ['push', 'navigate', 'redirect', 'go', 'back'] 
                         | {id: elementId(c), name: c.NAME, code: c.CODE}]
             } as metadata"""       
+  
             self.tester_sys_prompt=f"""
             You are a useful parameter tester. You will be tasked with finding WHERE the location is for testing the functionality of certain components in the website
             DATA TO TEST: {", ".join(columns) if columns else "None"}
@@ -365,10 +373,23 @@ class Langgraph:
                 - For forms, identify what form and use the correct ID
                 - Example: If there are #login-email and #reg-email, determine which form you're testing and use that specific ID
                 - ALWAYS record the EXACT selector (with ID) you used in your output, not just the label
-    
+
+                RESULT ELEMENT DISCOVERY (CRITICAL FOR CODE GENERATION):
+                - After submitting the data, OBSERVE where the result/feedback message appears
+                - Record the EXACT selector of the result element (e.g., "#login-result", ".success-message", "[data-testid='result']")
+                - Note whether the result replaces content, appears as a new element, or redirects to a new page
+                - This is ESSENTIAL for generating working test code
+                - DO NOT RETURN ANY REFERENCE ID (e.g. ref = )
+                
                 OUTPUT FORMAT (STRICT):
                 Field Mappings (use EXACT selectors like page.locator("#reg-email") or page.locator("#field-id")):
                 {chr(10).join(f"- {col}: <exact_selector_with_id>" for col in columns) if columns else "- field1: <exact_selector_with_id>"}
+                
+                Example (if there is a submit button etc.)
+                Submit Button: <exact_selector>
+                
+                Result Element: <exact_selector_where_result_appears>
+                Result Sample: <actual_text_shown_after_submission>
             
             """ 
             self.graph_sys_prompt=f"""
@@ -381,7 +402,7 @@ class Langgraph:
                 - Find form components, input fields, and submit buttons
                 - Match field names/IDs to the input columns: {", ".join(columns) if columns else "None"}
                 - Identify where results/responses appear after submission
-                - Be as specific as possible and give the exact IDs or unique selectors for each field
+                - Be as specific as possible and give the unique selectors for each field, but do not return IDs that are from neo4j, but that are for the website
                 - For the test instructions, use this dummy data: {test_data}
                 APP URL: {self.app_address}
 
@@ -413,7 +434,7 @@ class Langgraph:
                 - step: 2
                 action: fill_form
                 instructions: ...
-                target: .... MAKE SURE TO USE THE IDs IF POSSIBLE OR MOST UNIQUE DATA
+                target: .... MAKE SURE TO USE THE most unique selector, such as classname, id, etc.
                 expect:....
 
                 - step: 3
@@ -423,57 +444,61 @@ class Langgraph:
                 expect:....
 
                 """
+            #Might need a feedback loop or a question back to the mcp or something cuz this is oof
             self.generate_code_system_prompt=f"""
             You are a Senior QA Automation Engineer generating PARAMETERIZED test code.
 
             CONTEXT:
             - CSV Path: {self.csv_path}
-            - Input Columns: {column_display}
-            - Expected Columns: {expected_display}
+            - Input Columns (EXACT NAMES FROM CSV): {column_display}
+            - Expected Result Columns (EXACT NAMES FROM CSV): {expected_display}
 
-            SELECTOR BEST PRACTICES:
-            - NEVER use ambiguous selectors like get_by_label() if multiple elements match
-            - ALWAYS use specific IDs: page.locator("#reg-email") not page.get_by_label("Email Address")
-            - From the execution history, extract the EXACT selectors that worked during testing
-            - If a field has an ID attribute, try locating through ID
-            - Chain locators when needed: page.locator("#registration-form").get_by_label("Email")
-            - Look at the tool_history for browser_click, browser_type, and browser_fill_form calls - these contain the actual selectors used
-            - Extract selectors from successful interactions in the execution history
+            SELECTOR EXTRACTION (CRITICAL):
+            - Look at the execution history/tool_history for the EXACT selectors that were used
+            - Find where the result/feedback message appeared after form submission
+            - Extract the result element selector (e.g., "#login-result", ".result-message")
+            - Use ONLY selectors that were confirmed to work in the execution history
+
+            COLUMN NAME RULES (CRITICAL - MUST FOLLOW EXACTLY):
+            - Use ONLY the exact column names from the CSV: {column_display}
+            - For expected results, use ONLY these column names: {expected_display}
+            - DO NOT invent column names like "expected_response_email" unless they exist in the CSV
+            - Example: If CSV has "expected_response_sucess", use row["expected_response_sucess"] NOT row["expected_response_email"]
+
+            ASSERTION STRATEGY (USE FLEXIBLE MATCHING):
+            - Use "contains" matching instead of exact matching for robustness
+            - Example: assert expected_value.lower() in actual_result.lower(), f"Expected '{{expected_value}}' to be in '{{actual_result}}'"
+            - This works across different apps that may have varying message formats
+            - Handle None/empty values gracefully with str() conversion
 
             CRITICAL REQUIREMENTS:
-            1. Access CSV data using: row["column_name"]
-            2. Access expected results using: row["expected_response_column_name"]
+            1. Access CSV data using EXACT column names: row["column_name"]
+            2. For expected results, use the EXACT column name from CSV (e.g., row["{expected_display[0] if expected_display else 'expected_result'}"])
             3. For EACH input column, you must:
-            - Get the value: value = row["column_name"]
-            - Fill the corresponding field using the selector from execution history
-            - Example: await page.fill("#email-input", row["email"])
+               - Get the value: value = str(row["column_name"]) if pd.notna(row["column_name"]) else ""
+               - Fill the corresponding field using the selector from execution history
+               - Example: await page.fill("#email-input", value)
 
             4. After filling all fields:
-            - Click the submit button
-            - Wait for response/navigation: await page.wait_for_load_state("networkidle")
-            - Extract the actual result from the page
+               - Click the submit button (use selector from execution history)
+               - Wait for response: await page.wait_for_load_state("networkidle")
+               - Extract actual result from the result element discovered during testing
 
-            5. Compare actual vs expected for EACH column:
-            - expected = row["expected_response_column_name"]
-            - assert actual == expected, f"Expected {{expected}}, got {{actual}}"
+            5. FLEXIBLE ASSERTION:
+               - Get expected: expected = str(row["{expected_display[0] if expected_display else 'expected_result'}"])
+               - Get actual: Extract text from result element
+               - Assert with contains: assert expected.lower() in actual.lower() or actual.lower() in expected.lower()
 
             6. DO NOT include: imports, CSV reading loop, or main function
             7. Output ONLY the indented test logic (inside the try block)
             8. Use proper async/await syntax
             9. Add meaningful wait statements after actions that trigger loading
+            10. Handle empty/None CSV values with: str(value) if pd.notna(value) else ""
+            11. DO NOT USE REF VALUES THAT YOU HAVE BEEN PROVIDED, ONLY SELECTORS.
 
-            GENERATE EXACTLY THIS CODE, BUT THE ONLY CODE YOU WILL ADD IS BETWEEN THE TRY BLOCK
+            BUT THE ONLY CODE YOU WILL ADD IS BETWEEN THE TRY BLOCK
             ```python
-            import pandas as pd
-            import os
-            import asyncio
-            from playwright.async_api import async_playwright, Page, expect
-
-            csv_path = r"{self.csv_path}"
-            df = pd.read_csv(csv_path)
-
-            print(f"Running {{len(df)}} test cases from CSV")
-
+            
             async def main():
                 async with async_playwright() as playwright:
                     browser = await playwright.chromium.launch(headless={str(self.headless)})
@@ -490,23 +515,15 @@ class Langgraph:
                             print(f"Test case {{index + 1}} PASSED")
                         finally:
                             await context.close()
-                        except Exception as e:
-                            print(f"Test case {{index + 1}} FAILED: {{e}}")
-                        else:
-                            print(f"Test case {{index + 1}} PASSED")
-                        finally:
-                            context.close()
                     await browser.close()
-        if __name__ == "__main__":
-            asyncio.run(main())
-            print("\\\\nAll tests completed!")
             ```
 
             OUTPUT REQUIREMENTS:
             - Must be valid Python with proper indentation
-            - Must use async/await for all Playwright calls
-            - Must include assertions for every expected result column
-            - Must handle waits properly
+            - Must use async/await for all Playwright calls  
+            - Must use EXACT column names from CSV (not invented ones)
+            - Must use flexible "contains" assertions
+            - Must handle empty values gracefully
             """
 
         
@@ -645,30 +662,111 @@ class Langgraph:
                 # a tuple ("user", "query")
                 user_query = last_message[1]
 
-            print(f"Querying for {user_query}..")
-            k=self.similarty_k
-            results = store.similarity_search_with_score(user_query, k=k) # change k depending on how many nodes you want to return
+            # llm UI extractor
+            llm = ChatOllama(
+            model="qwen2.5:1.5b",
+            temperature=0 
+            )
 
-            if not results:
-                text = "Component not found"
-                print(text)
+            prompt = ChatPromptTemplate.from_messages([
+            ("system", "You are a web QA tester. Extract the UI components and actions from the prompt, and put them as a list. For example, Prompt: Check whether the home button has the home logo, and directs to the shop link, and whether the cat image is present. Response you should give: home button, home logo, shop link, cat image. ONLY USE A COMMA AS THE SEPARATOR"),
+            ("user", "{question}")
+            ])
+
+            chain = prompt | llm | StrOutputParser()
+
+            response = chain.invoke({"question": user_query})
+            print(response)
+            prompt_array = [item.strip() for item in response.split(',')]
+            print(prompt_array)
+
+            seen_ids = set()
+            all_test_reports = [] # To store the formatted text for each found component
+
+            def format_section(title, items):
+                section = [f"\n--{title}--"]
+                if not items:
+                    section.append("None found")
+                else:
+                    for i, item in enumerate(items, 1):
+                        raw_code = item.get('code', '')
+                        clean_code = re.sub(r'\s+', ' ', raw_code).strip()
+                        display_code = clean_code[:100] + "..." if len(clean_code) > 100 else clean_code
+                        section.append(f"{i}. ID: {item.get('id')} | Code: {display_code}")
+                return "\n".join(section)
+
+            for search_term in prompt_array:
+                results = store.similarity_search_with_score(search_term, k=1)
+                if not results:
+                    continue
+
+                document, score = results[0]
+                if score < 0.80:
+                    continue
+                
+                node_id = document.metadata.get('id')
+                if node_id in seen_ids:
+                    continue
+                
+                seen_ids.add(node_id)
+                meta = document.metadata
+
+                # Build the report for THIS specific component
+                comp_output = []
+                comp_output.append(f"Found: {meta.get('name')} (ID: {node_id}) Score: {score:.4f}")
+                comp_output.append(format_section("LINKS", meta.get('links', [])))
+                comp_output.append(format_section("IMAGES", meta.get('images', [])))
+                comp_output.append(format_section("INPUTS", meta.get('inputs', [])))
+                comp_output.append(format_section("BUTTONS", meta.get('buttons', [])))
+                comp_output.append(format_section("ROUTES", meta.get('routes', [])))
+                
+                # Add this individual component report to our collection
+                all_test_reports.append("\n".join(comp_output))
+
+            # 5. Final Response
+            if not all_test_reports:
+                text = "No components found matching the criteria."
                 return {"messages": [("assistant", text)]}
 
-            components = []
-            # Performance optimization: use higher threshold for parameter testing
-            threshold = 0.80 if self.test_type == "Parameter" else 0.70
+            final_response = "\n\n" + "="*30 + "\n"
+            final_response += "\n\n".join(all_test_reports)
             
-            for document, score in results:
-                if score < threshold: # stricter filtering for parameter tests
-                    continue
-                meta = document.metadata
-                item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {meta.get('id')} | Code: {meta.get('code')} | Score: {score:.4f}"
-                components.append(item_str)
+            print("--- Final Aggregated Results ---")
+            print(final_response)
+            return {"messages": [("assistant", final_response)]}
+            # seen_ids = set()
+            # unique_components = []
 
-            final_response = "\n".join(components)
-            if not components:
-                final_response = "No components found with high enough confidence."
-            return {"messages": [("assistant",final_response)]}
+            # print(f"--- Searching for {len(prompt_array)} items: {prompt_array} ---")
+            # for search_term in prompt_array:
+            #     print(f"Searching for: '{search_term}'")
+
+            #     k=self.similarty_k
+            #     results = store.similarity_search_with_score(search_term, k=k) 
+
+            #     for document, score in results:
+            #         if score < 0.70: 
+            #             continue
+                    
+            #         node_id = document.metadata.get('id')
+            #         if node_id in seen_ids:
+            #             continue
+                    
+            #         seen_ids.add(node_id)
+                    
+            #         meta = document.metadata
+            #         item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {node_id} | Code: {meta.get('code')} | Score: {score:.4f}"
+            #         unique_components.append(item_str)
+
+            # if not unique_components:
+            #     text = "No components found matching the criteria."
+            #     print(text)
+            #     return {"messages": [("assistant", text)]}
+
+            # final_response = "\n".join(unique_components)
+            # print("--- Final Aggregated Results ---")
+            # print(final_response)
+            # return {"messages": [("assistant",final_response)]}
 
         async def MCPGraph(state:State):
             messages=[]
@@ -757,51 +855,70 @@ class Langgraph:
 
         async def generate_code(state: State): #generates the actual code from tool history
             tools = state.get("tool_history", [])
+            chat=state.get("messages",[])
+            last_msg=chat[-1]
             tools_str = json.dumps(tools, indent=2)
-            response_text = await generator(tools_str,self.code_generator_ai,self.generate_code_system_prompt)
+            response_text = await generator(tools_str,last_msg,self.code_generator_ai,self.generate_code_system_prompt)
             response = clean_code_block(response_text)
             
             if self.test_type == "Parameter" and self.csv_path:
                 # Create the CSV reader wrapper
-#                 csv_wrapper = f'''import pandas as pd
-# import os
-# import asyncio
-# from playwright.async_api import async_playwright, Page, expect
+                csv_wrapper = f'''import pandas as pd
+import os
+import asyncio
+from playwright.async_api import async_playwright, Page, expect
 
-# csv_path = r"{self.csv_path}"
-# df = pd.read_csv(csv_path)
+csv_path = r"{self.csv_path}"
+df = pd.read_csv(csv_path)
 
-# print(f"Running {{len(df)}} test cases from CSV")
+print(f"Running {{len(df)}} test cases from CSV")
 
-# async def main():
-#     async with async_playwright() as playwright:
-#         browser = await playwright.chromium.launch(headless={str(self.headless)})
+async def main():
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless={str(self.headless)})
 
-#         for index, row in df.iterrows():
-#             print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
-#             print(f"Input values: {{dict(row)}}")
-#             context = await browser.new_context()
-#             page = await context.new_page()        
-#             try:
-# '''
-                # Indent the AI-generated code (8 spaces for inside try block)
-                # indented_response = "\n".join("            " + line if line.strip() else "" for line in response.split("\n"))
-                indented_response = "\n".join(line if line.strip() else "" for line in response.split("\n"))
-#         #         csv_footer = f'''
-#         #         except Exception as e:
-#         #             print(f"Test case {{index + 1}} FAILED: {{e}}")
-#         #         else:
-#         #             print(f"Test case {{index + 1}} PASSED")
-#         #         finally:
-#         #             context.close()
-#         # browser.close()
+        for index, row in df.iterrows():
+            print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
+            print(f"Input values: {{dict(row)}}")
+            context = await browser.new_context()
+            page = await context.new_page()        
+            try:
+'''
+                #TODO: Test E2E with multiple pages and make demo
+                # Fix indentation: AI often returns first line unindented but rest indented
+                lines = response.splitlines()
+                if lines:
+                    first_line = lines[0].strip()  # First line, stripped
+                    if len(lines) > 1:
+                        # Dedent remaining lines to remove their excess indentation
+                        remaining = textwrap.dedent("\n".join(lines[1:]))
+                        remaining_lines = remaining.splitlines()
+                        # Build final response with consistent 16-space indent
+                        indented_lines = ["                " + first_line]
+                        for line in remaining_lines:
+                            indented_lines.append("                " + line if line.strip() else "")
+                        indented_response = "\n".join(indented_lines)
+                    else:
+                        indented_response = "                " + first_line
+                else:
+                    indented_response = ""
 
-# if __name__ == "__main__":
-#     asyncio.run(main())
-#     print("\\\\nAll tests completed!")
-# '''
-            # response = csv_wrapper + indented_response + csv_footer
-            response = indented_response
+                csv_footer = textwrap.dedent(f'''
+            except Exception as e:
+                print(f"Test case {{index + 1}} FAILED: {{e}}")
+            else:
+                print(f"Test case {{index + 1}} PASSED")
+            finally:
+                await context.close()
+        await browser.close()             
+
+if __name__ == "__main__":
+    asyncio.run(main())
+    print("\\nAll tests completed!")
+''')
+                # response = csv_wrapper + indented_response + csv_footer
+                response = csv_wrapper + "\n" + indented_response + csv_footer
+
             timestamp = datetime.datetime.now()
             unique_filename = timestamp.strftime("%Y-%m-%d_%H-%M-%S")
             

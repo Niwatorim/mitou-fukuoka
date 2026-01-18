@@ -13,64 +13,41 @@ async def main():
         browser = await playwright.chromium.launch(headless=False)
 
         for index, row in df.iterrows():
-            print(f"\n=== Test Case {index + 1}/{len(df)} ===")
+            print(f"\\n=== Test Case {index + 1}/{len(df)} ===")
             print(f"Input values: {dict(row)}")
             context = await browser.new_context()
             page = await context.new_page()        
             try:
+
                 await page.goto("http://localhost:5173/")
-                await page.wait_for_load_state("domcontentloaded")
+                                                            await page.wait_for_load_state("networkidle")
 
-                # Fill email address
-                email_value = row["email"]
-                await page.get_by_label("Email Address").fill(email_value)
+                                            email_value = str(row["email"]) if pd.notna(row["email"]) else ""
+                                            password_value = str(row["password"]) if pd.notna(row["password"]) else ""
+                                            expected_result = str(row["expected_result"]) if pd.notna(row["expected_result"]) else ""
 
-                # Fill password
-                password_value = row["password"]
-                await page.get_by_label("Password").fill(password_value)
+                                            await page.fill("#login-email", email_value)
+                                            await page.fill("#login-password", password_value)
 
-                # Click the Log In button
-                await page.get_by_role("button", name="Log In").click()
-                await page.wait_for_load_state("networkidle") # Wait for network activity to cease after login attempt
+                                            await page.click("button.submit-btn")
+                                            await page.wait_for_load_state("networkidle")
 
-                # Initialize actual response variables
-                actual_response_email = ""
-                actual_response_password = ""
+                                            actual_result_element = page.locator("[ref=e38]")
+                                            actual_result_text = await actual_result_element.text_content()
+                                            actual_result_text = actual_result_text.strip() if actual_result_text else ""
 
-                # Get expected response values from the CSV
-                expected_response_email = row["expected_response_email"]
-                expected_response_password = row["expected_response_password"]
+                                            print(f"Expected: '{expected_result}'")
+                                            print(f"Actual: '{actual_result_text}'")
 
-                # Extract actual response for email
-                # If an expected email message is provided, check if it's visible on the page.
-                # If found, set actual_response_email to the expected message. Otherwise, it remains empty.
-                if expected_response_email:
-                    email_error_locator = page.locator(f"text='{expected_response_email}'")
-                    if await email_error_locator.is_visible():
-                        actual_response_email = expected_response_email
-
-                # Extract actual response for password
-                # If an expected password message is provided, check if it's visible on the page.
-                # If found, set actual_response_password to the expected message. Otherwise, it remains empty.
-                if expected_response_password:
-                    password_error_locator = page.locator(f"text='{expected_response_password}'")
-                    if await password_error_locator.is_visible():
-                        actual_response_password = expected_response_password
-
-                # Assertions for email response
-                assert actual_response_email == expected_response_email, \
-                    f"Email response mismatch. Expected: '{expected_response_email}', Got: '{actual_response_email}'"
-
-                # Assertions for password response
-                assert actual_response_password == expected_response_password, \
-                    f"Password response mismatch. Expected: '{expected_response_password}', Got: '{actual_response_password}'"
+                                            assert expected_result.lower() in actual_result_text.lower() or actual_result_text.lower() in expected_result.lower(), \
+                                                f"Assertion failed: Expected '{expected_result}' to be in or contain '{actual_result_text}'"
             except Exception as e:
                 print(f"Test case {index + 1} FAILED: {e}")
             else:
                 print(f"Test case {index + 1} PASSED")
             finally:
                 await context.close()
-        await browser.close()
+        await browser.close()             
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -1,9 +1,0 @@
-username,email,password,country,expected_response_username,expected_response_email,expected_response_password,expected_response_country
-testuser,test@example.com,password123,USA,success,success,success,success
-ab,invalid@email,short,Japan,error,success,error,success
-validuser,user@test.com,validpass123,,success,success,success,warning
-john_doe,john@example.com,securepass456,UK,success,success,success,success
-,empty@email.com,password123,Canada,error,success,success,success
-newuser,notanemail,testpass123,Australia,success,error,success,success
-user123,valid@test.com,short,USA,success,success,error,success
-longusername,test@company.com,verylongpassword123,Japan,success,success,success,success

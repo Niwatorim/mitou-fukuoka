@@ -1,0 +1,26 @@
+Test title: Registration Form Submission
+Test success: True
+Test explanation: The user successfully navigated to the registration page, filled out all the required fields with valid data, and submitted the form. A "Registration successful!" message was displayed, indicating a successful registration.
+Steps taken and following results:
+1. Navigated to http://localhost:5173/. The registration form was displayed.
+2. Filled out the registration form with the following data:
+    - Username: admin123
+    - Email: admin@gmail.com
+    - Password: admin123312321321
+    - Confirm Password: admin123312321321
+    - Country: United States
+    - Terms Accepted: True
+3. Clicked the "Create Account" button.
+4. A "Registration successful!" message was displayed on the page.
+
+Field Mappings:
+- username: input#username
+- email: input#email
+- password: input#password
+- confirmPassword: input#confirmPassword
+- country: select#country
+- termsAccepted: input#termsAccepted
+
+Submit Button: button[ref="e37"]
+Result Element: generic[ref="e38"]
+Result Sample: Registration successful!

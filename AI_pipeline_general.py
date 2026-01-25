@@ -46,7 +46,7 @@ def location(results:bool,test_type:str)->str:
         if test_type == "Parameter":
             path = "./tests/codeblock/param"
         else:
-            path = f"./tests/{test_type}"
+            path = f"./tests/codeblock/{test_type}"
     
     if results:
         new_path = os.path.join(path, test_type)
@@ -231,38 +231,98 @@ class Langgraph:
                 1. Read the instructions provided in the input.
                 2. Execute the steps sequentially using the browser tools.
                 3. Do NOT answer from memory; use the tools.
-                4. If the instruction is to click, use `browser_click`.
-                5. CRITICAL: Once you have performed the requested actions and verified the result visually in the DOM, call `browser_close`.
-                6. AFTER calling `browser_close`, DO NOT ATTEMPT TO RE-OPEN THE BROWSER.
-                7. DO NOT try to verify the test again using `browser_run_code` or JavaScript injection. One pass is enough.
-                8. Once the browser is closed, simply output the final report.
+                4. When using tools
+                - Locate the corresponding input field on the page
+                - Note its ID, name, and unique selector
+                - Fill it with the test value from that column: {test_data}
+                - Once filled any data, if it is part of a form, submit the form if requested by user
+                5. If the instruction is to click, use `browser_click`.
+                6. Once all instructions are done, check for a response if response is expected, and note down the ID of what displays a response from the website
+                7. CRITICAL: Once you have performed the requested actions, call `browser_close`.
+                8. AFTER calling `browser_close`, DO NOT ATTEMPT TO RE-OPEN THE BROWSER.
+                9. DO NOT try one pass is enough.
+                10. Once the browser is closed, simply output the final report.
 
-                Give a response in the following format:
+                Give a response in the following format: (STRICT)
+                CRITICAL SELECTOR RULES:
+                - When multiple elements match a label (like "Email Address"), you MUST use the most specific selector
+                - Prefer ID selectors: Use page.locator("#specific-id") instead of get_by_label() when ambiguous
+                - For forms, identify what form and use the correct ID
+                - Example: If there are #login-email and #reg-email, determine which form you're testing and use that specific ID
+                - ALWAYS record the EXACT selector (with ID) you used in your output, not just the label
+
+                RESULT ELEMENT DISCOVERY (CRITICAL FOR CODE GENERATION):
+                - After submitting the data, OBSERVE where the result/feedback message appears
+                - Record the EXACT selector of the result element (e.g., "#login-result", ".success-message", "[data-testid='result']")
+                - Note whether the result replaces content, appears as a new element, or redirects to a new page
+                - This is ESSENTIAL for generating working test code
+                - DO NOT RETURN ANY REFERENCE ID (e.g. ref = )
+                
+                OUTPUT FORMAT (STRICT):
                 Test title:
                 Test success: True/False
                 Test explanation:
                 Steps taken and following results:
+
+                Field Mappings (use EXACT selectors like page.locator("#reg-email") or page.locator("#field-id")):
+                e.g. - field1: <exact_selector_with_id>"}
+                
+                Example (if there is a submit button etc.)
+                Submit Button: <exact_selector>
+                Result Element: <exact_selector_where_result_appears>
+                Result Sample: <actual_text_shown_after_submission>
+
+
                 """
             self.graph_sys_prompt=f"""
             You are a graph-based testing expert.
 
-            IMPORTANT RULES:
-            - You MUST use tools to inspect the graph before answering.
-            - Do NOT answer from memory.
-            - If information is missing, explore the graph using tools.
-            - Only produce a final answer AFTER tool usage.
+           RULES:
+                - Use tools to inspect the Neo4j graph
+                - Find form components, input fields, and submit buttons
+                - Match field names/IDs to the input columns:
+                - Identify where results/responses appear after submission
+                - Be as specific as possible and give the unique selectors for each field, but do not return IDs that are from neo4j, but that are for the website
+                APP URL: {self.app_address}
 
-            MENTION THE APP WILL BE OPENED ON {self.app_address}
+                SELECTOR DISAMBIGUATION:
+                - Use ID for almost everything, or anything that can help a playwright locator. Try not to use just the text thats seen but the html ids etc. 
+                - The more specific to that specific field the better
+                - Prioritize form-specific context (e.g., registration form vs login form)
+                - Include the full unique selector (ID, data-testid, or unique ancestor path) in your output
 
-            Output format:
-            Path_exists: True/False
-            test_steps:
-            - step: 1
-            action: navigate
-            instruction: ...
-            target: ...
-            expected: ...
-            """
+                OUTPUT FORMAT:
+                Path_exists: True/False
+
+                Form_location: <component_name or route>
+
+                Field_mappings: (example)
+                - 'field1': <field_selector>
+                - 'field2': <field_selector>
+
+                Result_location: <where_response_appears>
+
+                INSTRUCTIONS: (example)
+                Test_steps:
+                - step: 1
+                action: navigate
+                instructions: ...
+                target: {self.app_address}
+                expect: .....
+                
+                - step: 2
+                action: fill_form
+                instructions: ...
+                target: .... MAKE SURE TO USE THE most unique selector, such as classname, id, etc.
+                expect:....
+
+                - step: 3
+                action: submit
+                instructions:...
+                target: ...
+                expect:....
+
+                """
             self.generate_code_system_prompt="""
                 You are a Senior QA Automation Engineer.
                 Convert the following execution history into a **Pytest-Playwright** test file.
@@ -279,8 +339,55 @@ class Langgraph:
                 5. **Regex**: When using Regex selectors in Python, you MUST import re and use re.compile(r'pattern'). Do NOT pass raw regex strings.
                 6. **Waiting**: When working with browser functions, make sure to wait for anything that causes loading, such as opening links or causing page switches
 
-                Output ONLY the python code block.
+                SELECTOR EXTRACTION (CRITICAL):
+                - Look at the execution history/tool_history for the EXACT selectors that were used
+                - Find where the result/feedback message appeared after form submission
+                - Extract the result element selector (e.g., "#login-result", ".result-message")
+                - Use ONLY selectors that were confirmed to work in the execution history
+
+                ASSERTION STRATEGY (USE FLEXIBLE MATCHING):
+                - Use "contains" matching instead of exact matching for robustness
+                - Example: assert expected_value.lower() in actual_result.lower(), f"Expected '{{expected_value}}' to be in '{{actual_result}}'"
+                - This works across different apps that may have varying message formats
+                - Handle None/empty values gracefully with str() conversion
                 
+                5. FLEXIBLE ASSERTION:
+               - Get actual: Extract text from result element
+               - Assert with contains: assert expected.lower() in actual.lower() or actual.lower() in expected.lower()
+
+                6. DO NOT include: imports or main function
+            7. Output ONLY the indented test logic (inside the try block)
+            8. Use proper async/await syntax
+            9. Add meaningful wait statements after actions that trigger loading
+            11. DO NOT USE REF VALUES THAT YOU HAVE BEEN PROVIDED, ONLY SELECTORS.
+
+            BUT THE ONLY CODE YOU WILL ADD IS BETWEEN THE TRY BLOCK
+            ```python
+            
+            async def main():
+                async with async_playwright() as playwright:
+                    browser = await playwright.chromium.launch(headless={str(self.headless)})
+                    for index, row in df.iterrows():
+                        print(f"\\\\n=== Test Case {{index + 1}}/{{len(df)}} ===\")
+                        print(f"Input values: {{dict(row)}}")
+                        context = await browser.new_context()
+                        page = await context.new_page()        
+                        try:
+                            # >>> YOUR CODE GOES HERE <
+                        except Exception as e:
+                            print(f"Test case {{index + 1}} FAILED: {{e}}")
+                        else:
+                            print(f"Test case {{index + 1}} PASSED")
+                        finally:
+                            await context.close()
+                    await browser.close()
+            ```
+
+            OUTPUT REQUIREMENTS:
+            - Must be valid Python with proper indentation
+            - Must use async/await for all Playwright calls
+            - Must use flexible "contains" assertions
+            - Must handle empty values gracefully
                 """
 
 
@@ -524,9 +631,7 @@ class Langgraph:
             - Must use EXACT column names from CSV (not invented ones)
             - Must use flexible "contains" assertions
             - Must handle empty values gracefully
-            """
-
-        
+            """     
         self.similarty_k = similarity_k
         self.embedding_uri="bolt://localhost:7687"
         self.embedding_auth=("neo4j", "password")
@@ -680,93 +785,98 @@ class Langgraph:
             prompt_array = [item.strip() for item in response.split(',')]
             print(prompt_array)
 
-            seen_ids = set()
-            all_test_reports = [] # To store the formatted text for each found component
-
-            def format_section(title, items):
-                section = [f"\n--{title}--"]
-                if not items:
-                    section.append("None found")
-                else:
-                    for i, item in enumerate(items, 1):
-                        raw_code = item.get('code', '')
-                        clean_code = re.sub(r'\s+', ' ', raw_code).strip()
-                        display_code = clean_code[:100] + "..." if len(clean_code) > 100 else clean_code
-                        section.append(f"{i}. ID: {item.get('id')} | Code: {display_code}")
-                return "\n".join(section)
-
-            for search_term in prompt_array:
-                results = store.similarity_search_with_score(search_term, k=1)
-                if not results:
-                    continue
-
-                document, score = results[0]
-                if score < 0.80:
-                    continue
-                
-                node_id = document.metadata.get('id')
-                if node_id in seen_ids:
-                    continue
-                
-                seen_ids.add(node_id)
-                meta = document.metadata
-
-                # Build the report for THIS specific component
-                comp_output = []
-                comp_output.append(f"Found: {meta.get('name')} (ID: {node_id}) Score: {score:.4f}")
-                comp_output.append(format_section("LINKS", meta.get('links', [])))
-                comp_output.append(format_section("IMAGES", meta.get('images', [])))
-                comp_output.append(format_section("INPUTS", meta.get('inputs', [])))
-                comp_output.append(format_section("BUTTONS", meta.get('buttons', [])))
-                comp_output.append(format_section("ROUTES", meta.get('routes', [])))
-                
-                # Add this individual component report to our collection
-                all_test_reports.append("\n".join(comp_output))
-
-            # 5. Final Response
-            if not all_test_reports:
-                text = "No components found matching the criteria."
-                return {"messages": [("assistant", text)]}
-
-            final_response = "\n\n" + "="*30 + "\n"
-            final_response += "\n\n".join(all_test_reports)
-            
-            print("--- Final Aggregated Results ---")
-            print(final_response)
-            return {"messages": [("assistant", final_response)]}
+        # ---- SPECIFIC QUERY START
             # seen_ids = set()
-            # unique_components = []
+            # all_test_reports = [] # To store the formatted text for each found component
 
-            # print(f"--- Searching for {len(prompt_array)} items: {prompt_array} ---")
+            # def format_section(title, items):
+            #     section = [f"\n--{title}--"]
+            #     if not items:
+            #         section.append("None found")
+            #     else:
+            #         for i, item in enumerate(items, 1):
+            #             raw_code = item.get('code', '')
+            #             clean_code = re.sub(r'\s+', ' ', raw_code).strip()
+            #             display_code = clean_code[:100] + "..." if len(clean_code) > 100 else clean_code
+            #             section.append(f"{i}. ID: {item.get('id')} | Code: {display_code}")
+            #     return "\n".join(section)
+
             # for search_term in prompt_array:
-            #     print(f"Searching for: '{search_term}'")
+            #     results = store.similarity_search_with_score(search_term, k=1)
+            #     if not results:
+            #         continue
 
-            #     k=self.similarty_k
-            #     results = store.similarity_search_with_score(search_term, k=k) 
+            #     document, score = results[0]
+            #     if score < 0.80:
+            #         continue
+                
+            #     node_id = document.metadata.get('id')
+            #     if node_id in seen_ids:
+            #         continue
+                
+            #     seen_ids.add(node_id)
+            #     meta = document.metadata
 
-            #     for document, score in results:
-            #         if score < 0.70: 
-            #             continue
-                    
-            #         node_id = document.metadata.get('id')
-            #         if node_id in seen_ids:
-            #             continue
-                    
-            #         seen_ids.add(node_id)
-                    
-            #         meta = document.metadata
-            #         item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {node_id} | Code: {meta.get('code')} | Score: {score:.4f}"
-            #         unique_components.append(item_str)
+            #     # Build the report for THIS specific component
+            #     comp_output = []
+            #     comp_output.append(f"Found: {meta.get('name')} (ID: {node_id}) Score: {score:.4f}")
+            #     comp_output.append(format_section("LINKS", meta.get('links', [])))
+            #     comp_output.append(format_section("IMAGES", meta.get('images', [])))
+            #     comp_output.append(format_section("INPUTS", meta.get('inputs', [])))
+            #     comp_output.append(format_section("BUTTONS", meta.get('buttons', [])))
+            #     comp_output.append(format_section("ROUTES", meta.get('routes', [])))
+                
+            #     # Add this individual component report to our collection
+            #     all_test_reports.append("\n".join(comp_output))
 
-            # if not unique_components:
+            # # 5. Final Response
+            # if not all_test_reports:
             #     text = "No components found matching the criteria."
-            #     print(text)
             #     return {"messages": [("assistant", text)]}
 
-            # final_response = "\n".join(unique_components)
+            # final_response = "\n\n" + "="*30 + "\n"
+            # final_response += "\n\n".join(all_test_reports)
+            
             # print("--- Final Aggregated Results ---")
             # print(final_response)
-            # return {"messages": [("assistant",final_response)]}
+            # return {"messages": [("assistant", final_response)]}
+        # ---- SPECIFIC QUERY END
+
+        # ---- GENERAL QUERY START
+            seen_ids = set()
+            unique_components = []
+
+            print(f"--- Searching for {len(prompt_array)} items: {prompt_array} ---")
+            for search_term in prompt_array:
+                print(f"Searching for: '{search_term}'")
+
+                k=self.similarty_k
+                results = store.similarity_search_with_score(search_term, k=k) 
+
+                for document, score in results:
+                    if score < 0.70: 
+                        continue
+                    
+                    node_id = document.metadata.get('id')
+                    if node_id in seen_ids:
+                        continue
+                    
+                    seen_ids.add(node_id)
+                    
+                    meta = document.metadata
+                    item_str = f"Name: {meta.get('name', 'Unnamed')} | ID: {node_id} | Code: {meta.get('code')} | Score: {score:.4f}"
+                    unique_components.append(item_str)
+
+            if not unique_components:
+                text = "No components found matching the criteria."
+                print(text)
+                return {"messages": [("assistant", text)]}
+
+            final_response = "\n".join(unique_components)
+            print("--- Final Aggregated Results ---")
+            print(final_response)
+            return {"messages": [("assistant",final_response)]}
+        # ---- GENERAL QUERY END
 
         async def MCPGraph(state:State):
             messages=[]
@@ -884,8 +994,6 @@ async def main():
             page = await context.new_page()        
             try:
 '''
-                #TODO: Test E2E with multiple pages and make demo
-                # Fix indentation: AI often returns first line unindented but rest indented
                 lines = response.splitlines()
                 if lines:
                     first_line = lines[0].strip()  # First line, stripped
@@ -910,6 +1018,51 @@ async def main():
                 print(f"Test case {{index + 1}} PASSED")
             finally:
                 await context.close()
+        await browser.close()             
+
+if __name__ == "__main__":
+    asyncio.run(main())
+    print("\\nAll tests completed!")
+''')
+                # response = csv_wrapper + indented_response + csv_footer
+                response = csv_wrapper + "\n" + indented_response + csv_footer
+
+            if self.test_type == "E2E":
+                csv_wrapper = f'''import pandas as pd
+import os
+import asyncio
+from playwright.async_api import async_playwright, Page, expect
+async def main():
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless={str(self.headless)})
+        context = await browser.new_context()
+        page = await context.new_page()        
+        try:
+'''
+                lines = response.splitlines()
+                if lines:
+                    first_line = lines[0].strip()  # First line, stripped
+                    if len(lines) > 1:
+                        # Dedent remaining lines to remove their excess indentation
+                        remaining = textwrap.dedent("\n".join(lines[1:]))
+                        remaining_lines = remaining.splitlines()
+                        # Build final response with consistent 16-space indent
+                        indented_lines = ["                " + first_line]
+                        for line in remaining_lines:
+                            indented_lines.append("                " + line if line.strip() else "")
+                        indented_response = "\n".join(indented_lines)
+                    else:
+                        indented_response = "                " + first_line
+                else:
+                    indented_response = ""
+
+                csv_footer = textwrap.dedent(f'''
+        except Exception as e:
+            print(f"Test case FAILED: {{e}}")
+        else:
+            print(f"Test case PASSED")
+        finally:
+            await context.close()
         await browser.close()             
 
 if __name__ == "__main__":

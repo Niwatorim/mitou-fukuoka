@@ -12,8 +12,8 @@ from functions import cpg_to_neo4j
 # Updated to use absolute path or relative to root
 CONFIG_PATH = "config.yaml"
 
-st.header("Using cpg")
-if st.button("Make cpg graph"):
+st.header("Create into a graph")
+if st.button("Create into a graph"):
     try: 
         if not os.path.exists(CONFIG_PATH):
             st.error(f"Config file not found at {os.path.abspath(CONFIG_PATH)}")

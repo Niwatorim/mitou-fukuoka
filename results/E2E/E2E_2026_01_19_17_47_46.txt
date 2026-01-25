@@ -1,0 +1,31 @@
+Test title: Add an item to the cart from the home page.
+Test success: True
+Test explanation: The item was successfully added to the cart, and the cart badge updated to 1.
+Steps taken and following results:
+- Step 1: Navigated to http://localhost:5173/. The home page loaded successfully.
+- Step 2: Clicked the 'Add to Cart' button with selector '#add-to-cart-btn'.
+- Step 3: Verified the cart badge. The cart badge with selector '#cart-badge' displayed '1'.
+- Step 4: Navigated to http://localhost:5173/cart. The cart page loaded with one item.
+
+Field Mappings:
+- add_to_cart: #add-to-cart-btn
+
+Submit Button: #add-to-cart-btn
+Result Element: #cart-badge
+Result Sample: 1
+
+Test title: Clear the cart from the cart page.
+Test success: True
+Test explanation: The cart was successfully cleared, the cart badge updated to 0, and the cart page displayed "Your cart is empty".
+Steps taken and following results:
+- Step 1: Navigated to http://localhost:5173/cart. The cart page loaded with one item.
+- Step 2: Clicked the 'Clear Cart' button with selector '#clear-cart-btn'.
+- Step 3: Verified the cart badge. The cart badge with selector '#cart-badge' displayed '0'.
+- Step 4: Verified the cart page content. The cart page displayed 'Your cart is empty'.
+
+Field Mappings:
+- clear_cart: #clear-cart-btn
+
+Submit Button: #clear-cart-btn
+Result Element: #cart-badge
+Result Sample: 0

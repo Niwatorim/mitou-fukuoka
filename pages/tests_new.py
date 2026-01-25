@@ -61,6 +61,37 @@ if st.button("Save content for later"):
 
 test_type= st.radio("Test Type",["E2E","Parameter"])
 
+#---- sidebar ---- This is for setting all the functions that need to be set into the graph
+with st.sidebar:
+    st.header("Settings")
+    headless= st.checkbox("Run in headless?") #give this functionality
+    if headless:
+        st.success(f"Headless on")
+    else:
+        st.warning("Headless off")
+    generate_code = st.checkbox("Generate code as well?")
+    if generate_code:
+        st.info("Generate code on")
+    else:
+        st.warning("Generate code off")
+
+    max_AI_steps= st.number_input("max AI steps",step=1,min_value=0,value=15)
+    similarity_k = st.number_input("Number of k nearest nodes for graphRAG",value=20)
+    st.subheader("AI models")
+    neo4j_ai_model= st.text_input(" AI model to choose that searches database.",value="gemini-2.0-flash")
+    tester_ai = st.text_input("AI model for doing the browser usage",value="gemini-2.5-flash")
+    code_generator_ai=st.text_input("AI model for generating script code",value="gemini-2.5-flash")
+    st.caption("Only write AI models that are known or there will be errors")
+    auto_mode= st.checkbox(" Run in auto - mode")
+    st.caption("Automode means there will be no human interaction, thus everything will run in one go. Only use when you trust the AI")
+if st.sidebar.button("Update / Reset Agent"):
+    if "agent" in st.session_state:
+        del st.session_state.agent
+    st.success("Agent settings updated!")
+
+
+
+
 if test_type == "Parameter":
     """
     the column names are sent to the database or the acc database sent there and all expected values are there
@@ -140,33 +171,6 @@ else:
     expected_columns=None
 
 
-#---- sidebar ---- This is for setting all the functions that need to be set into the graph
-with st.sidebar:
-    st.header("Settings")
-    headless= st.checkbox("Run in headless?") #give this functionality
-    if headless:
-        st.success(f"Headless on")
-    else:
-        st.warning("Headless off")
-    generate_code = st.checkbox("Generate code as well?")
-    if generate_code:
-        st.info("Generate code on")
-    else:
-        st.warning("Generate code off")
-
-    max_AI_steps= st.number_input("max AI steps",step=1,min_value=0,value=15)
-    similarity_k = st.number_input("Number of k nearest nodes for graphRAG",value=20)
-    st.subheader("AI models")
-    neo4j_ai_model= st.text_input(" AI model to choose that searches database.",value="gemini-2.0-flash")
-    tester_ai = st.text_input("AI model for doing the browser usage",value="gemini-2.5-flash")
-    code_generator_ai=st.text_input("AI model for generating script code",value="gemini-2.5-flash")
-    st.caption("Only write AI models that are known or there will be errors")
-    auto_mode= st.checkbox(" Run in auto - mode")
-    st.caption("Automode means there will be no human interaction, thus everything will run in one go. Only use when you trust the AI")
-if st.sidebar.button("Update / Reset Agent"):
-    if "agent" in st.session_state:
-        del st.session_state.agent
-    st.success("Agent settings updated!")
 
 # --- session state ----
 if "agent" not in st.session_state:
@@ -307,10 +311,10 @@ if "agent" in st.session_state:
 
             CONSOLE.print("[bold green] Tester mode on [/bold green]")
             timestamp = datetime.datetime.now()
-            unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+            unique_filename = timestamp.strftime("%Y_%m_%d_%H_%M_%S")
             # Use agent's test_type for consistency with where file will be saved
             agent_test_type = st.session_state.agent.test_type
-            new_filename=f"{agent_test_type}_{unique_filename}.py"
+            new_filename=f"{agent_test_type}_{unique_filename}.txt"
             if auto_mode:
                 CONSOLE.print("[magenta] auto mode ON [/magenta]")
                 asyncio.run(run_interaction(resume_data={"filename":new_filename}))
@@ -324,7 +328,7 @@ if "agent" in st.session_state:
                 new_instructions= st.text_area("Write here",value=instructions,height="content")
 
                 if agent_test_type != "Parameter":
-                    new_filename= st.text_input("Save python code as:", value=f"{agent_test_type}_{unique_filename}.py")
+                    new_filename= st.text_input("Save python code as:", value=f"{agent_test_type}_{unique_filename}.txt")
                 col1,col2 = st.columns(2)
                 if col1.button("Run test"):
                     CONSOLE.print(Panel(new_instructions,title="instructions"))
@@ -342,7 +346,7 @@ if "agent" in st.session_state:
             CONSOLE.print("[bold green] Generate mode on [/bold green]")
             st.success("Test execution finished")
             timestamp = datetime.datetime.now()
-            unique_filename = timestamp.strftime("%Y-%m-%d_%H:%M:%S")
+            unique_filename = timestamp.strftime("%Y_%m_%d_%H_%M_%S")
             # Use agent's test_type for consistency
             agent_test_type = st.session_state.agent.test_type
             new_filename=f"{agent_test_type}_{unique_filename}.py"
